@@ -1,6 +1,6 @@
 __pycache__
 *.pyc
-/hacktechenv
+/venv
 *.iml
 .grade
 /AndroidApp/local.properties
