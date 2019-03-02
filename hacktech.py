@@ -55,6 +55,10 @@ def shutdown_session(exception=None):
 def index():
     return render_template("index.html")
 
+@app.route('/about')
+def showAbout():
+    return render_template('about.html')
+    
 @app.route('/result')
 def displayResults():
   
