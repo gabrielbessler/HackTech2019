@@ -4,112 +4,14 @@
         <meta name = "viewport" content = "width = device-width, initial-scale = 1">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/pure-min.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/grids-responsive-min.css') }}">
-        <link rel="stylesheet" href="{{ url_for('static', filename='base-min.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/base-min.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
         <title>explainr</title>
         <script type="text/javascript" src="{{ url_for('static', filename='main.js') }}">
         </script>
         @media (overflow-block: scroll)
         @import url('https://fonts.googleapis.com/css?family=Quicksand');
     </head>
-    <style>
-            body {
-              background-color:lightcyan;
-            }
-
-            textarea{
-                background-color:lavender;
-                background-color: lavender; 
-                margin: 0px; 
-                width: 80%; 
-                height: 50%;
-            }
-            .home-menu {
-                background: lavender;
-            }
-
-            .font {
-                font-family:'Quicksand', sans-serif; 
-                font-size:16px;
-            }
-
-            .buttoncolor{
-                background-color: lavender;
-                text-decoration-color: black;
-                color: black;
-                border-radius: 4px;
-                text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
-            }
-            
-            .pure-menu-item{
-                color: black;
-                border-radius: 4px;
-                text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
-            }
-
-            .header{
-                position: absolute;
-                text-align:left;
-                box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
-            }
-
-            .function-container{
-                background:lightcyan;
-                text-align: center;
-                z-index: 1;
-                overflow: hidden;
-                /* The following styles are required for the "scroll-over" effect */
-                width: 100%;
-                height: 88%;
-                top: 0;
-                left: 0;
-                position: fixed !important;
-                box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
-            }
-
-            .function{
-                /* absolute center .splash within .splash-container */
-                width: 80%;
-                height: 100%;
-                margin: auto;
-                position: absolute;
-                top: 100px; left: 0; bottom: 0; right: 0;
-                text-align: center;
-                text-transform: uppercase;
-                letter-spacing: 0.1em;
-            }
-            .right-align {  
-                float: right; 
-            }
-            h1{
-                font-weight: 500;
-            }
-
-            .content-wrapper {
-                /* These styles are required for the "scroll-over" effect */
-                position: absolute;
-                top: 95%;
-                width: 100%;
-                min-height: 12%;
-                z-index: 2;
-                background: lavender;
-                margin: 2em 0em 1em;
-                padding: 1em 1em 3em;
-            }
-
-            .content-header{
-                font-weight: 500;
-                text-transform: uppercase;
-                text-align: center;
-                letter-spacing: 0.1em;
-                margin: 1em 2em 2em;
-            }
-            
-            .content-subhead i {
-                margin-right: 7px;
-                margin-left: 2px;
-            }
-    </style>
-
     <body onload="loadPage();">
         <canvas id="thecanvas" width="200" height="100"></canvas>
         <div class="header font">
@@ -126,12 +28,13 @@
                             <a href="#" class="pure-menu-link">About</a>
                     </li>
                     <li class="pure-menu-item pure-menu-selected">
-                            <a onclick="login()" href="#" class="pure-menu-link">Login</a>
+                            <a href="/login" class="pure-menu-link">Login</a>
                     </li>
                 </ul>
             </div>
         </div>
     <div class="function-container">
+            <video autoplay>test</video>
             <div class="function font">
                 <h1 class="function-header"> Enter Your Text</h1>
                     <textarea id="textArea" style="background-color:lavender"></textarea>
