@@ -30,14 +30,16 @@ function clearImage() {
 
 
 function loadPage() {
-   hideImage();
-   // showVideo();
+    hideImage();
+    // showVideo();
 
-   $('#textArea').on('keyup keydown', updateCount);
+    $('#textArea').on('keyup keydown', updateCount);
+    document.getElementById("textArea").value = getSavedValue("textArea");
 
     function updateCount() {
         $('#characters').text($(this).val().length);
         $('#words').text($(this).val().length);
+        saveValue(this);
     }
 }
 
@@ -63,20 +65,22 @@ function showText() {
     document.getElementById("characters").style.display = "inline-block"; 
     document.getElementById("word").style.display = "inline-block";
 
-    document.getElementById("textArea").value = getSavedValue("textArea");
 }
 
 function saveValue(e) {
     var id = e.id;
     var val = e.value;
-    localStorage.setItem(id, val)
+    localStorage.setItem(id, val);
+    console.log("value saved!")
 }
 
-function getSavedValue(e) {
+function getSavedValue(v) {
+    console.log("I was called");
     if (!localStorage.getItem(v)) {
+        console.log("failed");
         return "Input Here";
     }
-
+    console.log("succeeded");
     return localStorage.getItem(v);
 }
 
