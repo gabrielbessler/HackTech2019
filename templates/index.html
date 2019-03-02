@@ -4,7 +4,7 @@
         <meta name = "viewport" content = "width = device-width, initial-scale = 1">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/pure-min.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/grids-responsive-min.css') }}">
-        <link rel="stylesheet" href="{{ url_for('static', filename='base-min.css') }}
+        <link rel="stylesheet" href="{{ url_for('static', filename='base-min.css') }}">
         <title>explainr</title>
         <script type="text/javascript" src="{{ url_for('static', filename='main.js') }}">
         </script>
@@ -110,7 +110,7 @@
             }
     </style>
 
-    <body>
+    <body onload="loadPage();">
         <div class="header font">
             <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
                 <a class="pure-menu-heading" href>DePedantify</a>
@@ -133,14 +133,13 @@
     <div class="function-container">
             <div class="function font">
                 <h1 class="function-header"> Enter Your Text</h1>
-                    <textarea id="textarea" style="background-color:lavender">
-
-                    </textarea>
+                    <textarea id="textArea" style="background-color:lavender"></textarea>
+                    <img id="imgDisplay" src="" height="200">
                 <div class="button">
                     <button class="pure-button pure-button-primary font buttoncolor" onclick="sendText();" type="button">Submit Text
                     </button>
-                    <button class="pure-button pure-button-primary font buttoncolor" onclick="sendText();" type="button">Upload
-                        </button>
+                    
+                    <input type="file" class="pure-button pure-button-primary font buttoncolor" onchange="previewFile()">
                 </div>
             <p class="subhead font">
                 Copy and paste your text, or upload a document, pdf, or image here!
