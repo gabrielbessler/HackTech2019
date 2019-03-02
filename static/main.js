@@ -28,28 +28,201 @@ function clearImage() {
     showText();
 }
 
-function loadLogin() {
-    $('#submit').click(function() {
-        let elt1 = document.getElementById("message");
-        let elt2 = document.getElementById("");
-        let elt3 = document.getElementById("");
+function tryLogin() {
+    let elt1 = document.getElementById("message_one");
+    let elt2 = document.getElementById("message_two");
 
-        if (elt1.innerHTML == "") {
+    elt1.innerHTML = "";
+    elt2.innerHTML = "";
 
-        }
-        
-    } );
+    let name    = document.getElementById("name");
+    let pw      = document.getElementById("password");
+
+    let validLogin = true;
+
+    if (name.value == "") {
+        elt1.innerHTML = "Required field";
+        validLogin = false;
+    }
+    if (pw.value == "") {
+        elt2.innerHTML = "Required field";
+        validLogin = false;
+    }
+
+    if (validLogin) {
+        login_handle(name.value, pw.value);
+    }
+
+}
+
+function failLogin() {
+    let resp = document.getElementById("response_msg");
+    resp.innerHTML = "Login Failed";
+}
+
+function succeedLogin() {
+    window.location.href = "/";
+}
+
+function tryRegister() {
+    let elt1 = document.getElementById("message_one");
+    let elt2 = document.getElementById("message_two");
+    let elt3 = document.getElementById("message_three");
+
+    elt1.innerHTML = "";
+    elt2.innerHTML = "";
+    elt3.innerHTML = "";
+
+    let email   = document.getElementById("email");
+    let pw      = document.getElementById("password");
+    let name    = document.getElementById("name");
+
+    let validReg = true;
+
+    if (name.value == "") {
+        elt1.innerHTML = "Required field";
+        validReg = false;
+    }
+    if (pw.value == "") {
+        elt2.innerHTML = "Required field";
+        validReg = false;
+    }
+    if (email.value == "") {
+        elt3.innerHTML = "Required field"; 
+        validReg = false;
+    }
+    else if (!email.value.includes("@")) {
+        elt3.innerHTML = "Invalid email";
+        validReg = false;
+    }
+
+    if (validReg) {
+        register_handle(name.value, pw.value, email.value);
+    }
+}
+
+function failRegister() {
+    let resp = document.getElementById("response_msg");
+    resp.innerHTML = "Registration Failed (Try new Email or Username)";
+}
+
+function succeedRegister() {
+    window.location.href = "/";
+}
+
+function loadThePDFBoi() {
+   // atob() is used to convert base64 encoded PDF to binary-like data.
+// (See also https://developer.mozilla.org/en-US/docs/Web/API/WindowBase64/
+// Base64_encoding_and_decoding.)
+var url = 'https://raw.githubusercontent.com/mozilla/pdf.js/ba2edeae/web/compressed.tracemonkey-pldi-09.pdf';
+
+// Loaded via <script> tag, create shortcut to access PDF.js exports.
+var pdfjsLib = window['pdfjs-dist/build/pdf'];
+
+// The workerSrc property shall be specified.
+pdfjsLib.GlobalWorkerOptions.workerSrc = '//mozilla.github.io/pdf.js/build/pdf.worker.js';
+
+var pdfDoc = null,
+    pageNum = 1,
+    pageRendering = false,
+    pageNumPending = null,
+    scale = .9,
+    canvas = document.getElementById('the-canvas'),
+    ctx = canvas.getContext('2d');
+
+/**
+ * Get page info from document, resize canvas accordingly, and render page.
+ * @param num Page number.
+ */
+function renderPage(num) {
+  pageRendering = true;
+  // Using promise to fetch the page
+  pdfDoc.getPage(num).then(function(page) {
+    var viewport = page.getViewport(canvas.width / page.getViewport(1.0).width);
+    canvas.height = viewport.height;
+    canvas.width = viewport.width;
+
+    // Render PDF page into canvas context
+    var renderContext = {
+      canvasContext: ctx,
+      viewport: viewport
+    };
+    var renderTask = page.render(renderContext);
+
+    // Wait for rendering to finish
+    renderTask.promise.then(function() {
+      pageRendering = false;
+      if (pageNumPending !== null) {
+        // New page rendering is pending
+        renderPage(pageNumPending);
+        pageNumPending = null;
+      }
+    });
+  });
+
+  // Update page counters
+  document.getElementById('page_num').textContent = num;
+}
+
+/**
+ * If another page rendering in progress, waits until the rendering is
+ * finised. Otherwise, executes rendering immediately.
+ */
+function queueRenderPage(num) {
+  if (pageRendering) {
+    pageNumPending = num;
+  } else {
+    renderPage(num);
+  }
+}
+
+/**
+ * Displays previous page.
+ */
+function onPrevPage() {
+  if (pageNum <= 1) {
+    return;
+  }
+  pageNum--;
+  queueRenderPage(pageNum);
+}
+document.getElementById('prev').addEventListener('click', onPrevPage);
+
+/**
+ * Displays next page.
+ */
+function onNextPage() {
+  if (pageNum >= pdfDoc.numPages) {
+    return;
+  }
+  pageNum++;
+  queueRenderPage(pageNum);
+}
+document.getElementById('next').addEventListener('click', onNextPage);
+
+/**
+ * Asynchronously downloads PDF.
+ */
+pdfjsLib.getDocument(url).promise.then(function(pdfDoc_) {
+  pdfDoc = pdfDoc_;
+  document.getElementById('page_count').textContent = pdfDoc.numPages;
+
+  // Initial/first page rendering
+  renderPage(pageNum);
+});
 }
 
 function loadPage() {
-   hideImage();
-   // showVideo();
+    hideImage();
+    // showVideo();
 
-   $('#textArea').on('keyup keydown', updateCount);
+    $('#textArea').on('keyup keydown', updateCount);
+    document.getElementById("textArea").value = getSavedValue("textArea");
 
     function updateCount() {
         $('#characters').text($(this).val().length);
-        $('#words').text($(this).val().length);
+        $('#words').text($(this).val().split(' ').length);
+        saveValue(this);
     }
 }
 
@@ -72,7 +245,25 @@ function showImage() {
 function showText() {
     document.getElementById("textArea").style.display = "inline-block";
     document.getElementById("characters").style.display = "inline-block"; 
-    document.getElementById("word").style.display = "inline-block"; 
+    document.getElementById("word").style.display = "inline-block";
+
+}
+
+function saveValue(e) {
+    var id = e.id;
+    var val = e.value;
+    localStorage.setItem(id, val);
+    console.log("value saved!")
+}
+
+function getSavedValue(v) {
+    console.log("I was called");
+    if (!localStorage.getItem(v)) {
+        console.log("failed");
+        return "Input Here";
+    }
+    console.log("succeeded");
+    return localStorage.getItem(v);
 }
 
 function hideText() {
@@ -93,12 +284,59 @@ function sendText() {
         
         var data = JSON.stringify({"text": textArea.value});
         
-        debugMessage(data, 0);
-
         xhr.send(data);
     } else {
         uploadImage();
     }
+}
+
+function login_handle(name, pw) {
+    console.log("login");
+    url = "/login_attempt"
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST",url,true);
+
+    xhr.setRequestHeader("Content-type", "application/json");
+
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4) {
+            if (xhr.response.value == "Succeed") {
+                succeedLogin();
+            }
+            else {
+                failLogin();
+            }
+        }
+    }
+
+    var data = JSON.stringify({"name":name, "pass":pw});
+
+    console.log(data);
+
+    xhr.send(data);
+}
+
+function register_handle(name, pw, email) {
+    url = "/register_attempt"
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST",url,true);
+
+    xhr.setRequestHeader("Content-type", "application/json");
+    
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4) {
+            if (xhr.response.value == "Succeed") {
+                succeedRegister();
+            }
+            else {
+                failRegister();
+            }
+        }
+    }
+
+    var data = JSON.stringify({"name":name, "pass":pw, "email":email});
+
+    xhr.send(data);
 }
 
 function convertToBase64() {

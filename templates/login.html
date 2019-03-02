@@ -9,16 +9,20 @@
         <title>explainr</title>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script type="text/javascript" src="{{ url_for('static', filename='main.js') }}">
-        <script type="text/javascript" src="{{ url_for('static', filename='main.js') }}">
         </script>
     </head>
-    <body onload="loadLogin()">
+    <body>
         <style>
             #login-form {
                 text-align: center;
                 position: relative;
                 top: 50px;
             }    
+
+            #message_one, #message_two, #message_three {
+                display: inline-block;
+                width: 100px;
+            }
         </style>
         {% include 'header.html' %}
         <div id="login-form">
@@ -36,14 +40,9 @@
                         <span id="message_two" class="pure-form-message-inline"></span>
                     </div>
             
-                    <div class="pure-control-group">
-                        <label for="email">Email Address</label>
-                        <input id="email" type="email" placeholder="Email Address">
-                        <span id="message_three" class="pure-form-message-inline"></span>
-                    </div>
-            
                     <div class="pure-controls">
-                        <button id="submitBtn" type="submit" class="pure-button pure-button-primary">Submit</button>
+                        <button id="submitBtn" onclick="tryLogin();" type="button" class="pure-button pure-button-primary">Submit</button>
+                        <span id="response_msg" class="pure-form-message-inline"></span>
                     </div>
                 </fieldset>
             </form>
