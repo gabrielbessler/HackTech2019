@@ -15,25 +15,7 @@
     </head>
     <body onload="loadPage();">
         <canvas id="thecanvas" width="200" height="100"></canvas>
-        <div class="header font">
-            <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
-                <a class="pure-menu-heading" href>DePedantify</a>
-                <ul class="pure-menu-list  right-align">
-                    <li class="pure-menu-item pure-menu-selected">
-                        <a href="/" class="pure-menu-link">Home</a>
-                    </li>
-                    <li class="pure-menu-item pure-menu-selected">
-                            <a href="#" class="pure-menu-link">Document Library</a>
-                    </li>
-                    <li class="pure-menu-item pure-menu-selected">
-                            <a href="#" class="pure-menu-link">About</a>
-                    </li>
-                    <li class="pure-menu-item pure-menu-selected">
-                            <a href="/login" class="pure-menu-link">Login</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
+        {% include 'header.html' %}
     <div class="function-container">
             <video autoplay>test</video>
             <div class="function font">
