@@ -11,7 +11,7 @@
         <script type="text/javascript" src="{{ url_for('static', filename='main.js') }}">
         </script>
     </head>
-    <body onload="loadLogin()">
+    <body>
         <style>
             #login-form {
                 text-align: center;
@@ -40,14 +40,9 @@
                         <span id="message_two" class="pure-form-message-inline"></span>
                     </div>
             
-                    <div class="pure-control-group">
-                        <label for="email">Email Address</label>
-                        <input id="email" type="email" placeholder="Email Address">
-                        <span id="message_three" class="pure-form-message-inline"></span>
-                    </div>
-            
                     <div class="pure-controls">
                         <button id="submitBtn" onclick="tryLogin();" type="button" class="pure-button pure-button-primary">Submit</button>
+                        <span id="response_msg" class="pure-form-message-inline"></span>
                     </div>
                 </fieldset>
             </form>
