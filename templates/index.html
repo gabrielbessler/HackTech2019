@@ -18,6 +18,16 @@
         @import url('https://fonts.googleapis.com/css?family=Quicksand');
     </head>
     <body onload="loadPage();">
+        <style>
+            #toHide1, #toHide2, #characters, #words {
+                margin-top: 20px;
+                position: relative;
+                top: 23px;
+            }
+            #test, #test1, #test2, #test3 {
+                overflow: auto;
+            }
+        </style>
         <canvas id="thecanvas" width="200" height="100"></canvas>
         {% include 'header.html' %}
     <div class="function-container">
@@ -37,11 +47,12 @@
                         </button>   
                         <input id="fileSelect" value="Choose File" type="file" class="friend pure-button pure-button-primary font buttoncolor absolute2" onchange="previewFile();" style="opacity:0">
                     </div>
+                    <button id="getPDF" class="pure-button pure-button-primary font buttoncolor" onclick="getPDF();" type="button">Get PDF
                 </div>
             <span id="toHide1">Number of Characters: </span><span id="characters">0</span>
             <span id="toHide2">Number of Words: </span><span id="words">0</span>
             </span>
-            <p id="noscroll" class="subhead font" >
+            <p id="noscroll" style="position: relative; top: 20px;" class="subhead font" >
                 Copy and paste your text, or upload a document, pdf, or image here
             </p>
         </div>
@@ -56,7 +67,7 @@
                     <h3 class="content-subhead">
                         Get Started
                     </h3>
-                    <p>
+                    <p id="test">
                         hello this is a cool project fun fun fun. sometimes i get bored and write all about witches and frogs and have google tell me how i'm feeling.
                     </p>
                 </div>
@@ -64,7 +75,7 @@
                     <h3 class="content-subhead">
                         How It Works
                     </h3>
-                    <p>
+                    <p id="test1">
                         hello this is a cool project fun fun fun. the internet is probably my best friend. i hope code cant be copywrited bc otherwise ima die.
                     </p>
                 </div>
@@ -72,7 +83,7 @@
                     <h3 class="content-subhead">
                         Document Library
                     </h3>
-                    <p>
+                    <p id="test2">
                         hello this is a cool project fun fun fun. maybe i shouldnt be a stem major. i could have a lot of fun just looking at words all day. maybe i'll write a dictionary. not a language. a dictionary.
                     </p>
                 </div>
@@ -80,7 +91,7 @@
                     <h3 class="content-subhead">
                         About Us
                     </h3>
-                    <p>
+                    <p id="test3"> 
                         hello this is a cool project fun fun fun. this shoudl go in the about us category but this team is made of (ba)zofia and gabe(b) and garrett(grampa garry) and (k)evan. i promise its a good time. we learn together and Harvey Mudd school of Counting (HMC).
                     </p>
                 </div>

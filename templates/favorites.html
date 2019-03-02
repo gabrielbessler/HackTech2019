@@ -19,11 +19,12 @@
     </head>
     <body>
         {% include 'header.html' %}
-        <h1>Hi, {{ current_user.username }}!</h1>
+        <h1 style="overflow: hidden; position:relative; top: 45px; left: 15px">Hi, {{ current_user.name }}!</h1>
         {% for i in favs %}
         <div>
             <p>i</p>
         </div>
+        {% endfor %}
         {% include 'footer.html' %}
     </body>
 </html>
