@@ -1,6 +1,5 @@
 import logging, time
 from flask import Flask, render_template, request
-import parse
 import database
 
 app = Flask(__name__)
@@ -41,8 +40,12 @@ def annotate():
     if 'sentence' in result and 'annotation' in result:
         database.addAnnotation(result['sentence'],result['annotation'])
     else:
-        logging.info("Invalid request: " + request + " at " time.time())
+        logging.info("Invalid request: " + request + " at " + time.time())
 
 @app.route('/getAnnotaions', methods=['GET'])
 def getAnnotations():
+    pass 
+
+if __name__ == "__main__":
+    app.run(host='0.0.0.0')
 
