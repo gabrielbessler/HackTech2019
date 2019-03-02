@@ -37,18 +37,23 @@ function loadPage() {
 
     function updateCount() {
         $('#characters').text($(this).val().length);
+        $('#words').text($(this).val().length);
     }
 }
 
 
 function hideImage() {
     document.getElementById("submitBtn").innerHTML = "Upload Text";
+    document.getElementById("toHide1").style.display = "inline";
+    document.getElementById("toHide2").style.display = "inline";
     $("#fileSelect").val("");
     document.getElementById("imgDisplay").style.display = "none"; 
     
 }
 
 function showImage() {
+    document.getElementById("toHide1").style.display = "none";
+    document.getElementById("toHide2").style.display = "none";
     document.getElementById("submitBtn").innerHTML = "Upload Image"
     document.getElementById("imgDisplay").style.display = "inline-block"; 
 }
@@ -56,11 +61,13 @@ function showImage() {
 function showText() {
     document.getElementById("textArea").style.display = "inline-block";
     document.getElementById("characters").style.display = "inline-block"; 
+    document.getElementById("word").style.display = "inline-block"; 
 }
 
 function hideText() {
     document.getElementById("textArea").style.display = "none"; 
     document.getElementById("characters").style.display = "none"; 
+    document.getElementById("words").style.display = "none"; 
 }
 
 function sendText() {
