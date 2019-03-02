@@ -1,6 +1,6 @@
-from flask import flask 
+from flask import Flask 
 
-app = Flase(__name__)
+app = Flask(__name__)
 
 @app.route('/')
 def index():
@@ -14,7 +14,7 @@ def getSimplifiedFromImage():
     '''
     pass 
 
-@app.route('text')
+@app.route('/text')
 def getSimplifiedFromText():
     '''
     Take text in the form of a JSON 
