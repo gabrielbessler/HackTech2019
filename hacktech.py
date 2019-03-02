@@ -47,7 +47,6 @@ def _addRating(annotationID, rating):
 
 ''' ======= DB HANDLER END ======= '''
 
-
 def isValid(requirements, request):
     for req in requirements:
         if req not in request:
@@ -65,6 +64,14 @@ def login():
 @app.route('/')
 def index():
     return render_template("index.html")
+
+@app.route('/result')
+def displayResults():
+    return render_template("results.html")
+
+@app.route('/register')
+def displayRegister():
+    return render_template("register.html")
 
 @app.route('/login')
 def displayLoginScreen():

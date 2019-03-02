@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name = "viewport" content = "width = device-width, initial-scale = 1">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/pure-min.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/grids-responsive-min.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/base-min.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+        <title>explainr</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='main.js') }}">
+        </script>
+        <script type="text/javascript" src="//mozilla.github.io/pdf.js/build/pdf.js"></script>
+        <!-- <script type="text/javascript" src="{{ url_for('static', filename='node_modules/pdfjs-dist/build/pdf.js') }}"></script>
+            -->
+        </head>
+    <body onload="loadThePDFBoi()">
+        
+        <style>
+            #results_left {
+                width:50%;
+                float:left;
+                border: 2px solid black;
+                height: 100vh;
+            }
+            #results_right {
+                width:50%;  
+                float:right;
+                height: 100vh;
+            }
+        </style>
+        {% include 'header.html' %}  
+        <div id="pdfControls">
+            <button id="prev">Previous</button>
+            <button id="next">Next</button>
+            &nbsp; &nbsp;
+            <span>Page: <span id="page_num"></span> / <span id="page_count"></span></span>
+        </div>
+        <div id="results_left">
+            <canvas id="the-canvas"></canvas>
+        </div>
+        <div id="results_high">
+            
+        </div>
+        {% include 'footer.html' %}
+    </div>
+</html>
+
