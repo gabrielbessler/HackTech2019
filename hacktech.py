@@ -72,6 +72,14 @@ def displayRegistration():
 def displayLogin():
     return render_template("login.html")
 
+@app.route('/favorites')
+def get_favories():
+    if not current_user.is_authenticated:
+        return redirect(url_for("login"))
+
+    favorites = current_user.getFavorites()
+    return render_template("favorites.html", favs=favorites)
+
 @app.route('/logout')
 def logout():
     logout_user()
