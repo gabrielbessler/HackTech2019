@@ -131,7 +131,7 @@ def getSimplifiedFromImage():
         else:
             type = "IMG"
 
-        base64Image = info[23:]
+        base64Image = info[info.find(',')+1:]
 
         if type == "PDF":
             text = OCR.process_PDF(base64Image)
