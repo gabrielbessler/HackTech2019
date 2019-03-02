@@ -5,36 +5,49 @@
         <link rel="stylesheet" href="{{ url_for('static', filename='css/pure-min.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/grids-responsive-min.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/base-min.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
         <title>explainr</title>
         <script type="text/javascript" src="{{ url_for('static', filename='main.js') }}">
         </script>
     </head>
     <body>
-        <form class="pure-form pure-form-aligned">
-            <fieldset>
-                <div class="pure-control-group">
-                    <label for="name">Username</label>
-                    <input id="name" type="text" placeholder="Username">
-                    <span id="message_one" class="pure-form-message-inline">This is a required field.</span>
-                </div>
+        <style>
+            #login-form {
+                text-align: center;
+                position: relative;
+                top: 50px;
+            }    
+        </style>
+        {% include 'header.html' %}
+        <div id="login-form">
+            <form class="pure-form pure-form-aligned">
+                <fieldset>
+                    <div class="pure-control-group">
+                        <label for="name">Username</label>
+                        <input id="name" type="text" placeholder="Username">
+                        <span id="message_one" class="pure-form-message-inline">This is a required field.</span>
+                    </div>
+            
+                    <div class="pure-control-group">
+                        <label for="password">Password</label>
+                        <input id="password" type="password" placeholder="Password">
+                        <span class="pure-form-message-inline">This is a required field.</span>
+                    </div>
+            
+                    <div class="pure-control-group">
+                        <label for="email">Email Address</label>
+                        <input id="email" type="email" placeholder="Email Address">
+                        <span id="message_two" class="pure-form-message-inline">This is a required field.</span>
+                    </div>
+            
+                    <div class="pure-controls">
+                        <button id="message_three" type="submit" class="pure-button pure-button-primary">Submit</button>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
         
-                <div class="pure-control-group">
-                    <label for="password">Password</label>
-                    <input id="password" type="password" placeholder="Password">
-                    <span class="pure-form-message-inline">This is a required field.</span>
-                </div>
-        
-                <div class="pure-control-group">
-                    <label for="email">Email Address</label>
-                    <input id="email" type="email" placeholder="Email Address">
-                    <span id="message_two" class="pure-form-message-inline">This is a required field.</span>
-                </div>
-        
-                <div class="pure-controls">
-                    <button id="message_three" type="submit" class="pure-button pure-button-primary">Submit</button>
-                </div>
-            </fieldset>
-        </form>
+        {% include 'footer.html' %}
     </div>
 </html>
 
