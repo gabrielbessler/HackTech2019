@@ -28,6 +28,35 @@ function clearImage() {
     showText();
 }
 
+function loadLogin() {
+    console.log("hello");
+}
+
+function tryLogin() {
+    let elt1 = document.getElementById("message_one");
+    let elt2 = document.getElementById("message_two");
+    let elt3 = document.getElementById("message_three");
+
+    elt1.innerHTML = "";
+    elt2.innerHTML = "";
+    elt3.innerHTML = "";
+
+    let email = document.getElementById("email");
+    let pw = document.getElementById("password");
+    let name = document.getElementById("name");
+
+    if (name.value == "") {
+        console.log("hello");
+        elt1.innerHTML = "Required field";
+    }
+    if (pw.value == "") {
+        elt2.innerHTML = "Required field";
+    }
+    if (email.value == "") {
+        elt3.innerHTML = "Required field"; 
+    
+    }
+}
 
 function loadPage() {
     hideImage();
@@ -38,7 +67,7 @@ function loadPage() {
 
     function updateCount() {
         $('#characters').text($(this).val().length);
-        $('#words').text($(this).val().length);
+        $('#words').text($(this).val().split(' ').length);
         saveValue(this);
     }
 }
@@ -50,11 +79,10 @@ function hideImage() {
     document.getElementById("toHide2").style.display = "inline";
     $("#fileSelect").val("");
     document.getElementById("imgDisplay").style.display = "none"; 
-    
 }
 
 function showImage() {
-    document.getElementById("toHide1").style.display = "none";
+    document.getElementById("toHide1").style.display = "inline";
     document.getElementById("toHide2").style.display = "none";
     document.getElementById("submitBtn").innerHTML = "Upload Image"
     document.getElementById("imgDisplay").style.display = "inline-block"; 
