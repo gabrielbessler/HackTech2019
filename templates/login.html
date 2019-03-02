@@ -7,16 +7,22 @@
         <link rel="stylesheet" href="{{ url_for('static', filename='css/base-min.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
         <title>explainr</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script type="text/javascript" src="{{ url_for('static', filename='main.js') }}">
         </script>
     </head>
-    <body>
+    <body onload="loadLogin()">
         <style>
             #login-form {
                 text-align: center;
                 position: relative;
                 top: 50px;
             }    
+
+            #message_one, #message_two, #message_three {
+                display: inline-block;
+                width: 100px;
+            }
         </style>
         {% include 'header.html' %}
         <div id="login-form">
@@ -25,23 +31,17 @@
                     <div class="pure-control-group">
                         <label for="name">Username</label>
                         <input id="name" type="text" placeholder="Username">
-                        <span id="message_one" class="pure-form-message-inline">This is a required field.</span>
+                        <span id="message_one" class="pure-form-message-inline"></span>
                     </div>
             
                     <div class="pure-control-group">
                         <label for="password">Password</label>
                         <input id="password" type="password" placeholder="Password">
-                        <span class="pure-form-message-inline">This is a required field.</span>
-                    </div>
-            
-                    <div class="pure-control-group">
-                        <label for="email">Email Address</label>
-                        <input id="email" type="email" placeholder="Email Address">
-                        <span id="message_two" class="pure-form-message-inline">This is a required field.</span>
+                        <span id="message_two" class="pure-form-message-inline"></span>
                     </div>
             
                     <div class="pure-controls">
-                        <button id="message_three" type="submit" class="pure-button pure-button-primary">Submit</button>
+                        <button id="submitBtn" onclick="tryLogin();" type="button" class="pure-button pure-button-primary">Submit</button>
                     </div>
                 </fieldset>
             </form>
