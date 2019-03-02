@@ -42,7 +42,6 @@ def _getAnnotations(sentence, prevSentence = None, nextSentence = None):
     else:
         return list(Annotation.query.filter(Annotation.sentence == sentence))
 
-
 def _addRating(annotationID, rating):
     Annotation.query.filter(Annotation.id == annotationID).first().addRating(rating)
 

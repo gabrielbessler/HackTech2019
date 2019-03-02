@@ -23,25 +23,51 @@ function showVideo() {
     }
 }
 
+function clearImage() {
+    hideImage();
+    showText();
+}
+
+
 function loadPage() {
    hideImage();
    // showVideo();
+
+   $('#textArea').on('keyup keydown', updateCount);
+
+    function updateCount() {
+        $('#characters').text($(this).val().length);
+        $('#words').text($(this).val().length);
+    }
 }
 
+
 function hideImage() {
+    document.getElementById("submitBtn").innerHTML = "Upload Text";
+    document.getElementById("toHide1").style.display = "inline";
+    document.getElementById("toHide2").style.display = "inline";
+    $("#fileSelect").val("");
     document.getElementById("imgDisplay").style.display = "none"; 
+    
 }
 
 function showImage() {
+    document.getElementById("toHide1").style.display = "none";
+    document.getElementById("toHide2").style.display = "none";
+    document.getElementById("submitBtn").innerHTML = "Upload Image"
     document.getElementById("imgDisplay").style.display = "inline-block"; 
 }
 
 function showText() {
     document.getElementById("textArea").style.display = "inline-block";
+    document.getElementById("characters").style.display = "inline-block"; 
+    document.getElementById("word").style.display = "inline-block"; 
 }
 
 function hideText() {
     document.getElementById("textArea").style.display = "none"; 
+    document.getElementById("characters").style.display = "none"; 
+    document.getElementById("words").style.display = "none"; 
 }
 
 function sendText() {
@@ -89,17 +115,23 @@ function previewFile(){
     mode = "image";
     var preview = document.querySelector('img'); //selects the query named img
     var file    = document.querySelector('input[type=file]').files[0]; //sames as here
-    var reader  = new FileReader();
-
-    reader.onloadend = function () {
-        preview.src = reader.result;
-    }
-
-    if (file) {
-        reader.readAsDataURL(file); //reads the data as a URL
+    
+    if (file === undefined) {
+        hideImage();
+        showText();
     } else {
-        preview.src = "";
-    }
+        var reader  = new FileReader();
+
+        reader.onloadend = function () {
+            preview.src = reader.result;
+        }
+    
+        if (file) {
+            reader.readAsDataURL(file); //reads the data as a URL
+        } else {
+            preview.src = "";
+        }
+    }   
 }
 
 function debugMessage(message, level) {

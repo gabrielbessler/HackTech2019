@@ -7,6 +7,7 @@
         <link rel="stylesheet" href="{{ url_for('static', filename='css/base-min.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
         <title>explainr</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script type="text/javascript" src="{{ url_for('static', filename='main.js') }}">
         </script>
         @media (overflow-block: scroll)
@@ -19,7 +20,7 @@
                 <a class="pure-menu-heading" href>DePedantify</a>
                 <ul class="pure-menu-list  right-align">
                     <li class="pure-menu-item pure-menu-selected">
-                        <a href="#" class="pure-menu-link">Home</a>
+                        <a href="/" class="pure-menu-link">Home</a>
                     </li>
                     <li class="pure-menu-item pure-menu-selected">
                             <a href="#" class="pure-menu-link">Document Library</a>
@@ -39,16 +40,21 @@
                 <h1 class="function-header"> Enter Your Text</h1>
                     <textarea id="textArea" style="background-color:lavender"></textarea>
                     <img id="imgDisplay" src="" height="200">
-                <div class="button" >
-                    <button class="pure-button pure-button-primary font buttoncolor" onclick="sendText();" type="button">Submit Text
+                <div class="button " >
+                    <button id="submitBtn" class="pure-button pure-button-primary font buttoncolor" onclick="sendText();" type="button">Submit Text
                     </button> 
+                    <button class="pure-button pure-button-primary font buttoncolor" onclick="clearImage();" type="button">Clear Image
+                        </button>
                     <div class="input">
-                        <button class="pure-button pure-button-primary font buttoncolor absolute font next">
+                        <button class="pure-button pure-button-primary font buttoncolor absolute1 font">
                             Upload
                         </button>   
-                        <input value="Choose File" type="file" class="pure-button pure-button-primary font buttoncolor absolute" style="opacity:0" onchange="previewFile();">
+                        <input id="fileSelect" value="Choose File" type="file" class="friend pure-button pure-button-primary font buttoncolor absolute2" onchange="previewFile();" style="opacity:0">
                     </div>
                 </div>
+            <span id="toHide1">Number of Characters: </span><span id="characters">0</span>
+            <span id="toHide2">Number of Words: </span><span id="words">0</span>
+            </span>
             <p class="subhead font" >
                 Copy and paste your text, or upload a document, pdf, or image here
             </p>
@@ -98,4 +104,3 @@
 {% include 'footer.html' %}
 
 </html>
-
