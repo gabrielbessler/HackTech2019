@@ -1,13 +1,17 @@
 <!DOCTYPE html>
 <html>
     <head>
-
+        <title>explainr</title>
+        <script type="text/javascript" src="{{ url_for('static', filename='main.js') }}">
+        </script>
     </head>
     <body>
         Enter Your Text:
-        <textarea>
+        <br>
+        <textarea  id="textarea">
 
         </textarea>
-        <button type="button">Submit</button>
+        <br> 
+        <button onclick="sendText();" type="button">Submit</button>
     </body>
 </html>

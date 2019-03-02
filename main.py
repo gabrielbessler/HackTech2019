@@ -1,4 +1,5 @@
-from flask import Flask 
+import logging, time
+from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
@@ -6,20 +7,28 @@ app = Flask(__name__)
 def index():
     return render_template("index.html")
 
-@app.route('/img')
+@app.route('/img', methods=["POST"])
 def getSimplifiedFromImage():
     '''
     Take image in the form of a JSON
     object, returns the simplfied text  
     '''
-    pass 
+    result = request.get_json()
 
-@app.route('/text')
+    return "OK"
+
+@app.route('/text', methods=["POST"])
 def getSimplifiedFromText():
     '''
     Take text in the form of a JSON 
     object, returns the simplified text
     '''
-    pass 
+    result = request.get_json()
+    if 'text' in result: 
+        text = result['text']
+    else:
+        logging.info("Invalid request: " + request + " at " + time.time()) 
+        return "not a valid request"
+
 
 
