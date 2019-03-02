@@ -4,7 +4,7 @@
         <meta name = "viewport" content = "width = device-width, initial-scale = 1">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/pure-min.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/grids-responsive-min.css') }}">
-        <link rel="stylesheet" href="{{ url_for('static', filename='base-min.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/base-min.css') }}">
         <title>explainr</title>
         <script type="text/javascript" src="{{ url_for('static', filename='main.js') }}">
         </script>
@@ -23,6 +23,7 @@
                 width: 80%; 
                 height: 50%;
             }
+
             .home-menu {
                 background: lavender;
             }
@@ -79,6 +80,7 @@
             .right-align {  
                 float: right; 
             }
+            
             h1{
                 font-weight: 500;
             }
@@ -87,7 +89,7 @@
                 /* These styles are required for the "scroll-over" effect */
                 position: absolute;
                 top: 95%;
-                width: 100%;
+                left: 0;
                 min-height: 12%;
                 z-index: 2;
                 background: lavender;
@@ -124,16 +126,28 @@
                 position: relative;
                 width: 100%;
             }
+
             .button{
                 color: lavender;
                 position: relative;
                 width:70%
             }
 
-            .absolute{
+            .absolute1{
                 position: absolute;
                 bottom: 0;
-                right: 0;
+                right: 2px;
+            }
+
+            .absolute2{
+                position: absolute;
+                bottom: 0;
+                right: 20px;
+            }
+
+            .friend{
+                width:60px;
+                height: 30px;
             }
 
     </style>
@@ -145,14 +159,14 @@
                 <h1 class="function-header"> Enter Your Text</h1>
                     <textarea id="textArea" style="background-color:lavender"></textarea>
                     <img id="imgDisplay" src="" height="200">
-                <div class="button" >
+                <div class="button " >
                     <button class="pure-button pure-button-primary font buttoncolor" onclick="sendText();" type="button">Submit Text
                     </button> 
                     <div class="input">
-                        <button class="pure-button pure-button-primary font buttoncolor absolute font next">
+                        <button class="pure-button pure-button-primary font buttoncolor absolute1 font">
                             Upload
                         </button>   
-                        <input value="Choose File" type="file" class="pure-button pure-button-primary font buttoncolor absolute" style="opacity:0" onchange="previewFile();">
+                        <input value="Choose File" type="file" class="friend pure-button pure-button-primary font buttoncolor absolute2" style="opacity:0" onchange="previewFile();">
                     </div>
                 </div>
             <p class="subhead font" >

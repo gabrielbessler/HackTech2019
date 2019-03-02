@@ -2,7 +2,7 @@ import logging, time
 from flask import Flask, render_template, request
 import database
 import json
-import OCR 
+# import OCR 
 
 app = Flask(__name__)
 
@@ -19,7 +19,7 @@ def getSimplifiedFromImage():
     result = request.get_json()
     if "img" in result: 
         base64Image = result["img"][24:][:50]
-        text = OCR.process(base64Image)
+        # text = OCR.process(base64Image)
         print(text)
     else:
         print("nope")
