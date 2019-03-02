@@ -11,7 +11,7 @@
         <script type="text/javascript" src="{{ url_for('static', filename='main.js') }}">
         </script>
     </head>
-    <body onload="loadRegister()">
+    <body>
         <style>
             #login-form {
                 text-align: center;
@@ -52,6 +52,7 @@
             
                     <div class="pure-controls">
                         <button id="submitBtn" onclick="tryRegister();" type="button" class="pure-button pure-button-primary">Submit</button>
+                        <span id="response">
                     </div>
                 </fieldset>
             </form>

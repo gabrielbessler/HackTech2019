@@ -28,6 +28,88 @@ function clearImage() {
     showText();
 }
 
+function tryLogin() {
+    let elt1 = document.getElementById("message_one");
+    let elt2 = document.getElementById("message_two");
+
+    elt1.innerHTML = "";
+    elt2.innerHTML = "";
+
+    let name    = document.getElementById("name");
+    let pw      = document.getElementById("password");
+
+    let validLogin = true;
+
+    if (name.value == "") {
+        elt1.innerHTML = "Required field";
+        validLogin = false;
+    }
+    if (pw.value == "") {
+        elt2.innerHTML = "Required field";
+        validLogin = false;
+    }
+
+    if (validLogin) {
+        login_handle(name.value, pw.value);
+    }
+
+}
+
+function failLogin() {
+    let resp = document.getElementById("response_msg");
+    resp.innerHTML = "Login Failed";
+}
+
+function succeedLogin() {
+    window.location.href = "/";
+}
+
+function tryRegister() {
+    let elt1 = document.getElementById("message_one");
+    let elt2 = document.getElementById("message_two");
+    let elt3 = document.getElementById("message_three");
+
+    elt1.innerHTML = "";
+    elt2.innerHTML = "";
+    elt3.innerHTML = "";
+
+    let email   = document.getElementById("email");
+    let pw      = document.getElementById("password");
+    let name    = document.getElementById("name");
+
+    let validReg = true;
+
+    if (name.value == "") {
+        elt1.innerHTML = "Required field";
+        validReg = false;
+    }
+    if (pw.value == "") {
+        elt2.innerHTML = "Required field";
+        validReg = false;
+    }
+    if (email.value == "") {
+        elt3.innerHTML = "Required field"; 
+        validReg = false;
+    }
+    else if (!email.value.includes("@")) {
+        elt3.innerHTML = "Invalid email";
+        validReg = false;
+    }
+
+    if (validReg) {
+        register_handle(name.value, pw.value, email.value);
+    }
+}
+
+function failRegister() {
+    let resp = document.getElementById("response_msg");
+    resp.innerHTML = "Registration Failed (Try new Email or Username)";
+}
+
+function succeedRegister() {
+    window.location.href = "/";
+}
+
 function loadThePDFBoi() {
    // atob() is used to convert base64 encoded PDF to binary-like data.
 // (See also https://developer.mozilla.org/en-US/docs/Web/API/WindowBase64/
@@ -202,12 +284,59 @@ function sendText() {
         
         var data = JSON.stringify({"text": textArea.value});
         
-        debugMessage(data, 0);
-
         xhr.send(data);
     } else {
         uploadImage();
     }
+}
+
+function login_handle(name, pw) {
+    console.log("login");
+    url = "/login_attempt"
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST",url,true);
+
+    xhr.setRequestHeader("Content-type", "application/json");
+
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4) {
+            if (xhr.response.value == "Succeed") {
+                succeedLogin();
+            }
+            else {
+                failLogin();
+            }
+        }
+    }
+
+    var data = JSON.stringify({"name":name, "pass":pw});
+
+    console.log(data);
+
+    xhr.send(data);
+}
+
+function register_handle(name, pw, email) {
+    url = "/register_attempt"
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST",url,true);
+
+    xhr.setRequestHeader("Content-type", "application/json");
+    
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4) {
+            if (xhr.response.value == "Succeed") {
+                succeedRegister();
+            }
+            else {
+                failRegister();
+            }
+        }
+    }
+
+    var data = JSON.stringify({"name":name, "pass":pw, "email":email});
+
+    xhr.send(data);
 }
 
 function convertToBase64() {
