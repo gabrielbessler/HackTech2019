@@ -2,14 +2,10 @@ import logging, time
 from flask import Flask, render_template, request
 import database
 import json
-<<<<<<< HEAD
-# import OCR 
-=======
 import OCR 
 from database import db_session, init_db
 from models import User, Annotation
 from flask_login import LoginManager
->>>>>>> 7d0dfb8b6e638d56e3a0dcad5edc59d5e7c1fe1a
 
 app = Flask(__name__)
 login = LoginManager(app)
@@ -32,7 +28,8 @@ def updatePw(username, password):
     pass 
 
 def addAnnotation(self, sentence, annotation):
-    pass
+    a = Annotation()
+    db_session.commit()
 
 def getAnnotation(self, sentence):
     pass 
@@ -52,7 +49,6 @@ i.execute(
 self.annotationCount += 1
 
 def getAnnotations(self, sentence):
-conn = self.engine.connect()
 selStmt = select([annotationsTable]).where(annotationsTable.c.sentence == sentence)
 return [dict(result)['annotation'] for result in conn.execute(selStmt)]
 '''
