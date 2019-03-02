@@ -14,9 +14,16 @@
                 <li class="pure-menu-item pure-menu-selected">
                         <a href="/about" class="pure-menu-link">About</a>
                 </li>
+
+                {% if current_user.is_anonymous %}
                 <li class="pure-menu-item pure-menu-selected">
                         <a href="/login" class="pure-menu-link">Login</a>
                 </li>
+                {% else %} 
+                <li class="pure-menu-item pure-menu-selected">
+                        <a href="/logout" class="pure-menu-link">Login</a>
+                </li>
+                {% endif %}
             </ul>
         </div>
     </div>

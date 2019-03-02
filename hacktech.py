@@ -5,7 +5,7 @@ import json
 import OCR 
 from database import db_session, init_db
 from models import User, Annotation
-from flask_login import LoginManager, current_user, login_user
+from flask_login import LoginManager, current_user, login_user, logout_user
 from sqlalchemy import *
 
 app = Flask(__name__)
@@ -71,6 +71,11 @@ def displayRegistration():
 @app.route('/login')
 def displayLogin():
     return render_template("login.html")
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('index'))
 
 @app.route('/register_attempt', methods=["POST"])
 def register_attempt():
