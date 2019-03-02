@@ -32,7 +32,7 @@ function loadLogin() {
     console.log("hello");
 }
 
-function tryLogin() {
+function tryRegister() {
     let elt1 = document.getElementById("message_one");
     let elt2 = document.getElementById("message_two");
     let elt3 = document.getElementById("message_three");
@@ -45,17 +45,29 @@ function tryLogin() {
     let pw = document.getElementById("password");
     let name = document.getElementById("name");
 
+    let validReg = true;
+
     if (name.value == "") {
-        console.log("hello");
         elt1.innerHTML = "Required field";
+        validReg = false;
     }
     if (pw.value == "") {
         elt2.innerHTML = "Required field";
+        validReg = false;
     }
     if (email.value == "") {
         elt3.innerHTML = "Required field"; 
-    
+        validReg = false;
     }
+    else if (!email.value.includes("@")) {
+        elt3.innerHTML = "Invalid email";
+        validReg = false;
+    }
+
+    if (validReg) {
+        register(name.value, pw.value, email.value);
+    }
+
 }
 
 function loadPage() {
@@ -136,6 +148,20 @@ function sendText() {
     } else {
         uploadImage();
     }
+}
+
+function register(name, pw, email) {
+    url = "/register"
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST",url,true);
+
+    xhr.setRequestHeader("Content-type", "application/json");
+
+    var data = JSON.stringify({"name":name, "pass":pw, "email":email})
+
+    debugMessage(data, 0);
+
+    xhr.send(data);
 }
 
 function convertToBase64() {
