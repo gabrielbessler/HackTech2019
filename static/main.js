@@ -61,7 +61,23 @@ function showImage() {
 function showText() {
     document.getElementById("textArea").style.display = "inline-block";
     document.getElementById("characters").style.display = "inline-block"; 
-    document.getElementById("word").style.display = "inline-block"; 
+    document.getElementById("word").style.display = "inline-block";
+
+    document.getElementById("textArea").value = getSavedValue("textArea");
+}
+
+function saveValue(e) {
+    var id = e.id;
+    var val = e.value;
+    localStorage.setItem(id, val)
+}
+
+function getSavedValue(e) {
+    if (!localStorage.getItem(v)) {
+        return "Input Here";
+    }
+
+    return localStorage.getItem(v);
 }
 
 function hideText() {
