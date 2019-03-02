@@ -29,16 +29,33 @@ function clearImage() {
 }
 
 function loadLogin() {
-    $('#submit').click(function() {
-        let elt1 = document.getElementById("message");
-        let elt2 = document.getElementById("");
-        let elt3 = document.getElementById("");
+    console.log("hello");
+}
 
-        if (elt1.innerHTML == "") {
+function tryLogin() {
+    let elt1 = document.getElementById("message_one");
+    let elt2 = document.getElementById("message_two");
+    let elt3 = document.getElementById("message_three");
 
-        }
-        
-    } );
+    elt1.innerHTML = "";
+    elt2.innerHTML = "";
+    elt3.innerHTML = "";
+
+    let email = document.getElementById("email");
+    let pw = document.getElementById("password");
+    let name = document.getElementById("name");
+
+    if (name.value == "") {
+        console.log("hello");
+        elt1.innerHTML = "Required field";
+    }
+    if (pw.value == "") {
+        elt2.innerHTML = "Required field";
+    }
+    if (email.value == "") {
+        elt3.innerHTML = "Required field"; 
+    
+    }
 }
 
 function loadPage() {
@@ -49,7 +66,7 @@ function loadPage() {
 
     function updateCount() {
         $('#characters').text($(this).val().length);
-        $('#words').text($(this).val().length);
+        $('#words').text($(this).val().split(' ').length);
     }
 }
 
