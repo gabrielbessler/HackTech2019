@@ -10,7 +10,6 @@ import pytesseract as tes
 # Requires Poppler dependency (or not?)
 import pdf2image
 import os
-
 import io
 
 # Gabe sends me stuff base64 encoded cause javascript
@@ -126,6 +125,9 @@ def process_PDF(base64_PDF):
 	Outputs the OCR contained in the pdf'''
 	# Start by passing the pdf data into an image generator
 	pdf_data = base64.b64decode(base64_PDF)
+	#filename = "temp.pdf"
+	#with open(filename, 'wb') as f:
+	#	f.write(pdf_data)
 	images = pdf2image.convert_from_bytes(pdf_data)
 	output = map(lambda x: get_string(x, postprocess=True), images)
 	return ' '.join(output)
