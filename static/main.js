@@ -89,14 +89,16 @@ var pdfData = atob(
 }
 
 function loadPage() {
-   hideImage();
-   // showVideo();
+    hideImage();
+    // showVideo();
 
-   $('#textArea').on('keyup keydown', updateCount);
+    $('#textArea').on('keyup keydown', updateCount);
+    document.getElementById("textArea").value = getSavedValue("textArea");
 
     function updateCount() {
         $('#characters').text($(this).val().length);
         $('#words').text($(this).val().split(' ').length);
+        saveValue(this);
     }
 }
 
@@ -119,7 +121,25 @@ function showImage() {
 function showText() {
     document.getElementById("textArea").style.display = "inline-block";
     document.getElementById("characters").style.display = "inline-block"; 
-    document.getElementById("word").style.display = "inline-block"; 
+    document.getElementById("word").style.display = "inline-block";
+
+}
+
+function saveValue(e) {
+    var id = e.id;
+    var val = e.value;
+    localStorage.setItem(id, val);
+    console.log("value saved!")
+}
+
+function getSavedValue(v) {
+    console.log("I was called");
+    if (!localStorage.getItem(v)) {
+        console.log("failed");
+        return "Input Here";
+    }
+    console.log("succeeded");
+    return localStorage.getItem(v);
 }
 
 function hideText() {
