@@ -39,14 +39,18 @@
                 <h1 class="function-header"> Enter Your Text</h1>
                     <textarea id="textArea" style="background-color:lavender"></textarea>
                     <img id="imgDisplay" src="" height="200">
-                <div class="button">
+                <div class="button" >
                     <button class="pure-button pure-button-primary font buttoncolor" onclick="sendText();" type="button">Submit Text
-                    </button>
-                    
-                    <input type="file" class="pure-button pure-button-primary font buttoncolor" onchange="previewFile()">
+                    </button> 
+                    <div class="input">
+                        <button class="pure-button pure-button-primary font buttoncolor absolute font next">
+                            Upload
+                        </button>   
+                        <input value="Choose File" type="file" class="pure-button pure-button-primary font buttoncolor absolute" style="opacity:0" onchange="previewFile();">
+                    </div>
                 </div>
-            <p class="subhead font">
-                Copy and paste your text, or upload a document, pdf, or image here!
+            <p class="subhead font" >
+                Copy and paste your text, or upload a document, pdf, or image here
             </p>
         </div>
     </div>
@@ -74,7 +78,7 @@
                 </div>
                 <div class="1-box pure-u-1 pure-u-md-1-2 pure-u-lg-1-4">
                     <h3 class="content-subhead">
-                        About Us
+                        Document Library
                     </h3>
                     <p>
                         hello this is a cool project fun fun fun. maybe i shouldnt be a stem major. i could have a lot of fun just looking at words all day. maybe i'll write a dictionary. not a language. a dictionary.
@@ -82,7 +86,7 @@
                 </div>
                 <div class="1-box pure-u-1 pure-u-md-1-2 pure-u-lg-1-4">
                     <h3 class="content-subhead">
-                        Document Library
+                        About Us
                     </h3>
                     <p>
                         hello this is a cool project fun fun fun. this shoudl go in the about us category but this team is made of (ba)zofia and gabe(b) and garrett(grampa garry) and (k)evan. i promise its a good time. we learn together and Harvey Mudd school of Counting (HMC).
@@ -90,6 +94,8 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> 
+{% include 'footer.html' %}
+
 </html>
 
