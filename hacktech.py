@@ -5,7 +5,8 @@ import json
 import OCR 
 from database import db_session, init_db
 from models import User, Annotation
-from flask_login import LoginManager
+from flask_login import LoginManager, current_user, login_user, logout_user
+from sqlalchemy import *
 
 app = Flask(__name__)
 login = LoginManager(app)
@@ -18,14 +19,6 @@ def load_user(id):
 
 
 ''' ======= DB HANDLER ======= ''' 
-
-def createUser(email, name, password):
-    u = User(name, email)
-    u.set_password(password) 
-    db_session.commit()
-
-def updatePw(username, password):
-    pass 
 
 def _addAnnotation(sentence, annotation, user, prevSentence = None, nextSentence = None):
     a = Annotation(sentence, annotation, user, prevSentence, nextSentence)
@@ -57,26 +50,71 @@ def isValid(requirements, request):
 def shutdown_session(exception=None):
     db_session.remove()
 
-@app.route('/login_request', methods=["POST"])
-def login():
-    pass
 
 @app.route('/')
 def index():
     return render_template("index.html")
 
+@app.route('/about')
+def showAbout():
+    return render_template('about.html')
+    
 @app.route('/result')
 def displayResults():
+  
     return render_template("results.html")
 
 @app.route('/register')
-def displayRegister():
+def displayRegistration():
     return render_template("register.html")
 
 @app.route('/login')
-def displayLoginScreen():
+def displayLogin():
     return render_template("login.html")
 
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('index'))
+
+@app.route('/register_attempt', methods=["POST"])
+def register_attempt():
+    result = request.get_json()
+    if "pass" in result and "email" in result:
+        pw = result["pass"]
+        email = result["email"]
+        usrname = result["name"]
+
+        result = list(User.query.filter(or_(User.email == email, User.name == usrname)))
+        if len(result) == 0:
+            u = User(name, email)
+            u.set_password(password) 
+            db_session.commit()
+
+            return "Registration successful."
+
+        else: 
+            return "Username and email must be unique."
+    
+    return "Could not process request"
+
+@app.route('/login_attempt', methods=["POST"])
+def login_attempt():
+    if current_user.is_authenticated:
+        return ""
+    
+    result = request.get_json()
+
+    username = result["name"]
+    pw = result["pass"]
+
+    user = User.query().filter(User.name == username).first()
+
+    if user is None or not user.check_password(pw):
+        return "Invalid username or password"
+    else:
+        login_user(user)
+    
 @app.route('/img', methods=["POST"])
 def getSimplifiedFromImage():
     '''
