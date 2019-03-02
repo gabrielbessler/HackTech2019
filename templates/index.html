@@ -1,17 +1,183 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <meta name = "viewport" content = "width = device-width, initial-scale = 1">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/pure-min.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/grids-responsive-min.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='base-min.css') }}
         <title>explainr</title>
         <script type="text/javascript" src="{{ url_for('static', filename='main.js') }}">
         </script>
+        @media (overflow-block: scroll)
     </head>
-    <body>
-        Enter Your Text:
-        <br>
-        <textarea id="textarea">
+    <style>
+            body {
+              background-color:lightcyan;
+            }
 
-        </textarea>
-        <br> 
-        <button onclick="sendText();" type="button">Submit</button>
-    </body>
+            textarea{
+                background-color:lavender;
+                background-color: lavender; 
+                margin: 0px; 
+                width: 80%; 
+                height: 50%;
+            }
+            .home-menu {
+                background: lavender;
+            }
+
+            .font {
+                font-family:century gothic; 
+                font-size:16px;
+            }
+
+            .buttoncolor{
+                background-color: lavender;
+                text-decoration-color: black;
+                color: black;
+                border-radius: 4px;
+                text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+            }
+            
+            .pure-menu-item{
+                color: black;
+                border-radius: 4px;
+                text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+            }
+
+            .header{
+                position: absolute;
+                text-align:left;
+                box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+            }
+
+            .function-container{
+                background:lightcyan;
+                text-align: center;
+                z-index: 1;
+                overflow: hidden;
+                /* The following styles are required for the "scroll-over" effect */
+                width: 100%;
+                height: 88%;
+                top: 0;
+                left: 0;
+                position: fixed !important;
+                box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+            }
+
+            .function{
+                /* absolute center .splash within .splash-container */
+                width: 80%;
+                height: 100%;
+                margin: auto;
+                position: absolute;
+                top: 100px; left: 0; bottom: 0; right: 0;
+                text-align: center;
+                text-transform: uppercase;
+                letter-spacing: 0.1em;
+            }
+            .right-align {  
+                float: right; 
+            }
+            h1{
+                font-weight: 500;
+            }
+
+            .content-wrapper {
+                /* These styles are required for the "scroll-over" effect */
+                position: absolute;
+                top: 95%;
+                width: 100%;
+                min-height: 12%;
+                z-index: 2;
+                background: lavender;
+                margin: 2em 0em 1em;
+                padding: 1em 1em 3em;
+            }
+
+            .content-header{
+                font-weight: 500;
+                text-transform: uppercase;
+                text-align: center;
+                letter-spacing: 0.1em;
+                margin: 1em 2em 2em;
+            }
+            
+            .content-subhead i {
+                margin-right: 7px;
+            }
+    </style>
+
+    <body>
+        <div class="header font">
+            <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
+                <a class="pure-menu-heading" href>DePedantify</a>
+                <ul class="pure-menu-list  right-align">
+                    <li class="pure-menu-item pure-menu-selected">
+                        <a href="#" class="pure-menu-link">Home</a>
+                    </li>
+                    <li class="pure-menu-item pure-menu-selected">
+                            <a href="#" class="pure-menu-link">Document Library</a>
+                    </li>
+                    <li class="pure-menu-item pure-menu-selected">
+                            <a href="#" class="pure-menu-link">About</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    <div class="function-container">
+            <div class="function font">
+            <br>
+                <h1 class="function-header"> Enter Your Text</h1>
+                    <textarea id="textarea" style="background-color:lavender">
+
+                    </textarea>
+            </br> 
+            <button class="pure-button pure-button-primary font buttoncolor" onclick="sendText();" type="button">Submit
+            </button>
+            <p class="subhead font">
+                Copy and paste your text, or upload a document, pdf, or image here!
+            </p>
+        </div>
+    </div>
+    <div class="content-wrapper">
+        <div class="content font">
+            <h2 class="content-header"></h2>
+            ABOUT DePedantify
+            <div class="pure-g">
+                <div class="1-box pure-u-1 pure-u-md-1-2 pure-u-lg-1-4">
+                    <h3 class="content-subhead">
+                        Get Started
+                    </h3>
+                    <p>
+                        hello this is a cool project fun fun fun. sometimes i get bored and write all about witches and frogs and have google tell me how i'm feeling.
+                    </p>
+                </div>
+                <div class="1-box pure-u-1 pure-u-md-1-2 pure-u-lg-1-4">
+                    <h3 class="content-subhead">
+                        How It Works
+                    </h3>
+                    <p>
+                        hello this is a cool project fun fun fun. the internet is probably my best friend. i hope code cant be copywrited bc otherwise ima die.
+                    </p>
+                </div>
+                <div class="1-box pure-u-1 pure-u-md-1-2 pure-u-lg-1-4">
+                    <h3 class="content-subhead">
+                        About Us
+                    </h3>
+                    <p>
+                        hello this is a cool project fun fun fun. maybe i shouldnt be a stem major. i could have a lot of fun just looking at words all day. maybe i'll write a dictionary. not a language. a dictionary.
+                    </p>
+                </div>
+                <div class="1-box pure-u-1 pure-u-md-1-2 pure-u-lg-1-4">
+                    <h3 class="content-subhead">
+                        Document Library
+                    </h3>
+                    <p>
+                        hello this is a cool project fun fun fun. this shoudl go in the about us category but this team is made of (ba)zofia and gabe(b) and garrett(grampa garry) and (k)evan. i promise its a good time. we learn together and Harvey Mudd school of Counting (HMC).
+                    </p>
+                </div>
+            </div>
+    </div>
 </html>
+
