@@ -28,6 +28,18 @@ function clearImage() {
     showText();
 }
 
+function loadLogin() {
+    $('#submit').click(function() {
+        let elt1 = document.getElementById("message");
+        let elt2 = document.getElementById("");
+        let elt3 = document.getElementById("");
+
+        if (elt1.innerHTML == "") {
+
+        }
+        
+    } );
+}
 
 function loadPage() {
    hideImage();
@@ -48,11 +60,10 @@ function hideImage() {
     document.getElementById("toHide2").style.display = "inline";
     $("#fileSelect").val("");
     document.getElementById("imgDisplay").style.display = "none"; 
-    
 }
 
 function showImage() {
-    document.getElementById("toHide1").style.display = "none";
+    document.getElementById("toHide1").style.display = "inline";
     document.getElementById("toHide2").style.display = "none";
     document.getElementById("submitBtn").innerHTML = "Upload Image"
     document.getElementById("imgDisplay").style.display = "inline-block"; 
