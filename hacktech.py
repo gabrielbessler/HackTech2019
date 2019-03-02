@@ -27,39 +27,37 @@ def createUser(email, name, password):
 def updatePw(username, password):
     pass 
 
-def addAnnotation(self, sentence, annotation):
-    pass
+def _addAnnotation(sentence, annotation, user, prevSentence = None, nextSentence = None):
+    a = Annotation(sentence, annotation, user, prevSentence, nextSentence)
+    db_session.add(a)
+    db_session.commit()
 
-def getAnnotation(self, sentence):
-    pass 
+def _getAnnotations(sentence, prevSentence = None, nextSentence = None):
+    if prevSentence and nextSentence:
+        return list(Annotation.query.filter(Annotation.sentence == sentence, Annotation.prevSentence == prevSentence, Annotation.nextSentence == nextSentence))
+    elif prevSentence:
+        return list(Annotation.query.filter(Annotation.sentence == sentence, Annotation.prevSentence == prevSentence))
+    elif nextSentence:
+        return list(Annotation.query.filter(Annotation.sentence == sentence, Annotation.nextSentence == nextSentence))
+    else:
+        return list(Annotation.query.filter(Annotation.sentence == sentence))
 
 
-
-'''
-i = annotationsTable.insert()
-i.execute(
-{
-    'id': self.annotationCount,
-    'sentence': sentence,
-    'annotation': annotation,
-}
-)
-
-self.annotationCount += 1
-
-def getAnnotations(self, sentence):
-conn = self.engine.connect()
-selStmt = select([annotationsTable]).where(annotationsTable.c.sentence == sentence)
-return [dict(result)['annotation'] for result in conn.execute(selStmt)]
-'''
+def _addRating(annotationID, rating):
+    Annotation.query.filter(Annotation.id == annotationID).first().addRating(rating)
 
 ''' ======= DB HANDLER END ======= '''
 
 
+def isValid(requirements, request):
+    for req in requitements:
+        if req not in request:
+            return False
+    return True
+
 @app.teardown_appcontext
 def shutdown_session(exception=None):
     db_session.remove()
-
 
 @app.route('/login_request', methods=["POST"])
 def login():
@@ -81,8 +79,8 @@ def getSimplifiedFromImage():
     '''
     result = request.get_json()
     
-
-    if "img" in result: 
+    requires = ["img"]
+    if isValid(requires, result): 
         info = result["img"]
         if info.startswith("data:application//pdf"):
             type = "PDF"
@@ -98,7 +96,6 @@ def getSimplifiedFromImage():
         
         print(text)
     else:
-        print("nope")
         logging.info("Invalid request.")
 
     return "OK"
@@ -110,7 +107,8 @@ def getSimplifiedFromText():
     object, returns the simplified text
     '''
     result = request.get_json()
-    if 'text' in result: 
+    requires = ["text"]
+    if isValid(requires, result): 
         text = result['text']
         return "hello world"
     else:
@@ -123,14 +121,27 @@ def annotate():
     Adds annotation for a specific sentence
     '''
     result = request.get_json()
-    if 'sentence' in result and 'annotation' in result:
-        database.addAnnotation(result['sentence'],result['annotation'])
+    requires = ["sentence", "annotation", "user"]
+    if isValid(requires, result):
+        prevSentence = None if 'prevSentence' not in results else results['prevSentence']
+        nextSentence = None if 'nextSentence' not in results else results['nextSentence']
+        _addAnnotation(results['sentence'], results['annotation'], prevSentence, nextSentence)
     else:
         logging.info("Invalid request: " + request + " at " + time.time())
+        return "Not a valid annotation request"
 
-@app.route('/getAnnotaions', methods=['GET'])
+@app.route('/getAnnotaions', methods=['POST'])
 def getAnnotations():
-    return " temporary "
+    result = request.get_json()
+    requires = ["sentence"]
+    if isValid(requires, result):
+        prevSentence = None if 'prevSentence' not in results else results['prevSentence']
+        nextSentence = None if 'nextSentence' not in results else results['nextSentence']
+        return _getAnnotations(result['sentence'], prevSentence, nextSentence)
+    else:
+        logging.info("Invalid request " + request + " at " + time.time())
+        return "Not a valud getAnnotation request"
+
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0')
