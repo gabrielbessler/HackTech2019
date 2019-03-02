@@ -14,7 +14,7 @@ def getSimplifiedFromImage():
     object, returns the simplfied text  
     '''
     result = request.get_json()
-     
+
     return "OK"
 
 @app.route('/text', methods=["POST"])

@@ -24,3 +24,17 @@ flask run
 ```
 
 4. Website is at 127.0.0.1 
+
+5. To SSH into REMOTE: 
+```
+ssh hackathon@198.199.94.88
+```
+password: mudd 
+
+NGINX configuration is in etc/nginx/sites-available (or sites-enabled), name: hacktech
+
+```
+sudo service nginx restart
+```
+
+Project is stored in /home/hacktech (contains .sock that NGINX routes to).
