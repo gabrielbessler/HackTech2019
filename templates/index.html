@@ -63,7 +63,6 @@
                 top: 0;
                 left: 0;
                 position: fixed !important;
-                box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
             }
 
             .function{
@@ -119,6 +118,24 @@
                 margin-right: 7px;
                 margin-left: 2px;
             }
+
+            .input{
+                color: lavender;
+                position: relative;
+                width: 100%;
+            }
+            .button{
+                color: lavender;
+                position: relative;
+                width:70%
+            }
+
+            .absolute{
+                position: absolute;
+                bottom: 0;
+                right: 0;
+            }
+
     </style>
 
 {% include 'header.html' %}
@@ -126,17 +143,20 @@
     <div class="function-container">
             <div class="function font">
                 <h1 class="function-header"> Enter Your Text</h1>
-                    <textarea id="textarea" style="background-color:lavender">
-
-                    </textarea>
-                <div class="button">
+                    <textarea id="textArea" style="background-color:lavender"></textarea>
+                    <img id="imgDisplay" src="" height="200">
+                <div class="button" >
                     <button class="pure-button pure-button-primary font buttoncolor" onclick="sendText();" type="button">Submit Text
-                    </button>
-                    <button class="pure-button pure-button-primary font buttoncolor" onclick="sendText();" type="button">Upload
-                        </button>
+                    </button> 
+                    <div class="input">
+                        <button class="pure-button pure-button-primary font buttoncolor absolute font next">
+                            Upload
+                        </button>   
+                        <input value="Choose File" type="file" class="pure-button pure-button-primary font buttoncolor absolute" style="opacity:0" onchange="previewFile();">
+                    </div>
                 </div>
-            <p class="subhead font">
-                Copy and paste your text, or upload a document, pdf, or image here!
+            <p class="subhead font" >
+                Copy and paste your text, or upload a document, pdf, or image here
             </p>
         </div>
     </div>

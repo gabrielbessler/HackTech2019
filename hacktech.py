@@ -27,6 +27,7 @@ def getSimplifiedFromText():
     result = request.get_json()
     if 'text' in result: 
         text = result['text']
+        return "hello world"
     else:
         logging.info("Invalid request: " + request + " at " + time.time()) 
         return "not a valid request"
@@ -44,7 +45,7 @@ def annotate():
 
 @app.route('/getAnnotaions', methods=['GET'])
 def getAnnotations():
-    pass 
+    return " temporary "
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0')
