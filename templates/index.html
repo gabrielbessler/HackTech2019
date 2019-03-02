@@ -9,6 +9,7 @@
         <script type="text/javascript" src="{{ url_for('static', filename='main.js') }}">
         </script>
         @media (overflow-block: scroll)
+        @import url('https://fonts.googleapis.com/css?family=Quicksand');
     </head>
     <style>
             body {
@@ -27,7 +28,7 @@
             }
 
             .font {
-                font-family:century gothic; 
+                font-family:'Quicksand', sans-serif; 
                 font-size:16px;
             }
 
@@ -105,6 +106,7 @@
             
             .content-subhead i {
                 margin-right: 7px;
+                margin-left: 2px;
             }
     </style>
 
@@ -127,14 +129,16 @@
         </div>
     <div class="function-container">
             <div class="function font">
-            <br>
                 <h1 class="function-header"> Enter Your Text</h1>
                     <textarea id="textarea" style="background-color:lavender">
 
                     </textarea>
-            </br> 
-            <button class="pure-button pure-button-primary font buttoncolor" onclick="sendText();" type="button">Submit
-            </button>
+                <div class="button">
+                    <button class="pure-button pure-button-primary font buttoncolor" onclick="sendText();" type="button">Submit Text
+                    </button>
+                    <button class="pure-button pure-button-primary font buttoncolor" onclick="sendText();" type="button">Upload
+                        </button>
+                </div>
             <p class="subhead font">
                 Copy and paste your text, or upload a document, pdf, or image here!
             </p>
@@ -142,8 +146,9 @@
     </div>
     <div class="content-wrapper">
         <div class="content font">
-            <h2 class="content-header"></h2>
-            ABOUT DePedantify
+            <h2 class="content-header">
+                ABOUT DePedantify
+            </h2>
             <div class="pure-g">
                 <div class="1-box pure-u-1 pure-u-md-1-2 pure-u-lg-1-4">
                     <h3 class="content-subhead">
@@ -178,6 +183,7 @@
                     </p>
                 </div>
             </div>
+        </div>
     </div>
 </html>
 
