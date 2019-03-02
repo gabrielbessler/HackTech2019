@@ -2,8 +2,30 @@ let DEBUG_MODE = true;
 let DEBUG_LEVEL = 0;
 let mode = "text";
 
+
+function showVideo() {
+    const constraints = {
+        video: true
+    };
+    
+    const video = document.querySelector('video');
+    
+    function hasGetUserMedia() {
+        return !!(navigator.mediaDevices &&
+          navigator.mediaDevices.getUserMedia);
+    }
+    
+    if (hasGetUserMedia()) {
+        navigator.mediaDevices.getUserMedia(constraints).
+        then((stream) => {video.srcObject = stream});
+    } else {
+        console.log("User media not supported");
+    }
+}
+
 function loadPage() {
    hideImage();
+   // showVideo();
 }
 
 function hideImage() {
