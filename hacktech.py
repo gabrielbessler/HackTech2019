@@ -1,6 +1,8 @@
 import logging, time
 from flask import Flask, render_template, request
 import database
+import json
+import OCR 
 
 app = Flask(__name__)
 
@@ -15,6 +17,13 @@ def getSimplifiedFromImage():
     object, returns the simplfied text  
     '''
     result = request.get_json()
+    if "img" in result: 
+        base64Image = result["img"][24:][:50]
+        text = OCR.process(base64Image)
+        print(text)
+    else:
+        print("nope")
+        logging.info("Invalid request.")
 
     return "OK"
 
