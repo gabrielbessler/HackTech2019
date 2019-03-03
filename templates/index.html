@@ -16,8 +16,7 @@
         <script type="text/javascript" src="{{ url_for('static', filename='main.js') }}">
         
         </script>
-        @media (overflow-block: scroll)
-        @import url('https://fonts.googleapis.com/css?family=Quicksand');
+        
     </head>
     <body onload="loadPage();">
         <style>
@@ -32,13 +31,14 @@
         </style>
         <canvas id="thecanvas" width="200" height="100"></canvas>
         {% include 'header.html' %}
-    <div class="function-container">
+        <div id="mainContent">
+        <div class="function-container">
             <video autoplay>test</video>
             <div class="function font">
                 <h1 class="function-header"> Enter Your Text</h1>
                     <textarea id="textArea" style="display: inline-block; background-color:lavender"></textarea>
                     <img id="imgDisplay" src="" height="200">
-                <div>
+                <div style="margin-top: 1em;">
                     <button id="submitBtn" class="pure-button pure-button-primary font buttoncolor" onclick="sendText();" type="button">Submit Text
                     </button> 
                     <button class="pure-button pure-button-primary font buttoncolor" onclick="clearImage();" type="button">Clear Image
@@ -99,6 +99,7 @@
             </div>
         </div>
     </div> 
+    </div>
 {% include 'footer.html' %}
 
 </html>

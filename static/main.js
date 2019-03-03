@@ -271,7 +271,6 @@ function getSavedValue(v) {
 }
 
 function hideText() {
-    console.log("hiding")
     document.getElementById("textArea").style.display = "none"; 
     document.getElementById("characters").style.display = "none"; 
     document.getElementById("words").style.display = "none"; 
@@ -315,9 +314,8 @@ function sendText() {
         
         xhr.onreadystatechange = function() {
             if (xhr.readyState === 4) {
-                temp1 = textArea.value;
-                temp2 = xhr.response;
-                document.body.innerHTML = xhr.response;
+                document.getElementById("mainContent").innerHTML = xhr.response;
+               
             }
         }
 
@@ -331,13 +329,6 @@ function sendText() {
 
 function loadResultImage(result) {
 
-}
-
-function loadResult() {
-    console.log(temp1);
-    console.log(temp2);
-    document.getElementById('ogText').value = temp1;
-    document.getElementById('result').value = temp2;
 }
 
 function login_handle(name, pw) {

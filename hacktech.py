@@ -7,6 +7,7 @@ from database import db_session, init_db
 from models import User, Annotation
 from flask_login import LoginManager, current_user, login_user, logout_user
 from sqlalchemy import *
+from parse import *
 
 app = Flask(__name__)
 login = LoginManager(app)
@@ -95,13 +96,10 @@ def register_attempt():
             u.set_password(pw) 
             db_session.add(u)
             db_session.commit()
-            print("succeeeeed")
             return "Succeed"
         else: 
-            print("nope")
             return "Username and email must be unique."
     
-    print("derp")
     return "Could not process request"
 
 @app.route('/login_attempt', methods=["POST"])
@@ -165,8 +163,7 @@ def getSimplifiedFromText():
     if isValid(requires, result): 
         text = result['text']
         result = "Wow this text is so simple"
-        print(text)
-        return render_template("results.html", og=text, notOg=result)
+        return render_template("results.html", og=parse(text), notOg=result)
     else:
         logging.info("Invalid request: " + request + " at " + time.time()) 
         return "not a valid request"
