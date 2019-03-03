@@ -8,6 +8,7 @@ from models import User, Annotation
 from flask_login import LoginManager, current_user, login_user, logout_user
 from sqlalchemy import *
 from parse import *
+import requests
 
 app = Flask(__name__)
 login = LoginManager(app)
@@ -167,6 +168,21 @@ def getSimplifiedFromText():
     else:
         logging.info("Invalid request: " + request + " at " + time.time()) 
         return "not a valid request"
+
+@app.route('/word/<word_id>', methods=["POST"])
+def getWordDef(word_id):
+    app_id = '2e03965a'
+    app_key = 'a64c8ad87dbcef0d9981af13ccc7957b'
+
+    language = 'en'
+
+    print("hello")
+
+    url = 'https://od-api.oxforddictionaries.com:443/api/v1/entries/' + language + '/' + word_id.lower()
+
+    r = requests.get(url, headers = {'app_id': app_id, 'app_key': app_key})
+    r = r.json()["results"][0]["lexicalEntries"][0]['entries'][0]['senses'][0]['definitions']
+    return json.dumps(r)
 
 @app.route('/toPDF', methods=["POST"])
 def toPDF():
