@@ -77,6 +77,8 @@ class Annotation(Base):
 
     annotation = Column(String(ANNOTATE_LEN))
 
+    usersRated = Column(String(1000))
+
     def __init__(self, sentence, annotation, user, prevSentence = None, nextSentence = None):
         self.sentence = sentence
         self.annotation = annotation
@@ -85,12 +87,13 @@ class Annotation(Base):
         self.user = user
         self.rating = 0
         self.ratingCount = 0
+        self.usersRated = "[]"
 
     def __str__(self):
         return f'<Annotation {self.id} {self.annotation} in {self.sentence} by {self.user} :-: {self.getRating()}>'
 
     def __repr__(self):
-        return {'sentence':self.sentence, 'annotation':self.annotation, 'user':self.user.__repr__(), 'rating':self.getRating()}
+        return {'id':self.id, 'sentence':self.sentence, 'annotation':self.annotation, 'user':self.user.__repr__(), 'rating':self.getRating()}
 
     def getRating(self):
         if not self.ratingCount:
@@ -100,6 +103,15 @@ class Annotation(Base):
     def addRating(self, rating):
         self.rating += rating
         self.ratingCount += 1
+
+    def addUser(self, user):
+        L = json.loads(self.usersRated) 
+        L += [user]
+        self.usersRated = json.dumps(L)
+
+    def checkuser(self, user):
+        L = json.loads(self.usersRated)
+        return user in L
 
 class Article(Base):
     __tablename__ = "articles"

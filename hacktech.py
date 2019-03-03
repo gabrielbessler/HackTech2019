@@ -30,14 +30,16 @@ def _addAnnotation(sentence, annotation, user, prevSentence = None, nextSentence
     db_session.commit()
 
 def _getAnnotations(sentence, prevSentence = None, nextSentence = None):
-    if prevSentence and nextSentence:
-        return [a.__repr__() for a in Annotation.query.filter(Annotation.sentence == sentence, Annotation.prevSentence == prevSentence, Annotation.nextSentence == nextSentence)]
-    elif prevSentence:
-        return [a.__repr__() for a in Annotation.query.filter(Annotation.sentence == sentence, Annotation.prevSentence == prevSentence)]
-    elif nextSentence:
-        return [a.__repr__() for a in Annotation.query.filter(Annotation.sentence == sentence, Annotation.nextSentence == nextSentence)]
-    else:
-        return [a.__repr__() for a in Annotation.query.filter(Annotation.sentence == sentence)]
+    #if prevSentence and nextSentence:
+    #    return [a.__repr__() for a in Annotation.query.filter(Annotation.sentence == sentence, Annotation.prevSentence == prevSentence, Annotation.nextSentence == nextSentence)]
+    #elif prevSentence:
+    #    return [a.__repr__() for a in Annotation.query.filter(Annotation.sentence == sentence, Annotation.prevSentence == prevSentence)]
+    #elif nextSentence:
+    #    return [a.__repr__() for a in Annotation.query.filter(Annotation.sentence == sentence, Annotation.nextSentence == nextSentence)]
+    #else:
+    L = [a.__repr__() for a in Annotation.query.filter(Annotation.sentence == sentence)]
+    print(L)
+    return L
 
 def _addRating(annotationID, rating):
     Annotation.query.filter(Annotation.id == annotationID).first().addRating(rating)
@@ -320,14 +322,22 @@ def unsetFavorite():
 @app.route('/getAnnotations', methods=['POST'])
 def getAnnotations():
     results = json.loads(request.data)
+    print(results)
     requires = ["sentence"]
     if isValid(requires, results):
+        if results["sentence"] is None:
+            return "Not a valid request"
         prevSentence = None if 'prevSentence' not in results else results['prevSentence']
         nextSentence = None if 'nextSentence' not in results else results['nextSentence']
-        return json.dumps(_getAnnotations(results['sentence'], prevSentence, nextSentence))
+        L = _getAnnotations(results['sentence'], prevSentence, nextSentence)
+        print(L)
+        if L == []:
+            return json.dumps([])
+
+        return json.dumps(L[::-1])
     else:
         logging.info(f"Invalid request: {request} at {time.time()}")
-        return "Not a valud getAnnotation request"
+        return "Not a valid getAnnotation request"
 
 @app.route('/getEntities', methods=['POST'])
 def getEntities():
@@ -350,6 +360,29 @@ def getEntities():
         keys = sorted(mappings.keys())
         return json.dumps({'keys': keys, 'mappings': mappings})
 
+@app.route('/addRating', methods=['POST'])
+def addRatingForAnnotation():
+    
+    results = json.loads(request.data)
+    requires = ["score", "id"]
+    
+    if isValid(requires, results):
+        if current_user.is_authenticated:
+            annotation = Annotation.query.filter(Annotation.id == results["id"]).first()
+            if annotation.checkuser(current_user.id):
+                return "You already voted!"
+            else:
+                annotation.addRating(results["score"])
+                annotation.addUser(current_user.id)
+                return "Updated score."
+    
+        return "You cannot vote without an account."
+    
+    db_session.commit()
+    return "Invalid request."
+    
+    pass
+    
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0')
