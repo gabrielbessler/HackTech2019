@@ -121,11 +121,15 @@ def process_IMG(base64_image):
         Takes in a base64 string.
         Outputs the OCR string contained in the image.'''
         # Step 1, decode the base 64 image
-        image_data = base64.b64decode(base64_image)
+        width = 4 - len(base64_image)%4
+        if width==4: width = 0
+        print(len(base64_image))
+        image_data = base64.b64decode(base64_image + "="*width)
         # Convert to a PIL Image object
         image = Image.open(io.BytesIO(image_data))
         # Process the OCR and apply  postprocessing
         output = get_string(image, postprocess=True)
+        print(output)
         return output
 
 def process_PDF(base64_PDF):

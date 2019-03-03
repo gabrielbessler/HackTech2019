@@ -339,35 +339,39 @@ function getPDF() {
     }
 }
 
-function sendText() {
-    if (mode === "text") {
-        let textArea = document.getElementById("textArea");
-        
-        url = "/text"
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", url, true);
+function formatText(text) {
+    url = "/text"
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", url, true);
 
-        xhr.setRequestHeader("Content-type", "application/json");
-        
-        var data = JSON.stringify({"text": textArea.value});
-        
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === 4) {
-                document.getElementById("mainContent").innerHTML = xhr.response;
-               
-            }
-        }
-
-        xhr.send(data);
+    xhr.setRequestHeader("Content-type", "application/json");
     
-        
+    var data = JSON.stringify({"text": text});
+    
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4) {
+            document.getElementById("mainContent").innerHTML = xhr.response;
+           
+        }
+    }
+
+    xhr.send(data);
+}
+
+function sendText() {
+    let text = "";
+    
+    if (mode === "text") {
+        text = document.getElementById("textArea").value;
+        formatText(text)
     } else {
         uploadImage();
     }
+    
 }
 
 function loadResultImage(result) {
-
+    formatText(result);
 }
 
 function login_handle(name, pw) {
@@ -390,8 +394,6 @@ function login_handle(name, pw) {
     }
 
     var data = JSON.stringify({"name":name, "pass":pw});
-
-    console.log(data);
 
     xhr.send(data);
 }
@@ -440,7 +442,7 @@ function register_handle(name, pw, email) {
 }
 
 function convertToBase64() {
-    return document.getElementById("imgDisplay").src;
+    return document.getElementById("imgDisplay").data;
 };
 
 function uploadImage() {
@@ -454,7 +456,6 @@ function uploadImage() {
 
     xhr.onreadystatechange = function() {
         if (xhr.readyState === 4) {
-            window.location.href = "/result";
             loadResultImage(xhr.response);
         }
     }
@@ -476,7 +477,7 @@ function displayAnnotations(annotations) {
             </div>`
         return s;
     })
-
+    
     document.getElementById("annotation").innerHTML = ann_divs.join('\n');
 }
 
@@ -515,8 +516,8 @@ function getAnnotations(sentence) {
         }
     }
     
-    var data = JSON.stringify({"sentence":sentence, 'meme':'funny internet memes'});
-
+    var data = JSON.stringify({"sentence":sentence});
+    
     xhr.send(data);
 }
 
@@ -562,18 +563,33 @@ function previewFile(){
         hideImage();
         showText();
     } else if (ext == "pdf") {
-        preview.src = "static/pdf_logo.png";
+        preview.src = "static/pdf_logo.jpeg";
+        var reader  = new FileReader();
+
+        reader.onloadend = function() {
+            preview.data = reader.result;
+        }
+        
+        if (file) {
+            reader.readAsDataURL(file);
+        } else {
+            preview.src = "";
+            preview.data = "";
+        }
+
     } else {
         var reader  = new FileReader();
 
         reader.onloadend = function () {
             preview.src = reader.result;
+            preview.data = reader.result;
         }
     
         if (file) {
             reader.readAsDataURL(file); //reads the data as a URL
         } else {
             preview.src = "";
+            preview.data = "";
         }
     }   
 }
