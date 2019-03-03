@@ -612,7 +612,7 @@ function previewFile(){
         hideImage();
         showText();
     } else if (ext == "pdf") {
-        preview.src = "static/pdf_logo.jpeg";
+        preview.src = "http://depedantify.com/static/pdf_logo.png";
         var reader  = new FileReader();
 
         reader.onloadend = function() {
@@ -688,9 +688,9 @@ function debugMessage(message, level) {
 }
 
 function deleteFromFavorites() {
-    // Make HTTP request to save to favorites     
+    // Make HTTP request to delete to favorites     
     url = "/unfavorite"
-    var xhr = new XMLHttpRequest(Star);
+    var xhr = new XMLHttpRequest();
     xhr.open("POST", url, true);
 
     let info = document.getElementById('ogText').getAttribute('info');
