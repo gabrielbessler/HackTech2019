@@ -34,8 +34,10 @@
     height: 100vh;
     background: white;
     border: 0px; 
-    margin: 0px; 
-    padding: 5px;
+    margin-left: 5px; 
+    padding-left: 5px; 
+    padding-right: 5px;
+    padding-top: 1px;
     box-sizing: border-box;
 }
 
@@ -79,7 +81,23 @@
     justify-content: space-around;
     top: 20px;
     box-sizing: border-box;
+    width: 96%;
+    left: 2%; 
 }
+
+@media only screen and (max-width: 640px) {
+  
+  #row1 {
+    flex-direction: column;
+  }
+  #result {
+        position: relative;
+        margin-top: 10px;
+        margin-left: 0px; 
+
+  }
+}
+
     
 #column1{
     display:flex;
@@ -117,7 +135,7 @@
 }
 #saveToFavorites {
     position:relative;
-    left: 10px;
+    left: 2%;
     top: 10px;
     box-sizing: border-box;
 }
