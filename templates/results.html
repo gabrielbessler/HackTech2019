@@ -53,7 +53,6 @@
 }
 
 #writeannotate { 
-    background-color:lavender;
     width: 100%; 
     height: 33vh;
     background: white;
@@ -61,10 +60,10 @@
     margin: 0px; 
     padding: 5px;
     box-sizing: border-box;
+    text-align: center;
 }
 
 #annotation { 
-    background-color:lavender;
     width: 100%; 
     height: 33vh;
     background: white;
@@ -94,7 +93,9 @@
         position: relative;
         margin-top: 10px;
         margin-left: 0px; 
-
+  }
+  #headerPlaceHolder {
+      height: 2em;
   }
 }
 
@@ -114,11 +115,13 @@
 }
 
 #textArea {
-    width: 95%;
+    width: 85%;
     position: relative; 
     left: 2%;
     top: 5px; 
     box-sizing: border-box;
+    padding: 5px;
+    height: 75%;
 }
 
 #textarea1{
@@ -139,19 +142,34 @@
     top: 10px;
     box-sizing: border-box;
 }
+.moreSpacing {
+    margin-top: 5px;
+}
 
+#alerts {
+    text-align: center;
+    width: 70%;
+    display: inline-block;
+    position: relative;
+    top: 10px; 
+    box-sizing: border-box;
+}
 </style>
-<div .data = "" id = "sentence"></div>
-{% if not current_user.is_anonymous %}
-    {% if favorite %}
-        <button id="saveToFavorites" class="pure-button pure-button-primary font buttoncolor" onclick="
-        deleteFromFavorites();" type="button">Delete from Favorites</button>
-    {% else %}
-        <button id="saveToFavorites" class="pure-button pure-button-primary font buttoncolor" onclick="
-        saveToFavorites();" type="button">Save to Favorites</button>
+
+<div id="row2">
+    <div .data = "" id = "sentence"></div>
+    {% if not current_user.is_anonymous %}
+        {% if favorite %}
+            <button id="saveToFavorites" class="pure-button pure-button-primary font buttoncolor" onclick="
+            deleteFromFavorites();" type="button">Delete from Favorites</button>
+        {% else %}
+            <button id="saveToFavorites" class="pure-button pure-button-primary font buttoncolor" onclick="
+            saveToFavorites();" type="button">Save to Favorites</button>
+        {% endif %}
     {% endif %}
-{% endif %}
- 
+    <div id="alerts"></div>
+</div> 
+
 <div id="row1">
     <div onclick="
         console.log(
@@ -172,8 +190,8 @@
         {% endfor %}
     </div>
     <div style="background-color:thistle; border: 1px solid black" contenteditable="false" id="result">
-        <div style="background-color: lavender; border: 1px solid black" contenteditable="false" id="result1">{{ notOg }}</div>
-        <div style="background-color: lavender; border: 1px solid black" contenteditable="false" id="writeannotate">
+        <div class="font moreSpacing" style="background-color: lavender; border: 1px solid black" contenteditable="false" id="result1">{{ notOg }}</div>
+        <div class="font moreSpacing" style="background-color: lavender; border: 1px solid black" contenteditable="false" id="writeannotate">
             <textarea id="textArea" style="display: inline-block; resize:none; background-color:thistle"></textarea>
                     <img id="imgDisplay" src="" height="200">
                 <div style="margin-top: 1em;">
@@ -181,7 +199,7 @@
                     </button> 
                     </div>
                 </div>
-        <div style="background-color: lavender; border: 1px solid black" contenteditable="false" id="annotation">annotations! u so smart when u type good</div>
+        <div class="font moreSpacing" style="background-color: lavender; border: 1px solid black" contenteditable="false" id="annotation">annotations! u so smart when u type good</div>
 </div>
 <style>
 .highlighting {

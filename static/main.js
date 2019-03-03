@@ -464,8 +464,10 @@ function uploadImage() {
 function displayAnnotations(annotations) {
     var ann_divs = annotations.map(function(e) {
         s = `
-            <div> ${e['user']} - ${e['rating']} - ${e['annotation']}
-            <\div>`;
+            <div class='annotationModule'> ${e['user']} - ${e['rating']} - ${e['annotation']}
+            </div>
+            <div class='divider'>
+            </div>`;
         return s;
     })
     
@@ -487,8 +489,6 @@ function getAnnotations(sentence) {
     }
     
     var data = JSON.stringify({"sentence":sentence, 'meme':'funny internet memes'});
-    
-    console.log(data);
 
     xhr.send(data);
 }
@@ -504,6 +504,7 @@ function annotate(sentence, annotation) {
     xhr.onreadystatechange = function() {
         if (xhr.readyState === 4) {
             getAnnotations(sentence);
+            document.getElementById('alerts').innerHTML = xhr.response;
         }
     }
     
@@ -589,7 +590,7 @@ function deleteFromFavorites() {
     
     xhr.onreadystatechange = function() {
         if (xhr.readyState === 4) {
-            console.log(xhr.response); 
+            document.getElementById('alerts').innerHTML = xhr.response;
         }
     }
 
@@ -610,7 +611,7 @@ function saveToFavorites() {
     
     xhr.onreadystatechange = function() {
         if (xhr.readyState === 4) {
-            console.log(xhr.response); 
+            document.getElementById('alerts').innerHTML = xhr.response;
         }
     }
 

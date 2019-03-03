@@ -316,7 +316,7 @@ def unsetFavorite():
 
         current_user.remove_favorite(article.id)
         db_session.commit()
-        return "Success."
+        return "Removed from favorites"
 
 @app.route('/getAnnotations', methods=['POST'])
 def getAnnotations():
