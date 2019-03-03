@@ -19,6 +19,14 @@ import base64
 
 # A bunch of wrappers to avoid having to lookup tesseract docs
 
+def merge_files(files):
+    merger = PdfFileMerger()
+    for f in files:
+        merger.append(f)
+    out = io.BytesIO()
+    merger.write(out)
+    return out.read()
+
 def read_image(filename):
 	'''Returns an Image object opened from the file.
 	Uses PIL under the hood atm.'''
