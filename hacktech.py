@@ -9,7 +9,7 @@ from flask_login import LoginManager, current_user, login_user, logout_user
 from sqlalchemy import *
 from parse import *
 import requests
-from cloud import cloud
+# from cloud import cloud
 
 app = Flask(__name__)
 login = LoginManager(app)

@@ -504,6 +504,10 @@ function addAnnotationEvents() {
     });
 }
 
+function hover(){
+    console.log("hovered");
+}
+
 function getAnnotations(sentence) {
     
     url = "/getAnnotations";
@@ -619,16 +623,16 @@ function getStars(score, id) {
     
     S = "";
     for (let i = 0; i < fullStars; i++) {
-        S += "<img annId='" + id + "' count='" + i + "' class='star' src='/static/fullstar.png'></img>"; 
+        S += "<img onmousehover='hover(this)' annId='" + id + "' count='" + i + "' class='star' src='/static/fullstar.png'></img>"; 
     }
     for (let i = 0; i < halfStars; i++) {
-        S += "<img annId='" + id + "' count='" + i + "' class='star' src='/static/halfstar.png'></img>"; 
+        S += "<img onmousehover='hover(this)' annId='" + id + "' count='" + i + "' class='star' src='/static/halfstar.png'></img>"; 
     }
     for (let i = 0; i < leftOver; i++) {
-        S += "<img annId='" + id + "' count='" + i + "' class='star' src='/static/star.png'></img>"; 
+        S += "<img onmousehover='hover(this)' annId='" + id + "' count='" + i + "' class='star' src='/static/star.png'></img>"; 
     }
     for (let i = 0; i < locked; i++) {
-        S += "<img annId='" + id + "' count='" + i + "' class='star' src='/static/locked.png'></img>"; 
+        S += "<img onmouseover='hover(this)' annId='" + id + "' count='" + i + "' class='star' src='/static/locked.png'></img>"; 
     }
     return S;
 }
@@ -690,7 +694,7 @@ function getEntities() {
 
     let text = document.getElementById('ogText').getAttribute('info');
 
-    var data = JSON.stringify({'text': " ",join([el[1:-1] for el in text[1:-1].split(', ')])})
+    var data = JSON.stringify({'text': " ",join([el[1:-1] for el in text[1:-1].split(', ')])});
 
     xhr.onreadystatechange = function() {
         if (xhr.readyState === 4) {
