@@ -253,6 +253,7 @@ function showText() {
     if (document.getElementById("textArea").style.display != "inline-block") {
         document.getElementById("textArea").style.display = "inline-block";
         document.getElementById("characters").style.display = "inline-block"; 
+        document.getElementById("words").style.display = "inline-block"; 
     }
 }
 
@@ -270,29 +271,34 @@ function getSavedValue(v) {
 }
 
 function hideText() {
+    console.log("hiding")
     document.getElementById("textArea").style.display = "none"; 
     document.getElementById("characters").style.display = "none"; 
     document.getElementById("words").style.display = "none"; 
+    document.getElementById("toHide2").style.display = "none"; 
+    document.getElementById("toHide1").style.display = "none"; 
 }
 
 function getPDF() {
-    result = convertToBase64();
-        
-    url = "/toPDF"
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", url, true);
+    if (mode !== "text") {
+        result = convertToBase64();
+            
+        url = "/toPDF"
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", url, true);
 
-    xhr.setRequestHeader("Content-type", "application/json");
+        xhr.setRequestHeader("Content-type", "application/json");
 
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState === 4) {
-            console.log(xhr.response);
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4) {
+                console.log(xhr.response);
+            }
         }
+        
+        var data = JSON.stringify({"img": JSON.stringify(result)});
+        
+        xhr.send(data);
     }
-    
-    var data = JSON.stringify({"img": JSON.stringify(result)});
-    
-    xhr.send(data);
 }
 
 function sendText() {
@@ -362,6 +368,7 @@ function login_handle(name, pw) {
 
 function createProfile() {
     pic = document.getElementById("mycanvas");
+    ctx = pic.getContext('2d');
     info = pic.getAttribute("data");
     for (let i = 0; i < info.length; i++) {
         if (info[i] == 0) {

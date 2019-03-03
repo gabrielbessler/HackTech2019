@@ -173,7 +173,21 @@ def getSimplifiedFromText():
 
 @app.route('/toPDF', methods=["POST"])
 def toPDF():
-    return OCR.PDFFromBase64()
+    result = request.get_json()
+    
+    requires = ["img"]
+    if isValid(requires, result): 
+        info = result["img"]
+        if info[1:21] == "data:application/pdf":
+            type = "PDF"
+        else:
+            type = "IMG"
+
+    if type == "PDF":
+        return OCR.PDFFromBase64(info[info.find(',')+1:])
+    elif type == "IMG":
+        return OCR.PDFFromBase64(info[info.find(',')+1:])
+    
 
 @app.route('/annotate', methods=["POST"])
 def annotate():
