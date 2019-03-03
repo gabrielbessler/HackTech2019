@@ -1,7 +1,7 @@
 let DEBUG_MODE = true; 
 let DEBUG_LEVEL = 0;
 let mode = "text";
-let words_found = {}
+let words_found = {};
 
 function getSelectionText() {
     var text = '';
@@ -422,7 +422,6 @@ function register_handle(name, pw, email) {
     url = "/register_attempt"
     var xhr = new XMLHttpRequest();
     xhr.open("POST",url,true);
-    console.log(event.target);
     xhr.setRequestHeader("Content-type", "application/json");
     
     xhr.onreadystatechange = function() {
@@ -675,20 +674,21 @@ function saveToFavorites() {
     xhr.send(data);   
 }
 
-function getEntities() {
+function getEntities(position, sentence) {
+
     url = "/getEntities"
     var xhr = new XMLHttpRequest();
     xhr.open("POST", url, true);
 
     xhr.setRequestHeader("Content-type", "application/json");
 
-    let text = document.getElementById('ogText').getAttribute('info');
-
-    var data = JSON.stringify({'text': " ",join([el[1:-1] for el in text[1:-1].split(', ')])})
+    var data = JSON.stringify({'pos':position, 'sentence':sentence})
 
     xhr.onreadystatechange = function() {
         if (xhr.readyState === 4) {
             document.getElementById("passage").setAttribute("data",JSON.parse(xhr.response))
         }
     }
+
+    xhr.send(data);
 }

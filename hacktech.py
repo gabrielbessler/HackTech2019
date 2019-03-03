@@ -196,7 +196,8 @@ def getSimplifiedFromText():
         isFavorite = False 
         article = Article.query.filter(Article.content == text).first()
         if current_user.is_authenticated and article is not None and article.id in current_user.getFavorites():
-            isFavorite = True 
+            isFavorite = True
+        print(offSetList)
         return render_template("results.html", og=res, notOg=result, favorite=isFavorite, off = offSetList)
     else:
         logging.info("Invalid request: " + request + " at " + time.time()) 
