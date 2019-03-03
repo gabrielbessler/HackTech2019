@@ -149,7 +149,15 @@ def PDFFromBase64(base64_image):
 	pdf = create_readable_pdf(image, debug=False)
 	return base64.b64encode(pdf)
 	
-	
+
+def pdf_to_pdf(filename):
+	'''Takes a PDF and returns a reabale pdf.'''
+	images = convert_to_images(filename)
+	pdf_pages = []
+	for image in images:
+		pdf_pages.append(create_readable_pdf(image, debug=False))
+	# Convert to file objects for Evan
+	return list(map(io.BytesIO, pdf_pages))
 	
 # Common errors:
 #----------------
