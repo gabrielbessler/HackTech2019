@@ -9,6 +9,7 @@ from flask_login import LoginManager, current_user, login_user, logout_user
 from sqlalchemy import *
 from parse import *
 import requests
+from cloud import cloud
 
 app = Flask(__name__)
 login = LoginManager(app)
@@ -155,6 +156,7 @@ def getSimplifiedFromImage():
 
         base64Image = info[info.find(',')+1:]
 
+
         text = 'undefined'
 
         if type == "PDF":
@@ -178,19 +180,22 @@ def getSimplifiedFromText():
     '''
     result = request.get_json()
     requires = ["text"]
+    offSetList = [] 
 
     if isValid(requires, result): 
         text = result['text']
-        result = "Wow this text is so simple"
+        result = ""
         res = parse(text)
+        lastOffSet = 0; 
+        for sentence in res: 
+            offSetList.append(lastOffSet)
+            lastOffSet += len(sentence)
+
         isFavorite = False 
-        print(text)
         article = Article.query.filter(Article.content == text).first()
-        print(article)
         if current_user.is_authenticated and article is not None and article.id in current_user.getFavorites():
             isFavorite = True 
-            print("yep")
-        return render_template("results.html", og=res, notOg=result, favorite=isFavorite)
+        return render_template("results.html", og=res, notOg=result, favorite=isFavorite, off = offSetList)
     else:
         logging.info("Invalid request: " + request + " at " + time.time()) 
         return "not a valid request"
@@ -323,6 +328,27 @@ def getAnnotations():
     else:
         logging.info(f"Invalid request: {request} at {time.time()}")
         return "Not a valud getAnnotation request"
+
+@app.route('/getEntities', methods=['POST'])
+def getEntities():
+    results = json.loads(request.data)
+    requires = ['text']
+    if isValid(requires, results):
+        text = results['text']
+        resp = cloud.process_entities_respone(cloud.get_entities(text))
+        mappings = dict()
+        for entry in resp:
+            tag, occurences, link, _ = entry
+            for occ in occurences:
+                word = occ.text.content
+                offset = 0
+                try:
+                    offset = occ.text.begin_offset
+                except:
+                    offset = 0
+                mappings[(offset, word)] = (tag, link)
+        keys = sorted(mappings.keys())
+        return json.dumps({'keys': keys, 'mappings': mappings})
 
 
 if __name__ == "__main__":

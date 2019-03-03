@@ -589,7 +589,7 @@ function debugMessage(message, level) {
         console.log(message);
     }
 }
-    
+
 function deleteFromFavorites() {
     // Make HTTP request to save to favorites     
     url = "/unfavorite"
@@ -630,4 +630,22 @@ function saveToFavorites() {
     }
 
     xhr.send(data);   
+}
+
+function getEntities() {
+    url = "/getEntities"
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", url, true);
+
+    xhr.setRequestHeader("Content-type", "application/json");
+
+    let text = document.getElementById('ogText').getAttribute('info');
+
+    var data = JSON.stringify({'text': " ",join([el[1:-1] for el in text[1:-1].split(', ')])})
+
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4) {
+            document.getElementById("passage").setAttribute("data",JSON.parse(xhr.response))
+        }
+    }
 }
