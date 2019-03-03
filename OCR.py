@@ -11,6 +11,7 @@ import pytesseract as tes
 import pdf2image
 import os
 import io
+import PyPDF2
 
 # Gabe sends me stuff base64 encoded cause javascript
 import base64
