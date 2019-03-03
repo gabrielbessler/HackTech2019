@@ -10,7 +10,7 @@ production environment
 Linux: 
 
 ```
-export FLASK_APP=main.py
+export FLASK_APP=hacktech.py
 export FLASK_ENV=development
 flask run 
 ```
@@ -18,7 +18,7 @@ flask run
 Windows: 
 
 ```
-set FLASK_APP=main.py
+set FLASK_APP=hacktech.py
 set FLASK_ENV=development
 flask run 
 ```
