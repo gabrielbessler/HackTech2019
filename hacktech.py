@@ -9,7 +9,8 @@ from flask_login import LoginManager, current_user, login_user, logout_user
 from sqlalchemy import *
 from parse import *
 import requests
-# from cloud import cloud
+from cloud import cloud
+import wikipedia
 
 app = Flask(__name__)
 login = LoginManager(app)
@@ -17,6 +18,9 @@ login = LoginManager(app)
 init_db()
 
 app.config['SECRET_KEY'] = '\xfd{H\xe5<\x95\xf9\xe3\x96.5\xd1\x01O<!\xd5\xa2\xa0\x9fR"\xa1\xa8'
+
+entities = dict()
+entity_keys = list()
 
 @login.user_loader
 def load_user(id):
@@ -349,13 +353,18 @@ def getAnnotations():
         logging.info(f"Invalid request: {request} at {time.time()}")
         return "Not a valid getAnnotation request"
 
-@app.route('/getEntities', methods=['POST'])
-def getEntities():
+@app.route("/computeEntities", methods=['POST'])
+def computeEntities():
+    global entities
+    global entity_keys
+
     results = json.loads(request.data)
     requires = ['text']
     if isValid(requires, results):
+
         text = results['text']
-        resp = cloud.process_entities_respone(cloud.get_entities(text))
+
+        resp = cloud.process_entities_response(cloud.get_entities(text))
         mappings = dict()
         for entry in resp:
             tag, occurences, link, _ = entry
@@ -368,7 +377,56 @@ def getEntities():
                     offset = 0
                 mappings[(offset, word)] = (tag, link)
         keys = sorted(mappings.keys())
-        return json.dumps({'keys': keys, 'mappings': mappings})
+        entities = mappings
+        entity_keys = keys
+    
+    print(entities)
+
+    return "Done"
+
+def binSearch(L, key, key_func):
+    minInd = 0
+    maxInd = len(L)
+    midInd = 0
+    while minInd < maxInd:
+        midInd = (minInd + maxInd) // 2
+        if key_func(L[midInd]) > key:
+            maxInd = midInd
+        elif key_func(L[midInd]) < key:
+            minInd = midInd + 1
+        else:
+            return midInd
+    return midInd
+
+@app.route('/getEntities', methods=['POST'])
+def getEntities():
+    global entities
+    global entity_keys
+
+
+    results = json.loads(request.data)
+    requires = ['sentence', 'position']
+    annotations = list()
+    if isValid(requires, results):
+        sentence = results['sentence']
+        position = int(results['position'])
+        endPos   = position + len(sentence)
+        firstEntry = binSearch
+        curr = binSearch(entity_keys, position, lambda x: x[0])
+        while curr < len(entity_keys) and entity_keys[curr][0] < endPos:
+            _, word = entity_keys[curr]
+            tag, link = entities[entity_keys[curr]]
+            try:
+                wikiSummary = wikipedia.summary(tag);
+                annotations.append(f"<div> <div> {word} interpreted as {tag} with Wiki page {link}. </div> <div> {wikiSummary} </div> </div>")
+            except:
+                pass
+            curr += 1
+    
+    s = "".join(annotations)
+    print(s)
+    return s
+
 
 @app.route('/addRating', methods=['POST'])
 def addRatingForAnnotation():

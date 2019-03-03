@@ -12,7 +12,7 @@ function getSelectionText() {
     }
     
     if (text in words_found) {
-        document.getElementById("result1").innerHTML = words_found[text];
+        document.getElementById("definition").innerHTML = words_found[text];
     }  else {
         if (text.length >= 3 && /[\w']+/.test(text)) {
 
@@ -31,7 +31,7 @@ function getSelectionText() {
                         S += "<div>" + resp[i] + "</div>";
                     }
                     words_found[text] = S
-                    document.getElementById("result1").innerHTML = S
+                    document.getElementById("definition").innerHTML = S
                 }
             }
             xhr.send();
@@ -341,11 +341,15 @@ function getPDF() {
 
 function formatText(text) {
     url = "/text"
+    url2 = "/computeEntities"
     var xhr = new XMLHttpRequest();
+    var xhr2 = new XMLHttpRequest();
     xhr.open("POST", url, true);
+    xhr2.open("POST",url2,true);
 
     xhr.setRequestHeader("Content-type", "application/json");
-    
+    xhr2.setRequestHeader("Content-type", "application/json");
+
     var data = JSON.stringify({"text": text});
     
     xhr.onreadystatechange = function() {
@@ -355,6 +359,7 @@ function formatText(text) {
         }
     }
 
+    xhr2.send(data);
     xhr.send(data);
 }
 
@@ -737,13 +742,15 @@ function getEntities(position, sentence) {
 
     xhr.setRequestHeader("Content-type", "application/json");
 
-    var data = JSON.stringify({'pos':position, 'sentence':sentence})
+    var data = JSON.stringify({'position':position, 'sentence':sentence});
 
     xhr.onreadystatechange = function() {
+        console.log(xhr.readyState)
         if (xhr.readyState === 4) {
-            document.getElementById("passage").setAttribute("data",JSON.parse(xhr.response))
+            document.getElementById("wikipedia").innerHTML = xhr.response;
         }
     }
 
     xhr.send(data);
 }
+
