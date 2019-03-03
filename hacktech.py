@@ -29,7 +29,7 @@ def _addAnnotation(sentence, annotation, user, prevSentence = None, nextSentence
     db_session.add(a)
     db_session.commit()
 
-def _getAnnotations(sentence, prevSentence = None, nextSentence = None):
+def _getAnnotations(sentence, prevSentence = None, nextSentence = None, userId = None):
     #if prevSentence and nextSentence:
     #    return [a.__repr__() for a in Annotation.query.filter(Annotation.sentence == sentence, Annotation.prevSentence == prevSentence, Annotation.nextSentence == nextSentence)]
     #elif prevSentence:
@@ -37,7 +37,11 @@ def _getAnnotations(sentence, prevSentence = None, nextSentence = None):
     #elif nextSentence:
     #    return [a.__repr__() for a in Annotation.query.filter(Annotation.sentence == sentence, Annotation.nextSentence == nextSentence)]
     #else:
-    L = [a.__repr__() for a in Annotation.query.filter(Annotation.sentence == sentence)]
+    if userId is None:
+        L = [(a.__repr__(), false) for a in Annotation.query.filter(Annotation.sentence == sentence)]
+    else: 
+        L = [(a.__repr__(), a.checkuser(userId)) for a in Annotation.query.filter(Annotation.sentence == sentence)]
+
     print(L)
     if L is None:
         L = []
@@ -198,7 +202,8 @@ def getSimplifiedFromText():
         isFavorite = False 
         article = Article.query.filter(Article.content == text).first()
         if current_user.is_authenticated and article is not None and article.id in current_user.getFavorites():
-            isFavorite = True 
+            isFavorite = True
+        print(offSetList)
         return render_template("results.html", og=res, notOg=result, favorite=isFavorite, off = offSetList)
     else:
         logging.info("Invalid request: " + request + " at " + time.time()) 
@@ -328,13 +333,14 @@ def getAnnotations():
     requires = ["sentence"]
     if isValid(requires, results):
         if results["sentence"] is None:
-            print("returning not valid");
             return "Not valid"
         prevSentence = None if 'prevSentence' not in results else results['prevSentence']
         nextSentence = None if 'nextSentence' not in results else results['nextSentence']
-        L = _getAnnotations(results['sentence'], prevSentence, nextSentence)
-        print(L)
-        print("hello world")
+        if (current_user.is_authenticated):
+            L = _getAnnotations(results['sentence'], prevSentence, nextSentence, current_user.id)
+        else:
+            L = _getAnnotations(results['sentence'], prevSentence, nextSentence, None)
+
         if L == []:
             return json.dumps([])
 
