@@ -1,7 +1,43 @@
 let DEBUG_MODE = true; 
 let DEBUG_LEVEL = 0;
 let mode = "text";
+let words_found = {}
 
+function getSelectionText() {
+    var text = '';
+    if (window.getSelection) {
+        text = window.getSelection().toString();
+    } else if (document.selection && document.selection.type != 'Control') {
+        text = document.selection.createRange().text;
+    }
+    
+    if (text in words_found) {
+        document.getElementById("result").innerHTML = words_found[text];
+    }  else {
+        if (text.length >= 3 && /[\w']+/.test(text)) {
+
+            url = "/word/" + text; 
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", url, true);
+    
+            xhr.setRequestHeader("Content-type", "application/json");
+    
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4) {
+                    
+                    resp = JSON.parse(xhr.response);
+                    S = "";
+                    for (let i = 0; i < resp.length; i++) {
+                        S += "<div>" + resp[i] + "</div>";
+                    }
+                    words_found[text] = S
+                    document.getElementById("result").innerHTML = S
+                }
+            }
+            xhr.send();
+        }
+    }    
+}       
 
 function showVideo() {
     const constraints = {
@@ -423,6 +459,15 @@ function uploadImage() {
     var data = JSON.stringify({"img": JSON.stringify(result)});
     
     xhr.send(data);
+}
+
+
+function getRandomTextbook() {
+    showImage();
+    hideText(); 
+    mode = "image"; 
+    var preview = document.getElementById("imgDisplay");
+    preview.src = "/static/example" + Math.floor((Math.random() * 5))
 }
 
 function previewFile(){
