@@ -159,8 +159,10 @@
 }
 </style>
 
+<div .data = "" id = "sentence"></div>
+<div .data = "" id = "passage"></div>
+
 <div id="row2">
-    <div .data = "" id = "sentence"></div>
     {% if not current_user.is_anonymous %}
         {% if favorite %}
             <button id="saveToFavorites" class="pure-button pure-button-primary font buttoncolor" onclick="
@@ -177,17 +179,17 @@
     <div onclick="
         console.log(
             getSelectionText()
-        );" style="background-color: thistle; border: 1px solid black" info="{{ og }}" contenteditable="false" id="ogText" onclick="style">
-        {% for sentence in og %}
-            <span class="testing"
+         );" style="background-color: thistle; border: 1px solid black" info="{{ og }}" contenteditable="false" id="ogText" onclick="style" offsets ="{{ off }}">
+        {% for offset, sentence in og %}
+        <span class="testing" .data = "{{ offset }}"
             onclick="
             var theclass = 'highlighting'; 
             var $cols = $('.testing').click(function(e) {
-                console.log('hello');
                 $cols.removeClass(theclass);
                 $(this).addClass(theclass);
                 document.getElementById('sentence').setAttribute('data',this.innerHTML)
                 getAnnotations(this.innerHTML);
+                displayEntities(this.data, this.innerHTML);
             });"
             >{{ sentence }}</span>
         {% endfor %}
