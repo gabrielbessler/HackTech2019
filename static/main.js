@@ -392,8 +392,6 @@ function login_handle(name, pw) {
 
     var data = JSON.stringify({"name":name, "pass":pw});
 
-    console.log(data);
-
     xhr.send(data);
 }
 
@@ -467,13 +465,13 @@ function uploadImage() {
 function displayAnnotations(annotations) {
     var ann_divs = annotations.map(function(e) {
         s = `
-            <div> ${e['user']} - ${e['rating']} - ${e['annotation']}
-            <\div>`;
+            <div class='annotationModule'> ${e['user']} - ${e['rating']} - ${e['annotation']}
+            </div>
+            <div class='divider'>
+            </div>`;
         return s;
     })
     
-    console.log(ann_divs);
-
     document.getElementById("annotation").innerHTML = ann_divs.join('\n');
 }
 
@@ -491,8 +489,6 @@ function getAnnotations(sentence) {
     
     var data = JSON.stringify({"sentence":sentence});
     
-    console.log(data);
-
     xhr.send(data);
 }
 
@@ -507,6 +503,7 @@ function annotate(sentence, annotation) {
     xhr.onreadystatechange = function() {
         if (xhr.readyState === 4) {
             getAnnotations(sentence);
+            document.getElementById('alerts').innerHTML = xhr.response;
         }
     }
     
@@ -607,7 +604,7 @@ function deleteFromFavorites() {
     
     xhr.onreadystatechange = function() {
         if (xhr.readyState === 4) {
-            console.log(xhr.response); 
+            document.getElementById('alerts').innerHTML = xhr.response;
         }
     }
 
@@ -628,7 +625,7 @@ function saveToFavorites() {
     
     xhr.onreadystatechange = function() {
         if (xhr.readyState === 4) {
-            console.log(xhr.response); 
+            document.getElementById('alerts').innerHTML = xhr.response;
         }
     }
 
