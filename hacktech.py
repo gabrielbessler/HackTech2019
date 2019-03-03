@@ -145,8 +145,6 @@ def getSimplifiedFromImage():
     '''
     result = request.get_json()
     
-    print('begin')
-
     requires = ["img"]
     if isValid(requires, result): 
         info = result["img"]
@@ -157,8 +155,6 @@ def getSimplifiedFromImage():
 
         base64Image = info[info.find(',')+1:]
 
-        print('processing')
-
         text = 'undefined'
 
         if type == "PDF":
@@ -166,9 +162,7 @@ def getSimplifiedFromImage():
         elif type == "IMG":
             text = OCR.process_IMG(base64Image)
        
-        print('done')
-        print(len(text))
-        return text[0]
+        return text
     
     else:
         logging.info("Invalid request.")
