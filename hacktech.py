@@ -171,7 +171,7 @@ def getSimplifiedFromText():
         logging.info("Invalid request: " + request + " at " + time.time()) 
         return "not a valid request"
 
-@app.route('/toPDF')
+@app.route('/toPDF', methods=["POST"])
 def toPDF():
     return OCR.PDFFromBase64()
 

@@ -233,25 +233,27 @@ function loadPage() {
 }
 
 function hideImage() {
-    document.getElementById("submitBtn").innerHTML = "Upload Text";
-    document.getElementById("toHide1").style.display = "inline";
-    document.getElementById("toHide2").style.display = "inline";
-    $("#fileSelect").val("");
-    document.getElementById("imgDisplay").style.display = "none"; 
+    if (document.getElementById("imgDisplay").style.display != "none") {
+        document.getElementById("submitBtn").innerHTML = "Upload Text";
+        document.getElementById("toHide1").style.display = "inline";
+        document.getElementById("toHide2").style.display = "inline";
+        $("#fileSelect").val("");
+        document.getElementById("imgDisplay").style.display = "none"; 
+    }
 }
 
 function showImage() {
     document.getElementById("toHide1").style.display = "inline";
-    document.getElementById("toHide2").style.display = "none";
+    document.getElementById("toHide2").style.display = "inline";
     document.getElementById("submitBtn").innerHTML = "Upload Image"
     document.getElementById("imgDisplay").style.display = "inline-block"; 
 }
 
 function showText() {
-    document.getElementById("textArea").style.display = "inline-block";
-    document.getElementById("characters").style.display = "inline-block"; 
-    document.getElementById("word").style.display = "inline-block";
-
+    if (document.getElementById("textArea").style.display != "inline-block") {
+        document.getElementById("textArea").style.display = "inline-block";
+        document.getElementById("characters").style.display = "inline-block"; 
+    }
 }
 
 function saveValue(e) {
