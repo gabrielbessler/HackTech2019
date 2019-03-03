@@ -6,10 +6,7 @@
                     <a href="/" class="pure-menu-link">Home</a>
                 </li>
                 <li class="pure-menu-item pure-menu-selected">
-                        <a href="/#" class="pure-menu-link">Display Pdf</a>
-                </li>
-                <li class="pure-menu-item pure-menu-selected">
-                        <a href="#" class="pure-menu-link">Document Library</a>
+                        <a href="/favorites" class="pure-menu-link">Document Library</a>
                 </li>
                 <li class="pure-menu-item pure-menu-selected">
                         <a href="/about" class="pure-menu-link">About</a>
@@ -21,8 +18,12 @@
                 </li>
                 {% else %} 
                 <li class="pure-menu-item pure-menu-selected">
-                        <a href="/logout" class="pure-menu-link">Login</a>
+                        <a href="/logout" class="pure-menu-link">Logout</a>
                 </li>
+                <canvas data="{{ current_user.profile_pic }}" id="mycanvas" width="50" height="50" style="position:relative; top:5px; right: 5px; border: 1px solid black"></canvas>
+                <script>
+                        createProfile();
+                </script>
                 {% endif %}
             </ul>
         </div>

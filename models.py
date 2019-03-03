@@ -1,8 +1,10 @@
 from sqlalchemy import Column, Integer, String
 from database import Base
 from sqlalchemy import *
-from werkzeug.security import generate_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
+import json
+import random
 
 USERNAME_LEN = 50
 SENTENCE_LEN = 300
@@ -14,10 +16,17 @@ class User(UserMixin, Base):
     name = Column(String(USERNAME_LEN), unique=True)
     email = Column(String(120), unique=True)
     password_hash = Column(String(128))
+    favorites = Column(String(1000))    
+    profile_pic = Column(String(2500))
 
     def __init__(self, name=None, email=None):
         self.name = name
         self.email = email
+        L = []
+        for i in range(2500):
+            L.append(str(random.randint(0, 3)))
+        
+        self.profile_pic = "".join(L)
 
     def __repr__(self):
         return '<User %r>' % (self.name)
@@ -27,6 +36,24 @@ class User(UserMixin, Base):
 
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
+
+    def getFavorites(self):
+        if self.favorites == None:
+            return []
+        return json.loads(self.favorites)
+
+    def add_favorite(self, article_id):
+        L = json.loads(self.favorites) 
+        L.append(article_id)
+        self.favorites = json.dumps(L)
+
+    def remove_favorite(self, article_id):
+        try:
+            L = json.loads(self.favorites)
+            L.remove(article_id)
+            self.favorites = json.dumps(L)
+        except ValueError:
+            return 
 
 class Annotation(Base):
     __tablename__ = "annotations_table"
@@ -62,3 +89,8 @@ class Annotation(Base):
     def addRating(self, rating):
         self.rating += rating
         self.ratingCount += 1
+
+class Article(Base):
+    __tablename__ = "articles"
+    id = Column(Integer, primary_key=True)
+    content = Column(String(5000))
