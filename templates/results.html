@@ -10,12 +10,14 @@
     float:left;
     border: 2px solid black;
     height: 100vh;
+    box-sizing: border-box;
 }
 #results_right {
     width:50%;  
     float:right;
     height: 100vh;
     border: 2px solid black;
+    box-sizing: border-box;
 }
 #ogText {
     width: 100%; 
@@ -25,6 +27,7 @@
     margin: 0px; 
     padding: 5px;
     top: 0px;
+    box-sizing: border-box;
 }
 #result { 
     width: 100%; 
@@ -33,6 +36,7 @@
     border: 0px; 
     margin: 0px; 
     padding: 5px;
+    box-sizing: border-box;
 }
 
 #result1 { 
@@ -43,6 +47,7 @@
     border: 0px; 
     margin: 0px; 
     padding: 5px;
+    box-sizing: border-box;
 }
 
 #writeannotate { 
@@ -53,6 +58,7 @@
     border: 0px; 
     margin: 0px; 
     padding: 5px;
+    box-sizing: border-box;
 }
 
 #annotation { 
@@ -63,6 +69,7 @@
     border: 0px; 
     margin: 0px; 
     padding: 5px;
+    box-sizing: border-box;
 }
 
 #row1{
@@ -70,20 +77,32 @@
     position: relative; 
     flex-direction:row;
     justify-content: space-around;
+    top: 20px;
+    box-sizing: border-box;
 }
     
 #column1{
     display:flex;
     flex-direction:column;
     height: 100vh;
+    box-sizing: border-box;
 }
-    
     
 #column2{
     display:flex;
     flex-direction:column;
     height: 100vh;
+    box-sizing: border-box;
 }
+
+#textArea {
+    width: 95%;
+    position: relative; 
+    left: 2%;
+    top: 5px; 
+    box-sizing: border-box;
+}
+
 #textarea1{
     background-color:thistle;
     width: 300px; 
@@ -94,19 +113,31 @@
     padding: 5px;
     resize: none;
     position: fixed;
+    box-sizing: border-box;
+}
+#saveToFavorites {
+    position:relative;
+    left: 10px;
+    top: 10px;
+    box-sizing: border-box;
 }
 
-
-
 </style>
-<script>
-        
-</script>
+{% if not current_user.is_anonymous %}
+    {% if favorite %}
+        <button id="saveToFavorites" class="pure-button pure-button-primary font buttoncolor" onclick="
+        deleteFromFavorites();" type="button">Delete from Favorites</button>
+    {% else %}
+        <button id="saveToFavorites" class="pure-button pure-button-primary font buttoncolor" onclick="
+        saveToFavorites();" type="button">Save to Favorites</button>
+    {% endif %}
+{% endif %}
+ 
 <div id="row1">
     <div onclick="
         console.log(
             getSelectionText()
-        );" style="background-color: thistle; border: 1px solid black" contenteditable="false" id="ogText" onclick="style">
+        );" style="background-color: thistle; border: 1px solid black" info="{{ og }}" contenteditable="false" id="ogText" onclick="style">
         {% for sentence in og %}
             <span class="testing"
             onclick="
@@ -135,5 +166,11 @@
 .highlighting {
     background-color: yellow;
 }
-
+#thecanvas {
+    height: 0px;
+}
+#mainContent {
+    position: relative;
+    top: 50px;
+}
 </style>

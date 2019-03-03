@@ -27,6 +27,7 @@ class User(UserMixin, Base):
             L.append(str(random.randint(0, 3)))
         
         self.profile_pic = "".join(L)
+        self.favorites = "[]"
 
     def __repr__(self):
         return '<User %r>' % (self.name)
@@ -50,8 +51,10 @@ class User(UserMixin, Base):
     def remove_favorite(self, article_id):
         try:
             L = json.loads(self.favorites)
+            print(L)
             L.remove(article_id)
             self.favorites = json.dumps(L)
+            print(json.loads(self. favorites))
         except ValueError:
             return 
 
@@ -94,3 +97,6 @@ class Article(Base):
     __tablename__ = "articles"
     id = Column(Integer, primary_key=True)
     content = Column(String(5000))
+
+    def __init__(self, text): 
+        self.content = text 

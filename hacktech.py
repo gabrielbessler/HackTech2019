@@ -4,7 +4,7 @@ import database
 import json
 import OCR 
 from database import db_session, init_db
-from models import User, Annotation
+from models import User, Annotation, Article
 from flask_login import LoginManager, current_user, login_user, logout_user
 from sqlalchemy import *
 from parse import *
@@ -71,12 +71,26 @@ def displayLogin():
     return render_template("login.html")
 
 @app.route('/favorites')
-def get_favories():
+def get_favorites():
     if not current_user.is_authenticated:
         return redirect(url_for("displayLogin"))
 
     favorites = current_user.getFavorites()
-    return render_template("favorites.html", favs=favorites)
+    
+    favorites = [Article.query.filter(Article.id == x).first().content for x in favorites if x and x != ""]
+    L = []
+    for favorite in favorites:
+        if len(favorite) == 0:
+            continue
+        print(favorite)
+        if favorite[0] == "[" and favorite[-1] == "]":
+            guy = [x[1:-1] for x in favorite[1:-1].split(", ")]
+            dude = " ".join(guy).strip()
+            L.append(dude)
+        else:
+            L.append(favorite)
+
+    return render_template("favorites.html", favs=L)
 
 @app.route('/logout')
 def logout():
@@ -116,11 +130,9 @@ def login_attempt():
     user = User.query.filter(User.name == username).first()
 
     if user is None or not user.check_password(pw):
-        print("incorrect")
         return "Invalid username or password"
     else:
         login_user(user)
-        print("good job")
         return "Succeed"
     
 @app.route('/img', methods=["POST"])
@@ -146,7 +158,6 @@ def getSimplifiedFromImage():
         elif type == "IMG":
             text = OCR.process_IMG(base64Image)
         
-        print(text)
     else:
         logging.info("Invalid request.")
 
@@ -164,7 +175,15 @@ def getSimplifiedFromText():
     if isValid(requires, result): 
         text = result['text']
         result = "Wow this text is so simple"
-        return render_template("results.html", og=parse(text), notOg=result)
+        res = parse(text)
+        isFavorite = False 
+        print(text)
+        article = Article.query.filter(Article.content == text).first()
+        print(article)
+        if current_user.is_authenticated and article is not None and article.id in current_user.getFavorites():
+            isFavorite = True 
+            print("yep")
+        return render_template("results.html", og=res, notOg=result, favorite=isFavorite)
     else:
         logging.info("Invalid request: " + request + " at " + time.time()) 
         return "not a valid request"
@@ -175,8 +194,6 @@ def getWordDef(word_id):
     app_key = 'a64c8ad87dbcef0d9981af13ccc7957b'
 
     language = 'en'
-
-    print("hello")
 
     url = 'https://od-api.oxforddictionaries.com:443/api/v1/entries/' + language + '/' + word_id.lower()
 
@@ -216,6 +233,76 @@ def annotate():
     else:
         logging.info("Invalid request: " + request + " at " + time.time())
         return "Not a valid annotation request"
+
+@app.route('/check_favorite', methods=['POST'])
+def checkFavorite():
+    result = request.get_json()
+    requires = ["text"]
+    if isValid(requires, result):
+        textToFavorite = result["text"]
+    
+        print(textToFavorite)
+
+        article = Article.query.filter(Article.content == textToFavorite).first()
+        if article is None: 
+            return "Not favorited"
+        
+        return article.id in current_user.getFavorites()
+
+    return "Not a valid favorite check"
+
+@app.route('/favorite', methods=['POST'])
+def setFavorite():
+    result = request.get_json()
+    requires = ["text"]
+    if isValid(requires, result):
+        textToFavorite = result["text"]
+                
+        L = [x[1:-1] for x in textToFavorite[1:-1].split(", ")]
+        textToFavorite = " ".join(L).strip()
+        print("text: " + textToFavorite)
+        # Check if the article already exists 
+        article = Article.query.filter(Article.content == textToFavorite).first()
+        if article is None: 
+            a = Article(textToFavorite)
+            db_session.add(a)
+            
+            if a.id not in current_user.getFavorites():
+                current_user.add_favorite(a.id)
+                       
+            db_session.commit()
+        else: 
+            if article.id in current_user.getFavorites():
+                return "Already favorited!"
+            current_user.add_favorite(article.id)
+            db_session.commit()
+
+        return "Favorited."
+
+    return "Not a falid favorite request"
+
+@app.route('/unfavorite', methods=['POST'])
+def unsetFavorite():
+    result = request.get_json()
+    requires = ["text"]
+    if isValid(requires, result):
+        textToFavorite = result["text"]
+        L = [x[1:-1] for x in textToFavorite[1:-1].split(", ")]
+        textToFavorite = " ".join(L).strip()
+
+        # Can only favorite if you are logged in 
+        if not current_user.is_authenticated:
+            return "Must be logged in"
+        
+        # Get the article ID 
+        article = Article.query.filter(Article.content == textToFavorite).first()
+        print(article.id)
+        if article is None: 
+            return "Article was not favorited"
+
+        current_user.remove_favorite(article.id)
+        db_session.commit()
+        return "Success."
 
 @app.route('/getAnnotaions', methods=['POST'])
 def getAnnotations():

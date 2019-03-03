@@ -476,10 +476,13 @@ function previewFile(){
     mode = "image";
     var preview = document.querySelector('img'); //selects the query named img
     var file    = document.querySelector('input[type=file]').files[0]; //sames as here
+    let ext = file.name.split(".").pop();
     
     if (file === undefined) {
         hideImage();
         showText();
+    } else if (ext == "pdf") {
+        preview.src = "static/pdf_logo.jpeg";
     } else {
         var reader  = new FileReader();
 
@@ -495,12 +498,69 @@ function previewFile(){
     }   
 }
 
+/* Takes a score from 0-5 */
+function getStars(score) {
+    stars = Math.round((score * 2)) / 2;
+    fullStars = Math.floor(stars);
+    // Will be 0 or 1
+    halfStars = Math.round((score - fullStars) * 2);
+    leftOver = 5 - fullStars - halfStars;
+    S = "";
+    for (let i = 0; i < fullStars; i++) {
+        S += "<img src='/static/fullstar.png'></img>"; 
+    }
+    for (let i = 0; i < halfStars; i++) {
+        S += "<img src='/static/halfstar.png'></img>"; 
+    }
+    for (let i = 0; i < leftOver; i++) {
+        S += "<img src='/static/star.png'></img>"; 
+    }
+}
+
 function debugMessage(message, level) {
     if (DEBUG_MODE && level >= DEBUG_LEVEL) {
         console.log(message);
     }
 }
     
-function login() {
+function deleteFromFavorites() {
+    // Make HTTP request to save to favorites     
+    url = "/unfavorite"
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", url, true);
+
+    let info = document.getElementById('ogText').getAttribute('info');
+
+    xhr.setRequestHeader("Content-type", "application/json");
     
+    var data = JSON.stringify({"text": info});
+    
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4) {
+            console.log(xhr.response); 
+        }
+    }
+
+    xhr.send(data);   
+}
+
+function saveToFavorites() {
+    // Make HTTP request to save to favorites     
+    url = "/favorite"
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", url, true);
+
+    let info = document.getElementById('ogText').getAttribute('info');
+
+    xhr.setRequestHeader("Content-type", "application/json");
+    
+    var data = JSON.stringify({"text": info});
+    
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4) {
+            console.log(xhr.response); 
+        }
+    }
+
+    xhr.send(data);   
 }

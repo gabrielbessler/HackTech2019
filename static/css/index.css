@@ -33,7 +33,12 @@ textarea{
       position: absolute;
       text-align:left;
       box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
-  }
+    }
+
+    #headerPlaceHolder {
+        position: relative;
+        height: 0em;
+    }
   
   .function-container{
       background:lightcyan;
