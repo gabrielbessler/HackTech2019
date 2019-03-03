@@ -29,11 +29,13 @@ textarea{
       border-radius: 4px;
       text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
   }
+
   .header{
       position: absolute;
       text-align:left;
       box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
   }
+  
   .function-container{
       background:lightcyan;
       text-align: center;
@@ -114,25 +116,25 @@ textarea{
   .input{
       color: lavender;
       position: relative;
-      width: 100%;
+      width: 60%;
   }
-  .button{
+  .buttonxx{
       color: lavender;
       position: relative;
-      width:70%
+      width:100%
   }
   .absolute1{
       position: absolute;
       bottom: 0;
-      right: 2px;
+      right: 200px;
   }
   .absolute2{
       position: absolute;
       bottom: 0;
-      right: 20px;
+      right: 5px;
   }
   .friend{
-      width:60px;
+      width:80px;
       height: 30px;
   }
 
