@@ -318,7 +318,7 @@ def unsetFavorite():
         db_session.commit()
         return "Success."
 
-@app.route('/getAnnotaions', methods=['POST'])
+@app.route('/getAnnotations', methods=['POST'])
 def getAnnotations():
     results = json.loads(request.data)
     requires = ["sentence"]
