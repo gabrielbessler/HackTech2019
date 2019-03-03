@@ -12,7 +12,7 @@ function getSelectionText() {
     }
     
     if (text in words_found) {
-        document.getElementById("result").innerHTML = words_found[text];
+        document.getElementById("result1").innerHTML = words_found[text];
     }  else {
         if (text.length >= 3 && /[\w']+/.test(text)) {
 
@@ -26,12 +26,12 @@ function getSelectionText() {
                 if (xhr.readyState === 4) {
                     
                     resp = JSON.parse(xhr.response);
-                    S = "";
+                    S = `${text} - definition:`;
                     for (let i = 0; i < resp.length; i++) {
                         S += "<div>" + resp[i] + "</div>";
                     }
                     words_found[text] = S
-                    document.getElementById("result").innerHTML = S
+                    document.getElementById("result1").innerHTML = S
                 }
             }
             xhr.send();
@@ -442,7 +442,7 @@ function convertToBase64() {
 
 function uploadImage() {
     result = convertToBase64();
-        
+
     url = "/img"
     var xhr = new XMLHttpRequest();
     xhr.open("POST", url, true);
