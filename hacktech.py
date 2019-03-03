@@ -1,5 +1,5 @@
 import logging, time
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for
 import database
 import json
 import OCR 
@@ -7,16 +7,18 @@ from database import db_session, init_db
 from models import User, Annotation
 from flask_login import LoginManager, current_user, login_user, logout_user
 from sqlalchemy import *
+from parse import *
 
 app = Flask(__name__)
 login = LoginManager(app)
 
 init_db()
 
+app.config['SECRET_KEY'] = '\xfd{H\xe5<\x95\xf9\xe3\x96.5\xd1\x01O<!\xd5\xa2\xa0\x9fR"\xa1\xa8'
+
 @login.user_loader
 def load_user(id):
     return User.query.get(int(id))
-
 
 ''' ======= DB HANDLER ======= ''' 
 
@@ -59,11 +61,6 @@ def index():
 def showAbout():
     return render_template('about.html')
     
-@app.route('/result')
-def displayResults():
-  
-    return render_template("results.html")
-
 @app.route('/register')
 def displayRegistration():
     return render_template("register.html")
@@ -71,6 +68,14 @@ def displayRegistration():
 @app.route('/login')
 def displayLogin():
     return render_template("login.html")
+
+@app.route('/favorites')
+def get_favories():
+    if not current_user.is_authenticated:
+        return redirect(url_for("displayLogin"))
+
+    favorites = current_user.getFavorites()
+    return render_template("favorites.html", favs=favorites)
 
 @app.route('/logout')
 def logout():
@@ -87,12 +92,11 @@ def register_attempt():
 
         result = list(User.query.filter(or_(User.email == email, User.name == usrname)))
         if len(result) == 0:
-            u = User(name, email)
-            u.set_password(password) 
+            u = User(usrname, email)
+            u.set_password(pw) 
+            db_session.add(u)
             db_session.commit()
-
-            return "Registration successful."
-
+            return "Succeed"
         else: 
             return "Username and email must be unique."
     
@@ -108,12 +112,15 @@ def login_attempt():
     username = result["name"]
     pw = result["pass"]
 
-    user = User.query().filter(User.name == username).first()
+    user = User.query.filter(User.name == username).first()
 
     if user is None or not user.check_password(pw):
+        print("incorrect")
         return "Invalid username or password"
     else:
         login_user(user)
+        print("good job")
+        return "Succeed"
     
 @app.route('/img', methods=["POST"])
 def getSimplifiedFromImage():
@@ -152,12 +159,32 @@ def getSimplifiedFromText():
     '''
     result = request.get_json()
     requires = ["text"]
+
     if isValid(requires, result): 
         text = result['text']
-        return "hello world"
+        result = "Wow this text is so simple"
+        return render_template("results.html", og=parse(text), notOg=result)
     else:
         logging.info("Invalid request: " + request + " at " + time.time()) 
         return "not a valid request"
+
+@app.route('/toPDF', methods=["POST"])
+def toPDF():
+    result = request.get_json()
+    
+    requires = ["img"]
+    if isValid(requires, result): 
+        info = result["img"]
+        if info[1:21] == "data:application/pdf":
+            type = "PDF"
+        else:
+            type = "IMG"
+
+    if type == "PDF":
+        return OCR.PDFFromBase64(info[info.find(',')+1:])
+    elif type == "IMG":
+        return OCR.PDFFromBase64(info[info.find(',')+1:])
+    
 
 @app.route('/annotate', methods=["POST"])
 def annotate():

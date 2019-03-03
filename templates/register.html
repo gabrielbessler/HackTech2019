@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon" />
         <meta name = "viewport" content = "width = device-width, initial-scale = 1">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/pure-min.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/grids-responsive-min.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/base-min.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
-        <title>explainr</title>
+        <title>Depedantify</title>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script type="text/javascript" src="{{ url_for('static', filename='main.js') }}">
         </script>
@@ -18,12 +19,10 @@
                 position: relative;
                 top: 50px;
             }    
-
             #message_one, #message_two, #message_three {
                 display: inline-block;
                 width: 100px;
             }
-
             #the-canvas {
                 width: 100%;
             }
@@ -56,9 +55,9 @@
                     </div>
                 </fieldset>
             </form>
+            <span id="response msg"></span>
         </div>
         
         {% include 'footer.html' %}
     </div>
 </html>
-

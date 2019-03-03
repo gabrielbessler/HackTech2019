@@ -1,7 +1,7 @@
 from collections import defaultdict
 import database
 
-annon = database.Annotations()
+# annon = database.Annotations()
 
 sentenceDelims = ".!?"
 

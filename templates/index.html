@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon" />
         <meta name="msapplication-TileColor" content="#ffffff">
         <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
         <meta name="theme-color" content="#ffffff">
@@ -10,38 +11,49 @@
         <link rel="stylesheet" href="{{ url_for('static', filename='css/grids-responsive-min.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/base-min.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
-        <title>explainr</title>
+        <title>Depedantify</title>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script type="text/javascript" src="{{ url_for('static', filename='main.js') }}">
+        
         </script>
-        @media (overflow-block: scroll)
-        @import url('https://fonts.googleapis.com/css?family=Quicksand');
+        
     </head>
     <body onload="loadPage();">
+        <style>
+            #toHide1, #toHide2, #characters, #words {
+                margin-top: 20px;
+                position: relative;
+                top: 23px;
+            }
+            #one, #two, #three, #four {
+                overflow: auto;
+            }
+        </style>
         <canvas id="thecanvas" width="200" height="100"></canvas>
         {% include 'header.html' %}
-    <div class="function-container">
+        <div id="mainContent">
+        <div class="function-container">
             <video autoplay>test</video>
             <div class="function font">
                 <h1 class="function-header"> Enter Your Text</h1>
-                    <textarea id="textArea" style="background-color:lavender"></textarea>
+                    <textarea id="textArea" style="display: inline-block; background-color:lavender"></textarea>
                     <img id="imgDisplay" src="" height="200">
-                <div class="buttonxx " >
+                <div style="margin-top: 1em;">
                     <button id="submitBtn" class="pure-button pure-button-primary font buttoncolor" onclick="sendText();" type="button">Submit Text
                     </button> 
                     <button class="pure-button pure-button-primary font buttoncolor" onclick="clearImage();" type="button">Clear Image
                         </button>
-                    <div class="input">
-                        <button class="pure-button pure-button-primary font buttoncolor absolute1 font">
-                            Upload
-                        </button>   
-                        <input id="fileSelect" value="Choose File" type="file" class="friend pure-button pure-button-primary font buttoncolor absolute2" onchange="previewFile();" style="opacity:10">
-                    </div>
+                        <button class="pure-button pure-button-primary font buttoncolor" onclick="document.getElementById('fileSelect').click()" type="button">Upload Image
+                        </button>
+
+                        <input id="fileSelect" value="Choose File" type="file" absolute2" onchange="previewFile();" style="opacity:0; visibility: hidden; width: 0">
+                 
+                    <button id="getPDF" class="pure-button pure-button-primary font buttoncolor" onclick="getPDF();" type="button">Get PDF
                 </div>
-            <span id="toHide1">Number of Characters: </span><span id="characters">0</span>
+            <span id="toHide1">Number of Characters: </span><span style="display: inline-block" id="characters">0</span>
             <span id="toHide2">Number of Words: </span><span id="words">0</span>
             </span>
-            <p id="noscroll" class="subhead font" >
+            <p id="noscroll" style="position: relative; top: 20px;" class="subhead font" >
                 Copy and paste your text, or upload a document, pdf, or image here
             </p>
         </div>
@@ -56,37 +68,38 @@
                     <h3 class="content-subhead">
                         Get Started
                     </h3>
-                    <p>
-                        hello this is a cool project fun fun fun. sometimes i get bored and write all about witches and frogs and have google tell me how i'm feeling.
+                    <p id="four">
+                        To start, you can copy-paste text into the box which will run entity analysis and text simplification to simplify the text and generate wikipedia hyperlinks where relevant. Alternatively, you can upload a pdf or picture scan of a document and Tesseract-OCR will automatically pull the text for you!
                     </p>
                 </div>
                 <div class="1-box pure-u-1 pure-u-md-1-2 pure-u-lg-1-4">
                     <h3 class="content-subhead">
                         How It Works
                     </h3>
-                    <p>
-                        hello this is a cool project fun fun fun. the internet is probably my best friend. i hope code cant be copywrited bc otherwise ima die.
+                    <p id="three">
+                        This project aims to simplify text and generate relevant hyper links to make reasearch and understanding easier for readers.
                     </p>
                 </div>
                 <div class="1-box pure-u-1 pure-u-md-1-2 pure-u-lg-1-4">
                     <h3 class="content-subhead">
                         Document Library
                     </h3>
-                    <p>
-                        hello this is a cool project fun fun fun. maybe i shouldnt be a stem major. i could have a lot of fun just looking at words all day. maybe i'll write a dictionary. not a language. a dictionary.
+                    <p id="two">
+                        You can save documents onto our server in your document library. Create an account and login to do so.
                     </p>
                 </div>
                 <div class="1-box pure-u-1 pure-u-md-1-2 pure-u-lg-1-4">
                     <h3 class="content-subhead">
                         About Us
                     </h3>
-                    <p>
-                        hello this is a cool project fun fun fun. this shoudl go in the about us category but this team is made of (ba)zofia and gabe(b) and garrett(grampa garry) and (k)evan. i promise its a good time. we learn together and Harvey Mudd school of Counting (HMC).
+                    <p id="one">
+                        This project was made as part of the Caltech and MLH Hacktech 2019 competition by Gabriel Bessler, Evan Johnson, Sofia Devin, and Garrett Conway.
                     </p>
                 </div>
             </div>
         </div>
     </div> 
+    </div>
 {% include 'footer.html' %}
 
 </html>

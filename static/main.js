@@ -224,45 +224,49 @@ function loadPage() {
         $('#words').text($(this).val().split(' ').length);
         saveValue(this);
     }
+
+    $('#submitBtn').on('click', getResult); 
+
+    function getResult() {
+        sendText();
+    }
 }
 
-
 function hideImage() {
-    document.getElementById("submitBtn").innerHTML = "Upload Text";
-    document.getElementById("toHide1").style.display = "inline";
-    document.getElementById("toHide2").style.display = "inline";
-    $("#fileSelect").val("");
-    document.getElementById("imgDisplay").style.display = "none"; 
+    if (document.getElementById("imgDisplay").style.display != "none") {
+        document.getElementById("submitBtn").innerHTML = "Upload Text";
+        document.getElementById("toHide1").style.display = "inline";
+        document.getElementById("toHide2").style.display = "inline";
+        $("#fileSelect").val("");
+        document.getElementById("imgDisplay").style.display = "none"; 
+    }
 }
 
 function showImage() {
     document.getElementById("toHide1").style.display = "inline";
-    document.getElementById("toHide2").style.display = "none";
+    document.getElementById("toHide2").style.display = "inline";
     document.getElementById("submitBtn").innerHTML = "Upload Image"
     document.getElementById("imgDisplay").style.display = "inline-block"; 
 }
 
 function showText() {
-    document.getElementById("textArea").style.display = "inline-block";
-    document.getElementById("characters").style.display = "inline-block"; 
-    document.getElementById("word").style.display = "inline-block";
-
+    if (document.getElementById("textArea").style.display != "inline-block") {
+        document.getElementById("textArea").style.display = "inline-block";
+        document.getElementById("characters").style.display = "inline-block"; 
+        document.getElementById("words").style.display = "inline-block"; 
+    }
 }
 
 function saveValue(e) {
     var id = e.id;
     var val = e.value;
     localStorage.setItem(id, val);
-    console.log("value saved!")
 }
 
 function getSavedValue(v) {
-    console.log("I was called");
     if (!localStorage.getItem(v)) {
-        console.log("failed");
         return "Input Here";
     }
-    console.log("succeeded");
     return localStorage.getItem(v);
 }
 
@@ -270,6 +274,30 @@ function hideText() {
     document.getElementById("textArea").style.display = "none"; 
     document.getElementById("characters").style.display = "none"; 
     document.getElementById("words").style.display = "none"; 
+    document.getElementById("toHide2").style.display = "none"; 
+    document.getElementById("toHide1").style.display = "none"; 
+}
+
+function getPDF() {
+    if (mode !== "text") {
+        result = convertToBase64();
+            
+        url = "/toPDF"
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", url, true);
+
+        xhr.setRequestHeader("Content-type", "application/json");
+
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4) {
+                console.log(xhr.response);
+            }
+        }
+        
+        var data = JSON.stringify({"img": JSON.stringify(result)});
+        
+        xhr.send(data);
+    }
 }
 
 function sendText() {
@@ -284,14 +312,26 @@ function sendText() {
         
         var data = JSON.stringify({"text": textArea.value});
         
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4) {
+                document.getElementById("mainContent").innerHTML = xhr.response;
+               
+            }
+        }
+
         xhr.send(data);
+    
+        
     } else {
         uploadImage();
     }
 }
 
+function loadResultImage(result) {
+
+}
+
 function login_handle(name, pw) {
-    console.log("login");
     url = "/login_attempt"
     var xhr = new XMLHttpRequest();
     xhr.open("POST",url,true);
@@ -300,7 +340,8 @@ function login_handle(name, pw) {
 
     xhr.onreadystatechange = function() {
         if (xhr.readyState === 4) {
-            if (xhr.response.value == "Succeed") {
+            console.log(xhr.response);
+            if (xhr.response == "Succeed") {
                 succeedLogin();
             }
             else {
@@ -316,6 +357,26 @@ function login_handle(name, pw) {
     xhr.send(data);
 }
 
+function createProfile() {
+    pic = document.getElementById("mycanvas");
+    ctx = pic.getContext('2d');
+    info = pic.getAttribute("data");
+    for (let i = 0; i < info.length; i++) {
+        if (info[i] == 0) {
+            ctx.fillStyle = "#FF0000";
+            ctx.fillRect(3*i % 50, i*3 / 50, 3, 3);
+        } 
+        if (info[i] == 1) {
+            ctx.fillStyle = "#00FF00";
+            ctx.fillRect(3*i % 50, i*3 / 50, 3, 3);
+        } 
+        if (info[i] == 2) {
+            ctx.fillStyle = "#0000FF";
+            ctx.fillRect(3*i % 50, i*3 / 50, 3, 3);
+        } 
+    }
+}
+
 function register_handle(name, pw, email) {
     url = "/register_attempt"
     var xhr = new XMLHttpRequest();
@@ -325,7 +386,7 @@ function register_handle(name, pw, email) {
     
     xhr.onreadystatechange = function() {
         if (xhr.readyState === 4) {
-            if (xhr.response.value == "Succeed") {
+            if (xhr.response == "Succeed") {
                 succeedRegister();
             }
             else {
@@ -345,13 +406,19 @@ function convertToBase64() {
 
 function uploadImage() {
     result = convertToBase64();
-    let textArea = document.getElementById("textArea");
         
     url = "/img"
     var xhr = new XMLHttpRequest();
     xhr.open("POST", url, true);
 
     xhr.setRequestHeader("Content-type", "application/json");
+
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4) {
+            window.location.href = "/result";
+            loadResultImage(xhr.response);
+        }
+    }
     
     var data = JSON.stringify({"img": JSON.stringify(result)});
     

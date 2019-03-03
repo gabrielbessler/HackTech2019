@@ -11,12 +11,21 @@ import pytesseract as tes
 import pdf2image
 import os
 import io
+import PyPDF2
 
 # Gabe sends me stuff base64 encoded cause javascript
 import base64
 
 
 # A bunch of wrappers to avoid having to lookup tesseract docs
+
+def merge_files(files):
+    merger = PdfFileMerger()
+    for f in files:
+        merger.append(f)
+    out = io.BytesIO()
+    merger.write(out)
+    return out.read()
 
 def read_image(filename):
 	'''Returns an Image object opened from the file.
@@ -131,7 +140,24 @@ def process_PDF(base64_PDF):
 	images = pdf2image.convert_from_bytes(pdf_data)
 	output = map(lambda x: get_string(x, postprocess=True), images)
 	return ' '.join(output)
+
+def PDFFromBase64(base64_image):
+	'''Function call for Gabe.
+	Takes image data and outputs a base64 encoded pdf.'''
+	image_data = base64.b64decode(base64_image)
+	image = Image.open(io.BytesIO(image_data))
+	pdf = create_readable_pdf(image, debug=False)
+	return base64.b64encode(pdf)
 	
+
+def pdf_to_pdf(filename):
+	'''Takes a PDF and returns a reabale pdf.'''
+	images = convert_to_images(filename)
+	pdf_pages = []
+	for image in images:
+		pdf_pages.append(create_readable_pdf(image, debug=False))
+	# Convert to file objects for Evan
+	return list(map(io.BytesIO, pdf_pages))
 	
 # Common errors:
 #----------------
