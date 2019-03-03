@@ -39,6 +39,8 @@ def _getAnnotations(sentence, prevSentence = None, nextSentence = None):
     #else:
     L = [a.__repr__() for a in Annotation.query.filter(Annotation.sentence == sentence)]
     print(L)
+    if L is None:
+        L = []
     return L
 
 def _addRating(annotationID, rating):
@@ -244,6 +246,11 @@ def annotate():
     if isValid(requires, results) and current_user.is_authenticated:
         prevSentence = None if 'prevSentence' not in results else results['prevSentence']
         nextSentence = None if 'nextSentence' not in results else results['nextSentence']
+        if results['sentence'] == None:
+            return "Must be a sentence"
+        if results['annotation'] == "":
+            return "Cannot be empty"
+       
         _addAnnotation(results['sentence'], results['annotation'], current_user.name, prevSentence, nextSentence)
         return "Annotation added"
     else:
@@ -257,8 +264,6 @@ def checkFavorite():
     if isValid(requires, result):
         textToFavorite = result["text"]
     
-        print(textToFavorite)
-
         article = Article.query.filter(Article.content == textToFavorite).first()
         if article is None: 
             return "Not favorited"
@@ -276,7 +281,6 @@ def setFavorite():
                 
         L = [x[1:-1] for x in textToFavorite[1:-1].split(", ")]
         textToFavorite = " ".join(L).strip()
-        print("text: " + textToFavorite)
         # Check if the article already exists 
         article = Article.query.filter(Article.content == textToFavorite).first()
         if article is None: 
@@ -312,7 +316,6 @@ def unsetFavorite():
         
         # Get the article ID 
         article = Article.query.filter(Article.content == textToFavorite).first()
-        print(article.id)
         if article is None: 
             return "Article was not favorited"
 
@@ -323,15 +326,16 @@ def unsetFavorite():
 @app.route('/getAnnotations', methods=['POST'])
 def getAnnotations():
     results = json.loads(request.data)
-    print(results)
     requires = ["sentence"]
     if isValid(requires, results):
         if results["sentence"] is None:
-            return "Not a valid request"
+            print("returning not valid");
+            return "Not valid"
         prevSentence = None if 'prevSentence' not in results else results['prevSentence']
         nextSentence = None if 'nextSentence' not in results else results['nextSentence']
         L = _getAnnotations(results['sentence'], prevSentence, nextSentence)
         print(L)
+        print("hello world")
         if L == []:
             return json.dumps([])
 
@@ -363,26 +367,29 @@ def getEntities():
 
 @app.route('/addRating', methods=['POST'])
 def addRatingForAnnotation():
-    
     results = json.loads(request.data)
     requires = ["score", "id"]
-    
+    print(results)
+
     if isValid(requires, results):
         if current_user.is_authenticated:
+            
             annotation = Annotation.query.filter(Annotation.id == results["id"]).first()
             if annotation.checkuser(current_user.id):
                 return "You already voted!"
             else:
                 annotation.addRating(results["score"])
                 annotation.addUser(current_user.id)
+                db_session.commit()
                 return "Updated score."
     
         return "You cannot vote without an account."
     
-    db_session.commit()
-    return "Invalid request."
+    else:
+        print("Invalid")
+
     
-    pass
+    return "Invalid request."
     
 
 if __name__ == "__main__":

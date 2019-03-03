@@ -468,7 +468,7 @@ function displayAnnotations(annotations) {
     var ann_divs = annotations.map(function(e) {
         s = `
             <div class='annotationModule' annId=${e['id']}> ${e['user']} 
-                <div class="score"> ${getStars(e['rating'])}
+                <div class="score"> ${getStars(e['rating'], e['id'])}
                 </div>
                 <div class="notes">
                     ${e['annotation']}
@@ -476,26 +476,28 @@ function displayAnnotations(annotations) {
             </div>`
         return s;
     })
+
+    console.log(annotations);
     
     document.getElementById("annotation").innerHTML = ann_divs.join('\n');
 }
 
 function addAnnotationEvents() {
     $('.star').on('click', function(event) {
-        console.log($(this).parent().html(getStars(1 + parseInt(event.currentTarget.getAttribute("count")))));
+        $(this).parent().html(getStars(1 + parseInt(event.currentTarget.getAttribute("count"))));
         score = 1 + parseInt(event.currentTarget.getAttribute("count"));
 
         var xhr = new XMLHttpRequest();
-        xhr.open("POST", "/addRating", true);
+        xhr.open("POST", "/addRating", true); 
 
         xhr.onreadystatechange = function() {
             if (xhr.readyState === 4) {
-                document.getElementById("alert").innerHTML = xhr.response;
+                document.getElementById("alerts").innerHTML = xhr.response;
             }
         }
-    
-        console.log($(this).parent().getAttribute("annId"));
-        var data = JSON.stringify({"score":score, "id": $(this).parent().getAttribute("annId")});
+        
+        console.log(event.currentTarget.parentNode);
+        var data = JSON.stringify({"score":score, "id": $(this).attr("annId")});
 
         xhr.send(data);
     });
@@ -509,9 +511,13 @@ function getAnnotations(sentence) {
 
     xhr.onreadystatechange = function() {
         if (xhr.readyState === 4) {
-            console.log(xhr.reponse);
-            displayAnnotations(JSON.parse(xhr.response));
-            addAnnotationEvents();
+            if (xhr.response == undefined || xhr.response == "Not valid" || xhr.response == "Cannot be empty") {
+                console.log("No response")
+            } else {
+                console.log(xhr.response);
+                displayAnnotations(JSON.parse(xhr.response));
+                addAnnotationEvents();
+            }
         }
     }
     
@@ -594,7 +600,7 @@ function previewFile(){
 }
 
 /* Takes a score from 0-5 */
-function getStars(score) {
+function getStars(score, id) {
     console.log(score);
     if (score == undefined || score == "Unrated") {
         fullStars = 0;
@@ -612,16 +618,16 @@ function getStars(score) {
     
     S = "";
     for (let i = 0; i < fullStars; i++) {
-        S += "<img count='" + i + "' class='star' src='/static/fullstar.png'></img>"; 
+        S += "<img annId='" + id + "' count='" + i + "' class='star' src='/static/fullstar.png'></img>"; 
     }
     for (let i = 0; i < halfStars; i++) {
-        S += "<img count='" + i + "' class='star' src='/static/halfstar.png'></img>"; 
+        S += "<img annId='" + id + "' count='" + i + "' class='star' src='/static/halfstar.png'></img>"; 
     }
     for (let i = 0; i < leftOver; i++) {
-        S += "<img count='" + i + "' class='star' src='/static/star.png'></img>"; 
+        S += "<img annId='" + id + "' count='" + i + "' class='star' src='/static/star.png'></img>"; 
     }
     for (let i = 0; i < locked; i++) {
-        S += "<img count='" + i + "' class='star' src='/static/locked.png'></img>"; 
+        S += "<img annId='" + id + "' count='" + i + "' class='star' src='/static/locked.png'></img>"; 
     }
     return S;
 }
