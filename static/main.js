@@ -472,11 +472,11 @@ function uploadImage() {
 function displayAnnotations(annotations) {
     var ann_divs = annotations.map(function(e) {
         s = `
-            <div class='annotationModule' annId=${e['id']}> ${e['user']} 
-                <div class="score"> ${getStars(e['rating'], e['id'])}
+            <div class='annotationModule' annId=${e[0]['id']}> ${e[0]['user']} 
+                <div class="score"> ${getStars(e[0]['rating'], e[0]['id'], e[1])}
                 </div>
                 <div class="notes">
-                    ${e['annotation']}
+                    ${e[0]['annotation']}
                 </div>
             </div>`
         return s;
@@ -489,24 +489,69 @@ function displayAnnotations(annotations) {
 
 function addAnnotationEvents() {
     $('.star').on('click', function(event) {
-        $(this).parent().html(getStars(1 + parseInt(event.currentTarget.getAttribute("count"))));
-        score = 1 + parseInt(event.currentTarget.getAttribute("count"));
+        if ($(this).attr("edit") == "true") {
+            $(this).parent().html(getStars(1 + parseInt(event.currentTarget.getAttribute("count")), false));
+            score = 1 + parseInt(event.currentTarget.getAttribute("count"));
 
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "/addRating", true); 
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/addRating", true); 
 
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === 4) {
-                document.getElementById("alerts").innerHTML = xhr.response;
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4) {
+                    document.getElementById("alerts").innerHTML = xhr.response;
+                }
+            }
+    
+            var data = JSON.stringify({"score":score, "id": $(this).attr("annId")});
+
+            xhr.send(data);
+        }
+    });
+
+    $('.star').on('mouseover', function(event) {
+        if ($(this).attr("edit") == "true") {
+            let num = parseInt(event.currentTarget.getAttribute("count"));
+            for(let i = 0; i < 5; i++) {
+                if (i <= num) {
+                    obj = $(this).parent().children("img[count=" + i + "]");
+                    type = obj.attr("type");
+                    if (type != "full") {
+                        obj.attr("src", "/static/fullstar.png")
+                    }
+                } else {
+                    obj = $(this).parent().children("img[count=" + i + "]");
+                    type = obj.attr("type");
+                    if (type != "over") {
+                        obj.attr("src", "/static/star.png")
+                    }
+                }
             }
         }
-        
-        console.log(event.currentTarget.parentNode);
-        var data = JSON.stringify({"score":score, "id": $(this).attr("annId")});
-
-        xhr.send(data);
     });
+
+    $('.star').on('mouseout', function(event) {
+        if ($(this).attr("edit") == "true") {
+            // Update to old type
+            let num = parseInt(event.currentTarget.getAttribute("count"));
+            for(let i = 0; i < 5; i++) {
+                obj = $(this).parent().children("img[count=" + i + "]");
+                type = obj.attr("type");
+                if (type == "over") {
+                    obj.attr("src", "/static/star.png")
+                } else if (type == "full") {
+                    obj.attr("src", "/static/fullstar.png")
+                } else if (type == "locked") {
+                    obj.attr("src", "/static/locked.png")
+                } else if (type == "half") {
+                    obj.attr("src", "/static/halfstar.png")
+                }
+                
+            }
+        }
+    });
+
 }
+
 
 function getAnnotations(sentence) {
     
@@ -519,7 +564,6 @@ function getAnnotations(sentence) {
             if (xhr.response == undefined || xhr.response == "Not valid" || xhr.response == "Cannot be empty") {
                 console.log("No response")
             } else {
-                console.log(xhr.response);
                 displayAnnotations(JSON.parse(xhr.response));
                 addAnnotationEvents();
             }
@@ -573,7 +617,7 @@ function previewFile(){
         hideImage();
         showText();
     } else if (ext == "pdf") {
-        preview.src = "static/pdf_logo.jpeg";
+        preview.src = "http://depedantify.com/static/pdf_logo.png";
         var reader  = new FileReader();
 
         reader.onloadend = function() {
@@ -605,7 +649,7 @@ function previewFile(){
 }
 
 /* Takes a score from 0-5 */
-function getStars(score, id) {
+function getStars(score, id, editable) {
     console.log(score);
     if (score == undefined || score == "Unrated") {
         fullStars = 0;
@@ -622,17 +666,22 @@ function getStars(score, id) {
     }
     
     S = "";
+    count = 0
     for (let i = 0; i < fullStars; i++) {
-        S += "<img annId='" + id + "' count='" + i + "' class='star' src='/static/fullstar.png'></img>"; 
+        S += "<img edit='" + !editable + "' type='full' annId='" + id + "' count='" + count + "' class='star' src='/static/fullstar.png'></img>"; 
+        count++;
     }
     for (let i = 0; i < halfStars; i++) {
-        S += "<img annId='" + id + "' count='" + i + "' class='star' src='/static/halfstar.png'></img>"; 
+        S += "<img edit='" + !editable + "' type='half' annId='" + id + "' count='" + count + "' class='star' src='/static/halfstar.png'></img>"; 
+        count++;
     }
     for (let i = 0; i < leftOver; i++) {
-        S += "<img annId='" + id + "' count='" + i + "' class='star' src='/static/star.png'></img>"; 
+        S += "<img edit='" + !editable + "' type='over' annId='" + id + "' count='" + count + "' class='star' src='/static/star.png'></img>"; 
+        count++;
     }
     for (let i = 0; i < locked; i++) {
-        S += "<img annId='" + id + "' count='" + i + "' class='star' src='/static/locked.png'></img>"; 
+        S += "<img edit='" + !editable + "' type='locked' annId='" + id + "' count='" + count + "' class='star' src='/static/locked.png'></img>";
+        count++; 
     }
     return S;
 }
@@ -644,7 +693,7 @@ function debugMessage(message, level) {
 }
 
 function deleteFromFavorites() {
-    // Make HTTP request to save to favorites     
+    // Make HTTP request to delete to favorites     
     url = "/unfavorite"
     var xhr = new XMLHttpRequest();
     xhr.open("POST", url, true);
