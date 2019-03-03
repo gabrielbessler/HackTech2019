@@ -140,7 +140,7 @@ def getSimplifiedFromImage():
         else:
             type = "IMG"
 
-        base64Image = info[23:]
+        base64Image = info[info.find(',')+1:]
 
         if type == "PDF":
             text = OCR.process_PDF(base64Image)
@@ -173,8 +173,7 @@ def getSimplifiedFromText():
 
 @app.route('/toPDF')
 def toPDF():
-    pass
-    ## GARRET LOOK HERE
+    return OCR.PDFFromBase64()
 
 @app.route('/annotate', methods=["POST"])
 def annotate():
