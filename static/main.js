@@ -248,6 +248,12 @@ pdfjsLib.getDocument(url).promise.then(function(pdfDoc_) {
 });
 }
 
+function updateCount() {
+    $('#characters').text($(this).val().length);
+    $('#words').text($(this).val().split(' ').length);
+    saveValue(this);
+}
+
 function loadPage() {
     hideImage();
     // showVideo();
@@ -255,17 +261,14 @@ function loadPage() {
     $('#textArea').on('keyup keydown', updateCount);
     document.getElementById("textArea").value = getSavedValue("textArea");
 
-    function updateCount() {
-        $('#characters').text($(this).val().length);
-        $('#words').text($(this).val().split(' ').length);
-        saveValue(this);
-    }
-
     $('#submitBtn').on('click', getResult); 
 
     function getResult() {
         sendText();
     }
+
+    $('#characters').text(document.getElementById("textArea").value.length);
+    $('#words').text(document.getElementById("textArea").value.split(' ').length);
 }
 
 function hideImage() {
@@ -417,7 +420,7 @@ function register_handle(name, pw, email) {
     url = "/register_attempt"
     var xhr = new XMLHttpRequest();
     xhr.open("POST",url,true);
-
+    console.log(event.target);
     xhr.setRequestHeader("Content-type", "application/json");
     
     xhr.onreadystatechange = function() {
@@ -464,16 +467,38 @@ function uploadImage() {
 function displayAnnotations(annotations) {
     var ann_divs = annotations.map(function(e) {
         s = `
-            <div class='annotationModule'> ${e['user']} - ${e['rating']} - ${e['annotation']}
-            </div>
-            <div class='divider'>
-            </div>`;
+            <div class='annotationModule' annId=${e['id']}> ${e['user']} 
+                <div class="score"> ${getStars(e['rating'])}
+                </div>
+                <div class="notes">
+                    ${e['annotation']}
+                </div>
+            </div>`
         return s;
     })
-    
-    console.log(ann_divs);
 
     document.getElementById("annotation").innerHTML = ann_divs.join('\n');
+}
+
+function addAnnotationEvents() {
+    $('.star').on('click', function(event) {
+        console.log($(this).parent().html(getStars(1 + parseInt(event.currentTarget.getAttribute("count")))));
+        score = 1 + parseInt(event.currentTarget.getAttribute("count"));
+
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/addRating", true);
+
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4) {
+                document.getElementById("alert").innerHTML = xhr.response;
+            }
+        }
+    
+        console.log($(this).parent().getAttribute("annId"));
+        var data = JSON.stringify({"score":score, "id": $(this).parent().getAttribute("annId")});
+
+        xhr.send(data);
+    });
 }
 
 function getAnnotations(sentence) {
@@ -484,7 +509,9 @@ function getAnnotations(sentence) {
 
     xhr.onreadystatechange = function() {
         if (xhr.readyState === 4) {
+            console.log(xhr.reponse);
             displayAnnotations(JSON.parse(xhr.response));
+            addAnnotationEvents();
         }
     }
     
@@ -535,7 +562,7 @@ function previewFile(){
         hideImage();
         showText();
     } else if (ext == "pdf") {
-        preview.src = "static/pdf_logo.jpeg";
+        preview.src = "static/pdf_logo.png";
     } else {
         var reader  = new FileReader();
 
@@ -553,21 +580,35 @@ function previewFile(){
 
 /* Takes a score from 0-5 */
 function getStars(score) {
-    stars = Math.round((score * 2)) / 2;
-    fullStars = Math.floor(stars);
-    // Will be 0 or 1
-    halfStars = Math.round((score - fullStars) * 2);
-    leftOver = 5 - fullStars - halfStars;
+    console.log(score);
+    if (score == undefined || score == "Unrated") {
+        fullStars = 0;
+        halfStars = 0;
+        leftOver = 0;
+        locked = 5;
+    } else {
+        stars = Math.round((score * 2)) / 2;
+        fullStars = Math.floor(stars);
+        // Will be 0 or 1
+        halfStars = Math.round((score - fullStars) * 2);
+        leftOver = 5 - fullStars - halfStars;
+        locked = 0;
+    }
+    
     S = "";
     for (let i = 0; i < fullStars; i++) {
-        S += "<img src='/static/fullstar.png'></img>"; 
+        S += "<img count='" + i + "' class='star' src='/static/fullstar.png'></img>"; 
     }
     for (let i = 0; i < halfStars; i++) {
-        S += "<img src='/static/halfstar.png'></img>"; 
+        S += "<img count='" + i + "' class='star' src='/static/halfstar.png'></img>"; 
     }
     for (let i = 0; i < leftOver; i++) {
-        S += "<img src='/static/star.png'></img>"; 
+        S += "<img count='" + i + "' class='star' src='/static/star.png'></img>"; 
     }
+    for (let i = 0; i < locked; i++) {
+        S += "<img count='" + i + "' class='star' src='/static/locked.png'></img>"; 
+    }
+    return S;
 }
 
 function debugMessage(message, level) {

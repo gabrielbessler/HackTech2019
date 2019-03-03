@@ -15,8 +15,13 @@ textarea{
       font-family:'Quicksand', sans-serif; 
       font-size:16px;
   }
+  .star {
+    width: 13%; 
+    height: 13%;
+  }
+
   .buttoncolor{
-      background-color: lavender;
+      background-color: #b0b0ff;
       text-decoration-color: black;
       color: black;
       border-radius: 4px;
@@ -29,14 +34,26 @@ textarea{
       text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
   }
 
-
+    .notes {
+        font-size: .7em;
+    }
+  .score {
+      display: inline-block;
+      float: right; 
+      width: 60%; 
+      text-align: right;
+  }
   .annotationModule {
-    font-size: 1.7em;
-    margin-bottom: 5px;
-    margin-left: 2%;
+    margin-top: 3px; 
+    font-size: 1.7em; 
+    margin-top: 5px; 
+    margin-left: 1%; 
+    padding: 6px; 
+    border: 2px solid black;
+    min-height: 20%; 
   }
   .divider {
-      
+
   }
 
   .header{
