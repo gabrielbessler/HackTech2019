@@ -131,6 +131,15 @@ def process_PDF(base64_PDF):
 	images = pdf2image.convert_from_bytes(pdf_data)
 	output = map(lambda x: get_string(x, postprocess=True), images)
 	return ' '.join(output)
+
+def PDFFromBase64(base64_image):
+	'''Function call for Gabe.
+	Takes image data and outputs a base64 encoded pdf.'''
+	image_data = base64.b64decode(base64_image)
+	image = Image.open(io.BytesIO(image_data))
+	pdf = create_readable_pdf(image, debug=False)
+	return base64.b64encode(pdf)
+	
 	
 	
 # Common errors:
