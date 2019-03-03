@@ -160,7 +160,6 @@
 </style>
 
 <div .data = "" id = "sentence"></div>
-<div .data = "" id = "passage"></div>
 
 <div id="row2">
     {% if not current_user.is_anonymous %}
@@ -189,13 +188,16 @@
                 $(this).addClass(theclass);
                 document.getElementById('sentence').setAttribute('data',this.innerHTML)
                 getAnnotations(this.innerHTML);
-                displayEntities(this.data, this.innerHTML);
+                getEntities(this.getAttribute('data'), this.innerHTML);
             });"
             >{{ sentence }}</span>
         {% endfor %}
     </div>
     <div style="background-color:thistle; border: 1px solid black" contenteditable="false" id="result">
-        <div class="font moreSpacing" style="background-color: lavender; border: 1px solid black" contenteditable="false" id="result1">{{ notOg }}</div>
+        <div class="font moreSpacing" style="background-color: lavender;overflow-y:scroll; border: 1px solid black" contenteditable="false" id="result1">
+            <div id="definition"> {{ notOg }} </div>
+            <div id="wikipedia" style="overflow-y:scroll; margin-top=20px;"></div>
+        </div>
         <div class="font moreSpacing" style="background-color: lavender; border: 1px solid black" contenteditable="false" id="writeannotate">
             <textarea id="textArea" style="display: inline-block; resize:none; background-color:thistle"></textarea>
                     <img id="imgDisplay" src="" height="200">
