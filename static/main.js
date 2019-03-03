@@ -461,6 +461,58 @@ function uploadImage() {
     xhr.send(data);
 }
 
+function displayAnnotations(annotations) {
+    var ann_divs = annotations.map(function(e) {
+        s = `
+            <div> ${e['user']} - ${e['rating']} - ${e['annotation']}
+            <\div>`;
+        return s;
+    })
+    
+    console.log(ann_divs);
+
+    document.getElementById("annotation").innerHTML = ann_divs.join('\n');
+}
+
+function getAnnotations(sentence) {
+    
+    url = "/getAnnotations";
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", url, true);
+
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4) {
+            displayAnnotations(JSON.parse(xhr.response));
+        }
+    }
+    
+    var data = JSON.stringify({"sentence":sentence, 'meme':'funny internet memes'});
+    
+    console.log(data);
+
+    xhr.send(data);
+}
+
+function annotate(sentence, annotation) {
+
+    url = "/annotate";
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", url, true);
+
+    xhr.setRequestHeader("Content-type", "application/json");
+    
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4) {
+            getAnnotations(sentence);
+        }
+    }
+    
+    //var data = {'sentence':sentence, 'annotation':annotation};
+    var data = JSON.stringify({"sentence":sentence, "annotation":annotation});
+
+    xhr.send(data);
+
+}
 
 function getRandomTextbook() {
     showImage();

@@ -28,8 +28,13 @@ class User(UserMixin, Base):
         
         self.profile_pic = "".join(L)
 
-    def __repr__(self):
+    def __str__(self):
         return '<User %r>' % (self.name)
+
+    def __repr__(self):
+        return {'id':self.id,
+                'name':self.name,
+                'email':self.email}
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
@@ -78,8 +83,11 @@ class Annotation(Base):
         self.rating = 0
         self.ratingCount = 0
 
-    def __repr__(self):
+    def __str__(self):
         return f'<Annotation {self.id} {self.annotation} in {self.sentence} by {self.user} :-: {self.getRating()}>'
+
+    def __repr__(self):
+        return {'sentence':self.sentence, 'annotation':self.annotation, 'user':self.user.__repr__(), 'rating':self.getRating()}
 
     def getRating(self):
         if not self.ratingCount:

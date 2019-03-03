@@ -102,6 +102,7 @@
 <script>
         
 </script>
+<div .data = "" id = "sentence"></div>
 <div id="row1">
     <div onclick="
         console.log(
@@ -115,6 +116,8 @@
                 console.log('hello');
                 $cols.removeClass(theclass);
                 $(this).addClass(theclass);
+                document.getElementById('sentence').setAttribute('data',this.innerHTML)
+                getAnnotations(this.innerHTML);
             });"
             >{{ sentence }}</span>
         {% endfor %}
@@ -125,7 +128,7 @@
             <textarea id="textArea" style="display: inline-block; resize:none; background-color:thistle"></textarea>
                     <img id="imgDisplay" src="" height="200">
                 <div style="margin-top: 1em;">
-                    <button id="annotateBtn" class="pure-button pure-button-primary font buttoncolor" onclick="sendText();" type="button">Annotate Text
+                    <button id="annotateBtn" class="pure-button pure-button-primary font buttoncolor" onclick="annotate(document.getElementById('sentence').getAttribute('data'), document.getElementById('textArea').value);" type="button">Annotate Text
                     </button> 
                     </div>
                 </div>

@@ -30,13 +30,13 @@ def _addAnnotation(sentence, annotation, user, prevSentence = None, nextSentence
 
 def _getAnnotations(sentence, prevSentence = None, nextSentence = None):
     if prevSentence and nextSentence:
-        return list(Annotation.query.filter(Annotation.sentence == sentence, Annotation.prevSentence == prevSentence, Annotation.nextSentence == nextSentence))
+        return [a.__repr__() for a in Annotation.query.filter(Annotation.sentence == sentence, Annotation.prevSentence == prevSentence, Annotation.nextSentence == nextSentence)]
     elif prevSentence:
-        return list(Annotation.query.filter(Annotation.sentence == sentence, Annotation.prevSentence == prevSentence))
+        return [a.__repr__() for a in Annotation.query.filter(Annotation.sentence == sentence, Annotation.prevSentence == prevSentence)]
     elif nextSentence:
-        return list(Annotation.query.filter(Annotation.sentence == sentence, Annotation.nextSentence == nextSentence))
+        return [a.__repr__() for a in Annotation.query.filter(Annotation.sentence == sentence, Annotation.nextSentence == nextSentence)]
     else:
-        return list(Annotation.query.filter(Annotation.sentence == sentence))
+        return [a.__repr__() for a in Annotation.query.filter(Annotation.sentence == sentence)]
 
 def _addRating(annotationID, rating):
     Annotation.query.filter(Annotation.id == annotationID).first().addRating(rating)
@@ -44,6 +44,8 @@ def _addRating(annotationID, rating):
 ''' ======= DB HANDLER END ======= '''
 
 def isValid(requirements, request):
+    if not request:
+        return False
     for req in requirements:
         if req not in request:
             return False
@@ -207,26 +209,27 @@ def annotate():
     '''
     Adds annotation for a specific sentence
     '''
-    result = request.get_json()
-    requires = ["sentence", "annotation", "user"]
-    if isValid(requires, result):
+    results = request.get_json()
+    requires = ["sentence", "annotation"]
+    if isValid(requires, results) and current_user.is_authenticated:
         prevSentence = None if 'prevSentence' not in results else results['prevSentence']
         nextSentence = None if 'nextSentence' not in results else results['nextSentence']
-        _addAnnotation(results['sentence'], results['annotation'], prevSentence, nextSentence)
+        _addAnnotation(results['sentence'], results['annotation'], current_user.name, prevSentence, nextSentence)
+        return "Annotation added"
     else:
-        logging.info("Invalid request: " + request + " at " + time.time())
+        logging.info(f"Invalid request: {request} at {time.time()}")
         return "Not a valid annotation request"
 
-@app.route('/getAnnotaions', methods=['POST'])
+@app.route('/getAnnotations', methods=['POST'])
 def getAnnotations():
-    result = request.get_json()
+    results = json.loads(request.data)
     requires = ["sentence"]
-    if isValid(requires, result):
+    if isValid(requires, results):
         prevSentence = None if 'prevSentence' not in results else results['prevSentence']
         nextSentence = None if 'nextSentence' not in results else results['nextSentence']
-        return _getAnnotations(result['sentence'], prevSentence, nextSentence)
+        return json.dumps(_getAnnotations(results['sentence'], prevSentence, nextSentence))
     else:
-        logging.info("Invalid request " + request + " at " + time.time())
+        logging.info(f"Invalid request: {request} at {time.time()}")
         return "Not a valud getAnnotation request"
 
 

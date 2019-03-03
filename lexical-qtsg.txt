@@ -1,0 +1,424 @@
+VBN/fixed#discovered 	-->	VBD/auxpass#was VBN/fixed#found 
+
+JJS/amod#largest 	-->	JJS/amod#biggest 
+
+JJ/conj_and#large 	-->	JJ/conj_and#big 
+
+VBN/fixed#discovered 	-->	VBN/fixed#found 
+
+VBD/fixed#began 	-->	VBD/fixed#started 
+
+JJ/amod#several 	-->	JJ/amod#many 
+
+VBN/fixed#observed 	-->	VBN/fixed#seen 
+
+VBD/fixed#received 	-->	VBD/fixed#got 
+
+VBD/fixed#defeated 	-->	VBD/fixed#won IN/fixed#against 
+
+VBD/fixed#discovered 	-->	VBD/fixed#found 
+
+VB/fixed#create 	-->	TO/aux#to VB/fixed#make 
+
+JJ/amod#original 	-->	JJ/amod#first 
+
+VBN/fixed#founded 	-->	VBD/auxpass#was VBN/fixed#started 
+
+VBZ/fixed#requires 	-->	VBZ/fixed#needs 
+
+NN/fixed#satellite 	-->	NN/fixed#moon 
+
+VBZ/fixed#occurs 	-->	VBZ/fixed#happens 
+
+VBD/fixed#founded 	-->	VBD/fixed#started 
+
+VBD/fixed#occurred 	-->	VBD/fixed#happened 
+
+JJ/amod#numerous 	-->	JJ/amod#many 
+
+NN/nn#term 	-->	NN/nn#word 
+
+JJ/amod#primary 	-->	JJ/amod#main 
+
+JJ/amod#final 	-->	JJ/amod#last 
+
+JJ/amod#ancient 	-->	JJ/amod#old 
+
+JJ/amod#former 	-->	JJ/amod#old 
+
+VBD/fixed#purchased 	-->	VBD/fixed#bought 
+
+JJ/amod#various 	-->	JJ/amod#many 
+
+VBN/fixed#designed 	-->	VBN/fixed#made 
+
+VBD/fixed#formed 	-->	VBD/fixed#started 
+
+JJ/amod#common 	-->	JJ/amod#normal 
+
+VBD/fixed#stated 	-->	VBD/fixed#said 
+
+JJ/amod#various 	-->	JJ/amod#different 
+
+NN/fixed#film 	-->	NN/fixed#movie 
+
+VBN/fixed#called 	-->	VBN/fixed#named 
+
+JJ/amod#annual 	-->	JJ/amod#yearly 
+
+JJ/amod#separate 	-->	JJ/amod#different 
+
+JJR/fixed#larger 	-->	JJR/fixed#bigger 
+
+VBD/fixed#arrived 	-->	VBD/fixed#came 
+
+VBN/fixed#located 	-->	VBZ/auxpass#is VBN/fixed#found 
+
+VBZ/fixed#produces 	-->	VBZ/fixed#makes 
+
+JJ/fixed#typical 	-->	JJ/fixed#common 
+
+VBN/fixed#awarded 	-->	VBD/auxpass#was VBN/fixed#given 
+
+JJ/amod#major 	-->	JJ/amod#important 
+
+VBP/fixed#originated 	-->	VBD/fixed#started 
+
+NN/nn#castaway 	-->	NN/nn#player 
+
+VBD/fixed#observed 	-->	VBD/fixed#saw 
+
+VBZ/fixed#displays 	-->	VBZ/fixed#shows 
+
+VBZ/fixed#states 	-->	VBZ/fixed#says 
+
+VBN/fixed#created 	-->	VBN/fixed#made 
+
+JJS/amod#earliest 	-->	JJ/amod#first 
+
+JJ/amod#massive 	-->	JJ/amod#big 
+
+JJS/amod#eldest 	-->	JJS/amod#oldest 
+
+VBN/fixed#established 	-->	VBD/auxpass#was VBN/fixed#started 
+
+JJ/amod#initial 	-->	JJ/amod#first 
+
+VBG/amod#living 	-->	NN/nn#living 
+
+VBZ/fixed#defeats 	-->	VBZ/fixed#beats 
+
+NN/fixed#evidence 	-->	NN/fixed#proof 
+
+VBN/fixed#made 	-->	VBD/cop#became 
+
+VBN/fixed#selected 	-->	VBD/auxpass#were VBN/fixed#chosen 
+
+VBN/fixed#founded 	-->	VBZ/auxpass#is VBN/fixed#started 
+
+VBD/fixed#argued 	-->	VBD/fixed#said 
+
+VBN/fixed#developed 	-->	VBN/fixed#made 
+
+JJ/amod#distinct 	-->	JJ/amod#different 
+
+VBP/fixed#receive 	-->	VBP/fixed#get 
+
+VBD/cop#remained 	-->	VBD/cop#stayed 
+
+JJ/amod#essential 	-->	JJ/amod#important 
+
+JJ/amod#outer 	-->	JJ/amod#farther 
+
+VBN/fixed#located 	-->	VBN/fixed#found 
+
+VBG/fixed#believing 	-->	VBG/fixed#thinking 
+
+NNS/fixed#matadors 	-->	NNS/fixed#bullfighters 
+
+JJ/amod#notable 	-->	JJ/amod#well-known 
+
+NN/fixed#contestant 	-->	NN/fixed#player 
+
+VBD/fixed#returned 	-->	VBD/fixed#came RB/fixed#back 
+
+VBZ/fixed#arises 	-->	VBZ/fixed#comes 
+
+VBD/fixed#attempted 	-->	VBD/fixed#tried 
+
+JJ/amod#outermost 	-->	JJS/amod#farthest 
+
+NN/nn#manufacturer 	-->	NN/nn#maker 
+
+VBD/fixed#created 	-->	VBD/fixed#made 
+
+NNS/fixed#carbohydrates 	-->	NNS/fixed#sugars 
+
+VBG/fixed#seeking 	-->	VBG/fixed#wanting 
+
+VBN/fixed#invented 	-->	VBN/fixed#made 
+
+VBD/fixed#formed 	-->	VBD/fixed#made 
+
+NN/fixed#portion 	-->	NN/fixed#part 
+
+VBD/fixed#commenced 	-->	VBD/fixed#began 
+
+JJ/fixed#pretty 	-->	JJ/fixed#beautiful 
+
+JJ/fixed#difficult 	-->	JJ/fixed#hard 
+
+VBN/fixed#recognized 	-->	VBZ/auxpass#is VBN/fixed#known 
+
+JJ/amod#significant 	-->	JJ/amod#major 
+
+JJ/amod#military 	-->	NN/nn#army 
+
+NN/conj_or#chocolate 	-->	NN/conj_or#chocolate 
+
+VBN/fixed#developed 	-->	VBN/fixed#created 
+
+VB/fixed#receive 	-->	MD/aux#will VB/dep#get 
+
+VBD/fixed#requested 	-->	VBD/fixed#asked IN/fixed#for 
+
+VBN/fixed#used 	-->	JJ/fixed#used 
+
+VBN/fixed#manufactured 	-->	VBN/fixed#made 
+
+JJS/amod#greatest 	-->	JJS/amod#best 
+
+VB/fixed#form 	-->	TO/aux#to VB/fixed#make 
+
+VBP/fixed#consider 	-->	VBP/fixed#say 
+
+VBZ/fixed#causes 	-->	VBZ/fixed#makes 
+
+VBD/dep#got 	-->	VBD/cop#became 
+
+VBN/fixed#suspended 	-->	VBG/fixed#hanging 
+
+JJ/amod#significant 	-->	JJ/amod#big 
+
+VBN/fixed#observed 	-->	VBD/auxpass#was VBN/fixed#seen 
+
+VBG/fixed#creating 	-->	VBG/fixed#making 
+
+VBN/fixed#divided 	-->	VBN/fixed#split 
+
+JJ/amod#entire 	-->	JJ/amod#whole 
+
+JJ/conj_and#complex 	-->	JJ/conj_and#complicated 
+
+VB/fixed#kill 	-->	TO/aux#to VB/fixed#destroy 
+
+JJ/amod#particular 	-->	JJ/amod#special 
+
+VBD/fixed#announced 	-->	VBD/fixed#said 
+
+VBD/fixed#commented 	-->	VBD/fixed#said 
+
+VB/fixed#incorporate 	-->	VB/fixed#add 
+
+VBZ/fixed#founds 	-->	VBZ/fixed#starts 
+
+VBD/fixed#commenced 	-->	VBD/fixed#started 
+
+VBN/fixed#situated 	-->	VBN/fixed#located 
+
+JJ/amod#potential 	-->	JJ/amod#possible 
+
+VBD/fixed#titled 	-->	VBD/fixed#called 
+
+VBD/fixed#felt 	-->	VBD/fixed#thought 
+
+VB/fixed#develope 	-->	TO/aux#to VB/fixed#develop 
+
+VBZ/fixed#reveals 	-->	VBZ/fixed#shows 
+
+VBD/fixed#convinced 	-->	VBD/fixed#told 
+
+JJ/amod#principal 	-->	JJ/amod#main 
+
+JJ/amod#different 	-->	JJ/amod#many 
+
+VBD/fixed#defeated 	-->	VBD/fixed#beat 
+
+JJ/amod#contemporary 	-->	JJ/amod#modern 
+
+NN/fixed#deity 	-->	NN/fixed#god 
+
+JJ/amod#absinth 	-->	JJ/amod#absinthe 
+
+NNS/fixed#novels 	-->	NNS/fixed#books 
+
+VB/fixed#create 	-->	VB/fixed#make 
+
+VBG/fixed#representing 	-->	VBG/fixed#showing 
+
+VBN/fixed#known 	-->	VBZ/auxpass#is VBN/fixed#called 
+
+NN/fixed#site 	-->	NN/fixed#place 
+
+VBZ/fixed#demonstrates 	-->	VBZ/fixed#shows 
+
+VBD/fixed#established 	-->	VBD/fixed#started 
+
+VBZ/fixed#resides 	-->	VBZ/fixed#lives 
+
+JJR/amod#fewer 	-->	JJR/amod#less 
+
+VBN/fixed#formed 	-->	VBD/auxpass#was VBN/fixed#made 
+
+JJ/amod#written 	-->	VBN/amod#written 
+
+VBN/fixed#appointed 	-->	VBD/auxpass#was VBN/fixed#made 
+
+NNS/fixed#edits 	-->	NNS/fixed#changes 
+
+VBN/fixed#intended 	-->	VBN/fixed#meant 
+
+VBD/fixed#desired 	-->	VBD/fixed#wanted 
+
+VBN/fixed#made 	-->	VBN/fixed#designed 
+
+JJ/amod#various 	-->	JJ/amod#many JJ/amod#different 
+
+NN/fixed#math 	-->	NNS/fixed#mathematics 
+
+VBP/fixed#consider 	-->	VBP/fixed#think 
+
+VBN/fixed#required 	-->	VBN/fixed#needed 
+
+VBD/fixed#claimed 	-->	VBD/fixed#said 
+
+NNS/fixed#people 	-->	NNS/fixed#persons 
+
+VBG/fixed#beginning 	-->	VBG/fixed#starting 
+
+VBD/fixed#returned 	-->	VBD/fixed#came RP/fixed#back 
+
+NN/conj_and#reign 	-->	NN/conj_and#rule 
+
+VBZ/fixed#depicts 	-->	VBZ/fixed#shows 
+
+NN/fixed#outbreak 	-->	NN/fixed#start 
+
+VBN/fixed#constructed 	-->	VBN/fixed#made 
+
+VBN/fixed#altered 	-->	VBN/fixed#changed 
+
+VBD/fixed#obtained 	-->	VBD/fixed#got 
+
+VBD/fixed#declared 	-->	VBD/fixed#said 
+
+JJ/amod#previous 	-->	JJ/amod#old 
+
+JJ/amod#rapid 	-->	JJ/amod#fast 
+
+JJ/amod#controlled 	-->	VBN/amod#controlled 
+
+VBZ/fixed#maintains 	-->	VBZ/fixed#keeps 
+
+VBN/fixed#composed 	-->	VBZ/auxpass#is VBN/fixed#made 
+
+NNS/fixed#persons 	-->	NNS/fixed#people 
+
+VBN/fixed#derived 	-->	VBD/fixed#came 
+
+VBZ/fixed#creates 	-->	VBZ/fixed#makes 
+
+VBN/fixed#b. 	-->	VBN/fixed#born 
+
+VBZ/fixed#allows 	-->	VBZ/fixed#lets 
+
+VBN/fixed#executed 	-->	VBN/fixed#killed 
+
+VBZ/cop#resembles 	-->	VBZ/fixed#looks IN/fixed#like 
+
+VBG/amod#operating 	-->	NN/nn#operating 
+
+NN/fixed#sack 	-->	NNS/fixed#lips IN/fixed#of NN/fixed#vagina 
+
+VBN/fixed#conducted 	-->	VBN/fixed#done 
+
+VBN/fixed#received 	-->	VBD/fixed#got 
+
+VBN/fixed#located 	-->	VBP/auxpass#are VBN/fixed#found 
+
+NN/nn#irregular 	-->	JJ/amod#non-spherical 
+
+VBN/fixed#found 	-->	VBN/fixed#seen 
+
+VBZ/fixed#succeeds 	-->	VBZ/fixed#replaces 
+
+VBD/fixed#attended 	-->	VBD/fixed#went TO/fixed#to 
+
+NNS/fixed#contestants 	-->	NNS/fixed#players 
+
+VBD/fixed#caused 	-->	VBD/fixed#made 
+
+JJR/amod#elder 	-->	JJR/amod#older 
+
+VBN/fixed#found 	-->	VBN/fixed#discovered 
+
+JJ/amod#key 	-->	JJ/amod#important 
+
+VBZ/fixed#consists 	-->	VBN/fixed#made RP/fixed#up 
+
+NNS/fixed#objects 	-->	NNS/fixed#things 
+
+NN/nn#region 	-->	NN/nn#area 
+
+VBG/fixed#receiving 	-->	VBG/fixed#getting 
+
+NN/fixed#bout 	-->	NN/fixed#fight 
+
+VBD/fixed#served 	-->	VBD/fixed#worked 
+
+NN/nn#particle 	-->	JJ/amod#Particle 
+
+VBD/fixed#returned 	-->	VBD/fixed#went RP/fixed#back 
+
+JJ/fixed#afraid 	-->	JJ/fixed#fearful 
+
+VBD/fixed#required 	-->	VBD/fixed#made 
+
+NNS/fixed#applicants 	-->	NNS/fixed#people 
+
+VBD/fixed#displayed 	-->	VBD/fixed#showed 
+
+NN/nn#debut 	-->	JJ/amod#first 
+
+VBD/fixed#retained 	-->	VBD/fixed#kept 
+
+VBN/fixed#discovered 	-->	VBD/auxpass#were VBN/fixed#found 
+
+JJ/amod#powerful 	-->	JJ/amod#strong 
+
+VBN/fixed#coined 	-->	VBD/auxpass#was VBN/fixed#created 
+
+VBD/fixed#tracked 	-->	VBD/fixed#moved 
+
+JJS/fixed#biggest 	-->	JJS/fixed#largest 
+
+VBG/amod#varying 	-->	JJ/amod#different 
+
+VBN/fixed#created 	-->	VBD/auxpass#was VBN/fixed#made 
+
+JJ/amod#big 	-->	JJ/amod#large 
+
+VBD/fixed#seized 	-->	VBD/fixed#took 
+
+VBG/fixed#awaiting 	-->	VBG/fixed#waiting IN/fixed#for 
+
+JJ/fixed#dedicated 	-->	JJ/amod#dedicated 
+
+VBN/fixed#situated 	-->	VBZ/fixed#lies 
+
+VBD/fixed#reported 	-->	VBD/fixed#said 
+
+VBN/fixed#situated 	-->	VBZ/auxpass#is VBN/fixed#found 
+
+NN/fixed#vicinity 	-->	NN/fixed#area 
+
