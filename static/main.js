@@ -12,7 +12,7 @@ function getSelectionText() {
     }
     
     if (text in words_found) {
-        document.getElementById("result").innerHTML = words_found[text];
+        document.getElementById("result1").innerHTML = words_found[text];
     }  else {
         if (text.length >= 3 && /[\w']+/.test(text)) {
 
@@ -26,12 +26,12 @@ function getSelectionText() {
                 if (xhr.readyState === 4) {
                     
                     resp = JSON.parse(xhr.response);
-                    S = "";
+                    S = `${text} - definition:`;
                     for (let i = 0; i < resp.length; i++) {
                         S += "<div>" + resp[i] + "</div>";
                     }
                     words_found[text] = S
-                    document.getElementById("result").innerHTML = S
+                    document.getElementById("result1").innerHTML = S
                 }
             }
             xhr.send();
@@ -442,7 +442,7 @@ function convertToBase64() {
 
 function uploadImage() {
     result = convertToBase64();
-        
+
     url = "/img"
     var xhr = new XMLHttpRequest();
     xhr.open("POST", url, true);
@@ -461,6 +461,58 @@ function uploadImage() {
     xhr.send(data);
 }
 
+function displayAnnotations(annotations) {
+    var ann_divs = annotations.map(function(e) {
+        s = `
+            <div> ${e['user']} - ${e['rating']} - ${e['annotation']}
+            <\div>`;
+        return s;
+    })
+    
+    console.log(ann_divs);
+
+    document.getElementById("annotation").innerHTML = ann_divs.join('\n');
+}
+
+function getAnnotations(sentence) {
+    
+    url = "/getAnnotations";
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", url, true);
+
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4) {
+            displayAnnotations(JSON.parse(xhr.response));
+        }
+    }
+    
+    var data = JSON.stringify({"sentence":sentence, 'meme':'funny internet memes'});
+    
+    console.log(data);
+
+    xhr.send(data);
+}
+
+function annotate(sentence, annotation) {
+
+    url = "/annotate";
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", url, true);
+
+    xhr.setRequestHeader("Content-type", "application/json");
+    
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4) {
+            getAnnotations(sentence);
+        }
+    }
+    
+    //var data = {'sentence':sentence, 'annotation':annotation};
+    var data = JSON.stringify({"sentence":sentence, "annotation":annotation});
+
+    xhr.send(data);
+
+}
 
 function getRandomTextbook() {
     showImage();
