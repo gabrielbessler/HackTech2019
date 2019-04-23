@@ -602,7 +602,7 @@ function getRandomTextbook() {
     hideText(); 
     mode = "image"; 
     var preview = document.getElementById("imgDisplay");
-    preview.src = "/static/example" + Math.floor((Math.random() * 5))
+    preview.src = "http://depedantify.com/static/example" + Math.floor((Math.random() * 5)) + ".jpg";
 }
 
 function previewFile(){
