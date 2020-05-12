@@ -16,7 +16,7 @@ function getSelectionText() {
     }  else {
         if (text.length >= 3 && /[\w']+/.test(text)) {
 
-            url = "/word/" + text; 
+            url = "/Depedantify/word/" + text; 
             var xhr = new XMLHttpRequest();
             xhr.open("POST", url, true);
     
@@ -321,7 +321,7 @@ function getPDF() {
     if (mode !== "text") {
         result = convertToBase64();
             
-        url = "/toPDF"
+        url = "/Depedantify/toPDF"
         var xhr = new XMLHttpRequest();
         xhr.open("POST", url, true);
 
@@ -340,8 +340,8 @@ function getPDF() {
 }
 
 function formatText(text) {
-    url = "/text"
-    url2 = "/computeEntities"
+    url = "/Depedantify/text"
+    url2 = "/Depedantify/computeEntities"
     var xhr = new XMLHttpRequest();
     var xhr2 = new XMLHttpRequest();
     xhr.open("POST", url, true);
@@ -380,7 +380,7 @@ function loadResultImage(result) {
 }
 
 function login_handle(name, pw) {
-    url = "/login_attempt"
+    url = "/Depedantify/login_attempt"
     var xhr = new XMLHttpRequest();
     xhr.open("POST",url,true);
 
@@ -424,7 +424,7 @@ function createProfile() {
 }
 
 function register_handle(name, pw, email) {
-    url = "/register_attempt"
+    url = "/Depedantify/register_attempt"
     var xhr = new XMLHttpRequest();
     xhr.open("POST",url,true);
     xhr.setRequestHeader("Content-type", "application/json");
@@ -452,7 +452,7 @@ function convertToBase64() {
 function uploadImage() {
     result = convertToBase64();
 
-    url = "/img"
+    url = "/Depedantify/img"
     var xhr = new XMLHttpRequest();
     xhr.open("POST", url, true);
 
@@ -494,7 +494,7 @@ function addAnnotationEvents() {
             score = 1 + parseInt(event.currentTarget.getAttribute("count"));
 
             var xhr = new XMLHttpRequest();
-            xhr.open("POST", "/addRating", true); 
+            xhr.open("POST", "/Depedantify/addRating", true); 
 
             xhr.onreadystatechange = function() {
                 if (xhr.readyState === 4) {
@@ -516,13 +516,13 @@ function addAnnotationEvents() {
                     obj = $(this).parent().children("img[count=" + i + "]");
                     type = obj.attr("type");
                     if (type != "full") {
-                        obj.attr("src", "/static/fullstar.png")
+                        obj.attr("src", "/Depedantify/static/fullstar.png")
                     }
                 } else {
                     obj = $(this).parent().children("img[count=" + i + "]");
                     type = obj.attr("type");
                     if (type != "over") {
-                        obj.attr("src", "/static/star.png")
+                        obj.attr("src", "/Depedantify/static/star.png")
                     }
                 }
             }
@@ -537,13 +537,13 @@ function addAnnotationEvents() {
                 obj = $(this).parent().children("img[count=" + i + "]");
                 type = obj.attr("type");
                 if (type == "over") {
-                    obj.attr("src", "/static/star.png")
+                    obj.attr("src", "/Depedantify/static/star.png")
                 } else if (type == "full") {
-                    obj.attr("src", "/static/fullstar.png")
+                    obj.attr("src", "/Depedantify/static/fullstar.png")
                 } else if (type == "locked") {
-                    obj.attr("src", "/static/locked.png")
+                    obj.attr("src", "/Depedantify/static/locked.png")
                 } else if (type == "half") {
-                    obj.attr("src", "/static/halfstar.png")
+                    obj.attr("src", "/Depedantify/static/halfstar.png")
                 }
                 
             }
@@ -555,7 +555,7 @@ function addAnnotationEvents() {
 
 function getAnnotations(sentence) {
     
-    url = "/getAnnotations";
+    url = "/Depedantify/getAnnotations";
     var xhr = new XMLHttpRequest();
     xhr.open("POST", url, true);
 
@@ -577,7 +577,7 @@ function getAnnotations(sentence) {
 
 function annotate(sentence, annotation) {
 
-    url = "/annotate";
+    url = "/Depedantify/annotate";
     var xhr = new XMLHttpRequest();
     xhr.open("POST", url, true);
 
@@ -602,7 +602,7 @@ function getRandomTextbook() {
     hideText(); 
     mode = "image"; 
     var preview = document.getElementById("imgDisplay");
-    preview.src = "http://depedantify.com/static/example" + Math.floor((Math.random() * 5)) + ".jpg";
+    preview.src = "http://depedantify.com/Depedantify/static/example" + Math.floor((Math.random() * 5)) + ".jpg";
 }
 
 function previewFile(){
@@ -694,7 +694,7 @@ function debugMessage(message, level) {
 
 function deleteFromFavorites() {
     // Make HTTP request to delete to favorites     
-    url = "/unfavorite"
+    url = "/Depedantify/unfavorite"
     var xhr = new XMLHttpRequest();
     xhr.open("POST", url, true);
 
@@ -715,7 +715,7 @@ function deleteFromFavorites() {
 
 function saveToFavorites() {
     // Make HTTP request to save to favorites     
-    url = "/favorite"
+    url = "/Depedantify/favorite"
     var xhr = new XMLHttpRequest();
     xhr.open("POST", url, true);
 
@@ -736,7 +736,7 @@ function saveToFavorites() {
 
 function getEntities(position, sentence) {
 
-    url = "/getEntities"
+    url = "/Depedantify/getEntities"
     var xhr = new XMLHttpRequest();
     xhr.open("POST", url, true);
 

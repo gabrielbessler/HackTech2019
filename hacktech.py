@@ -69,23 +69,23 @@ def shutdown_session(exception=None):
     db_session.remove()
 
 
-@app.route('/')
+@app.route('/Depedantify')
 def index():
     return render_template("index.html")
 
-@app.route('/about')
+@app.route('/Depedantify/about')
 def showAbout():
     return render_template('about.html')
     
-@app.route('/register')
+@app.route('/Depedantify/register')
 def displayRegistration():
     return render_template("register.html")
 
-@app.route('/login')
+@app.route('/Depedantify/login')
 def displayLogin():
     return render_template("login.html")
 
-@app.route('/favorites')
+@app.route('/Depedantify/favorites')
 def get_favorites():
     if not current_user.is_authenticated:
         return redirect(url_for("displayLogin"))
@@ -107,12 +107,12 @@ def get_favorites():
 
     return render_template("favorites.html", favs=L)
 
-@app.route('/logout')
+@app.route('/Depedantify/logout')
 def logout():
     logout_user()
     return redirect(url_for('index'))
 
-@app.route('/register_attempt', methods=["POST"])
+@app.route('/Depedantify/register_attempt', methods=["POST"])
 def register_attempt():
     result = request.get_json()
     if "pass" in result and "email" in result:
@@ -132,7 +132,7 @@ def register_attempt():
     
     return "Could not process request"
 
-@app.route('/login_attempt', methods=["POST"])
+@app.route('/Depedantify/login_attempt', methods=["POST"])
 def login_attempt():
     if current_user.is_authenticated:
         return ""
@@ -150,7 +150,7 @@ def login_attempt():
         login_user(user)
         return "Succeed"
     
-@app.route('/img', methods=["POST"])
+@app.route('/Depedantify/img', methods=["POST"])
 def getSimplifiedFromImage():
     '''
     Take image in the form of a JSON
@@ -184,7 +184,7 @@ def getSimplifiedFromImage():
 
     return "OK"
 
-@app.route('/text', methods=["POST"])
+@app.route('/Depedantify/text', methods=["POST"])
 def getSimplifiedFromText():
     '''
     Take text in the form of a JSON 
@@ -213,7 +213,7 @@ def getSimplifiedFromText():
         logging.info("Invalid request: " + request + " at " + time.time()) 
         return "not a valid request"
 
-@app.route('/word/<word_id>', methods=["POST"])
+@app.route('/Depedantify/word/<word_id>', methods=["POST"])
 def getWordDef(word_id):
     app_id = '2e03965a'
     app_key = 'a64c8ad87dbcef0d9981af13ccc7957b'
@@ -226,7 +226,7 @@ def getWordDef(word_id):
     r = r.json()["results"][0]["lexicalEntries"][0]['entries'][0]['senses'][0]['definitions']
     return json.dumps(r)
 
-@app.route('/toPDF', methods=["POST"])
+@app.route('/Depedantify/oPDF', methods=["POST"])
 def toPDF():
     result = request.get_json()
     
@@ -244,7 +244,7 @@ def toPDF():
         return OCR.PDFFromBase64(info[info.find(',')+1:])
     
 
-@app.route('/annotate', methods=["POST"])
+@app.route('/Depedantify/annotate', methods=["POST"])
 def annotate():
     '''
     Adds annotation for a specific sentence
@@ -265,7 +265,7 @@ def annotate():
         logging.info(f"Invalid request: {request} at {time.time()}")
         return "Not a valid annotation request"
 
-@app.route('/check_favorite', methods=['POST'])
+@app.route('/Depedantify/check_favorite', methods=['POST'])
 def checkFavorite():
     result = request.get_json()
     requires = ["text"]
@@ -280,7 +280,7 @@ def checkFavorite():
 
     return "Not a valid favorite check"
 
-@app.route('/favorite', methods=['POST'])
+@app.route('/Depedantify/favorite', methods=['POST'])
 def setFavorite():
     result = request.get_json()
     requires = ["text"]
@@ -309,7 +309,7 @@ def setFavorite():
 
     return "Not a falid favorite request"
 
-@app.route('/unfavorite', methods=['POST'])
+@app.route('/Depedantify/unfavorite', methods=['POST'])
 def unsetFavorite():
     result = request.get_json()
     requires = ["text"]
@@ -331,7 +331,7 @@ def unsetFavorite():
         db_session.commit()
         return "Removed from favorites"
 
-@app.route('/getAnnotations', methods=['POST'])
+@app.route('/Depedantify/getAnnotations', methods=['POST'])
 def getAnnotations():
     results = json.loads(request.data)
     requires = ["sentence"]
@@ -353,7 +353,7 @@ def getAnnotations():
         logging.info(f"Invalid request: {request} at {time.time()}")
         return "Not a valid getAnnotation request"
 
-@app.route("/computeEntities", methods=['POST'])
+@app.route("/Depedantify/computeEntities", methods=['POST'])
 def computeEntities():
     global entities
     global entity_keys
@@ -398,7 +398,7 @@ def binSearch(L, key, key_func):
             return midInd
     return midInd
 
-@app.route('/getEntities', methods=['POST'])
+@app.route('/Depedantify/getEntities', methods=['POST'])
 def getEntities():
     global entities
     global entity_keys
@@ -428,7 +428,7 @@ def getEntities():
     return s
 
 
-@app.route('/addRating', methods=['POST'])
+@app.route('/Depedantify/addRating', methods=['POST'])
 def addRatingForAnnotation():
     results = json.loads(request.data)
     requires = ["score", "id"]

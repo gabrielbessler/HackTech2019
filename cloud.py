@@ -1,3 +1,6 @@
+import os
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "/home/gabe/depedantify_google_key.json"
+
 # Import the Google Cloud client library
 from google.cloud import language
 from google.cloud.language import enums
