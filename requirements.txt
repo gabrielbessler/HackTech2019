@@ -15,7 +15,7 @@ itsdangerous==1.1.0
 Jinja2==2.11.3
 MarkupSafe==1.1.1
 pdf2image==1.4.2
-Pillow==8.1.1
+Pillow==9.0.0
 protobuf==3.7.0
 pyasn1==0.4.5
 pyasn1-modules==0.2.4
