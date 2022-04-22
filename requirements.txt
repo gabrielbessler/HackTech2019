@@ -19,7 +19,7 @@ Pillow==8.1.1
 protobuf==3.7.0
 pyasn1==0.4.5
 pyasn1-modules==0.2.4
-PyPDF2==1.26.0
+PyPDF2==1.27.5
 pytesseract==0.2.6
 pytz==2018.9
 requests==2.21.0
